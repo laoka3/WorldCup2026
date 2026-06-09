@@ -1,0 +1,76 @@
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "2026世界杯揭幕战将在AT&T体育场打响",
+      "summary": "美国队将在达拉斯AT&T体育场迎战加拿大队，这场北美德比备受瞩目。两支东道主将在首场比赛中展开激烈角逐。",
+      "image": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80",
+      "source": "FIFA官方",
+      "date": "2026-06-10",
+      "category": "赛程"
+    },
+    {
+      "id": 2,
+      "title": "阿根廷队备战：梅西领衔豪华阵容冲击卫冕",
+      "summary": "作为卫冕冠军，阿根廷队在梅西的带领下正在积极备战。球队近期热身赛表现稳定，攻防两端均展现出极佳状态。",
+      "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
+      "source": "TyC Sports",
+      "date": "2026-06-09",
+      "category": "球队"
+    },
+    {
+      "id": 3,
+      "title": "巴西新一代天才球员闪耀欧洲赛场",
+      "summary": "维尼修斯、罗德里戈、恩德里克等新一代巴西天才在欧洲五大联赛中大放异彩，巴西队本届世界杯攻击线实力达到历史顶级水平。",
+      "image": "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=800&q=80",
+      "source": "Globo Esporte",
+      "date": "2026-06-08",
+      "category": "球队"
+    },
+    {
+      "id": 4,
+      "title": "2026世界杯采用全新越位判定技术",
+      "summary": "FIFA宣布将在本届世界杯中引入升级版的半自动越位技术，结合AI辅助判罚系统，旨在减少争议判罚，提高比赛公正性。",
+      "image": "https://images.unsplash.com/photo-1489944440610-453fc39b6a9a?w=800&q=80",
+      "source": "FIFA官方",
+      "date": "2026-06-07",
+      "category": "科技"
+    },
+    {
+      "id": 5,
+      "title": "德国队重建完成：年轻军团蓄势待发",
+      "summary": "经历2022年卡塔尔世界杯小组赛出局的低谷后，德国队完成了新老交替。穆西亚拉、维尔茨等新生代球星已成为球队核心。",
+      "image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80",
+      "source": "踢球者",
+      "date": "2026-06-06",
+      "category": "球队"
+    },
+    {
+      "id": 6,
+      "title": "东道主三国联合举办：史上最大规模世界杯",
+      "summary": "2026世界杯首次由三个国家联合举办，48支球队参赛，共104场比赛，覆盖美国、加拿大、墨西哥16座城市，创下历史之最。",
+      "image": "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80",
+      "source": "ESPN",
+      "date": "2026-06-05",
+      "category": "赛事"
+    },
+    {
+      "id": 7,
+      "title": "非洲足球崛起：塞内加尔与摩洛哥双雄出击",
+      "summary": "近两届世界杯非洲球队表现惊艳，摩洛哥杀入四强创造历史。本届世界杯非洲区有9支球队参赛，期待再创佳绩。",
+      "image": "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80",
+      "source": "BBC Sport",
+      "date": "2026-06-04",
+      "category": "赛事"
+    },
+    {
+      "id": 8,
+      "title": "大数据分析：哪支球队身价最高？",
+      "summary": "据Transfermarkt最新数据，英格兰队以总身价15.2亿欧元位居所有参赛球队之首，法国队以14.8亿紧随其后，巴西队13.5亿排名第三。",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+      "source": "Transfermarkt",
+      "date": "2026-06-03",
+      "category": "数据"
+    }
+  ]
+}

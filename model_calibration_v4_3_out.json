@@ -1,0 +1,24 @@
+{
+  "version": "v4.2 backtested calibration",
+  "method": "2022-2023训练，2024验证，按Log Loss选择概率参数",
+  "params": {
+    "home_advantage": 65,
+    "elo_scale": 400,
+    "draw_base": 0.27,
+    "draw_width": 850,
+    "h2h_max_weight": 0.1,
+    "h2h_min_matches": 3
+  },
+  "metrics": {
+    "log_loss": 1.0204,
+    "brier_score": 0.6113,
+    "accuracy": 50.6,
+    "matches": 650
+  },
+  "baseline_metrics": {
+    "log_loss": 1.0218,
+    "brier_score": 0.6119,
+    "accuracy": 50.3,
+    "matches": 650
+  }
+}

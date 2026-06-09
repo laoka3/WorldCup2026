@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.env
+.env.*
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# local/API cache and generated runtime artifacts
+data/cache/
+encoding_test.json
+report.pdf
+
+# keep source data and latest generated model outputs committed intentionally

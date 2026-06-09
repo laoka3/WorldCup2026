@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}世界杯足球数据分析Agent{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'wc-green': '#1B5E20',
+                        'wc-green-dark': '#0D3B0F',
+                        'wc-green-light': '#2E7D32',
+                        'wc-navy': '#0A1628',
+                        'wc-navy-light': '#132240',
+                        'wc-gold': '#C8A951',
+                        'wc-pitch': '#1B8A3D'
+                    }
+                }
+            }
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-wc-navy text-white min-h-screen flex flex-col">
+
+    <nav class="bg-wc-navy-light border-b-2 border-wc-green sticky top-0 z-50 backdrop-blur-sm bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-futbol text-wc-gold text-2xl animate-spin-slow"></i>
+                    <a href="/" class="text-xl font-bold text-white hover:text-wc-gold transition-colors">
+                        WorldSoccer <span class="text-wc-green-light">AI</span>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
+                        <i class="fas fa-home mr-1"></i> 首页
+                    </a>
+                    <a href="/schedule" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
+                        <i class="fas fa-calendar-alt mr-1"></i> 赛程
+                    </a>
+                    <a href="/analysis" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
+                        <i class="fas fa-chart-bar mr-1"></i> 数据分析
+                    </a>
+                    <a href="/about" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
+                        <i class="fas fa-info-circle mr-1"></i> 关于
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white p-2 rounded-lg hover:bg-wc-green transition-colors">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden pb-3 space-y-1">
+                <a href="/" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">🏠 首页</a>
+                <a href="/schedule" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">📅 赛程</a>
+                <a href="/analysis" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">📊 数据分析</a>
+                <a href="/about" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">ℹ️ 关于</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-wc-navy-light border-t border-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <i class="fas fa-futbol text-wc-gold text-xl"></i>
+                        <span class="text-lg font-bold">WorldSoccer <span class="text-wc-green-light">AI</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm">专业的足球赛事数据分析与资讯平台，致力于为球迷提供客观、全面的比赛数据分析和战术解读。</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3 text-wc-gold">快速导航</h4>
+                    <div class="space-y-1 text-sm text-gray-400">
+                        <a href="/schedule" class="block hover:text-wc-green-light transition-colors">世界杯赛程</a>
+                        <a href="/analysis" class="block hover:text-wc-green-light transition-colors">AI数据分析</a>
+                        <a href="/about" class="block hover:text-wc-green-light transition-colors">关于平台</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-3 text-wc-gold">合规声明</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        本平台仅为足球赛事数据分析与资讯展示工具。所有分析结果基于历史数据和统计模型，属于概率性分析，仅供体育爱好者参考。本平台不提供任何彩票、投注、竞猜相关内容，不进行精准比分预测，不提供任何形式的付费预测服务。
+                    </p>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-800 text-center text-sm text-gray-500">
+                <p>&copy; 2026 WorldSoccer AI | FIFA官方赛程北京时间 | Elo评分系统 v4.1 | API-Football 本地缓存</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('bg-wc-green', 'text-white');
+            }
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

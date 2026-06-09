@@ -1,0 +1,714 @@
+{% extends "layout.html" %}
+{% block title %}AI数据分析 - 世界杯足球数据分析Agent{% endblock %}
+{% block content %}
+
+<section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
+    <div class="absolute inset-0 pitch-grid opacity-20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <p class="text-wc-gold font-semibold mb-2">v4 Elo Analysis Engine</p>
+        <h1 class="text-3xl md:text-5xl font-black mb-3">AI 赛事数据分析</h1>
+        <p class="text-gray-300 max-w-3xl mx-auto">选择两支球队，基于 {{ stats.historical_matches }} 场国家队比赛、{{ stats.h2h_records }} 条 H2H 记录、Elo 对手强度模型和 2024 回测校准，生成概率、战术和实力对比。</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
+            <div class="stat-card"><span>{{ stats.historical_matches }}</span><p>历史比赛</p></div>
+            <div class="stat-card"><span>{{ stats.validation_matches }}</span><p>回测样本</p></div>
+            <div class="stat-card"><span>{{ stats.log_loss }}</span><p>Log Loss</p></div>
+            <div class="stat-card"><span>{{ stats.brier_score }}</span><p>Brier</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10 mb-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg font-bold flex items-center">
+                    <i class="fas fa-sliders-h text-wc-gold mr-2"></i>选择分析球队
+                </h3>
+                <span class="hidden md:inline-flex px-3 py-1 rounded-full bg-wc-green/20 text-green-300 text-xs font-semibold">Elo + H2H + 回测校准</span>
+            </div>
+
+            <div class="mb-5">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm text-gray-400">热门球队快捷选择</label>
+                    <span class="text-xs text-gray-500">先填主队，再填客队</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    {% for team in ['阿根廷', '巴西', '法国', '英格兰', '西班牙', '德国', '葡萄牙', '荷兰'] %}
+                    <button type="button" class="px-3 py-1.5 rounded-full bg-wc-navy border border-gray-700 text-xs text-gray-300 hover:border-wc-green hover:text-white transition-colors" onclick="(function(t){const h=document.getElementById('home-team');const a=document.getElementById('away-team');if(!h.value||h.value===t){h.value=t;}else if(a.value!==t){a.value=t;}})('{{ team }}')">
+                        {{ team }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">主队（Home Team）</label>
+                    <select id="home-team" class="team-select w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors">
+                        <option value="">-- 选择主队 --</option>
+                        {% for name in team_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">客队（Away Team）</label>
+                    <select id="away-team" class="team-select w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors">
+                        <option value="">-- 选择客队 --</option>
+                        {% for name in team_names %}
+                        <option value="{{ name }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                <button id="analyze-btn" class="btn-primary px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-robot mr-2"></i>开始AI分析
+                </button>
+                <button id="reset-btn" class="px-4 py-3 rounded-lg border border-gray-700 text-gray-300 hover:border-wc-green hover:text-white transition-colors">
+                    <i class="fas fa-redo mr-2"></i>重置
+                </button>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-3 flex items-center">
+                <i class="fas fa-info-circle mr-1 text-wc-green-light"></i>
+                AI分析基于 2022-2024 真实国家队比赛、H2H 记录、Elo 评分、赛事权重、时间衰减和 2024 回测校准，结果属于概率性分析，仅供参考。
+            </p>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10 mb-8 shadow-2xl">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                <h3 class="text-lg font-bold flex items-center">
+                    <i class="fas fa-brain text-wc-gold mr-2"></i>大模型配置
+                </h3>
+                <span id="llm-status-badge" class="px-3 py-1 rounded-full bg-gray-800 text-gray-400 text-xs font-semibold">读取中...</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Base URL</label>
+                    <input id="llm-base-url" type="text" class="w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors" placeholder="https://api.mirrorworkforce.cn/v1">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">模型名称</label>
+                    <input id="llm-model" type="text" class="w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors" placeholder="gpt-5.5">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">API Key</label>
+                    <input id="llm-api-key" type="password" class="w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors" placeholder="留空则不修改现有Key">
+                    <p id="llm-key-mask" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">超时时间（秒）</label>
+                    <input id="llm-timeout" type="number" min="5" max="120" class="w-full bg-wc-navy border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-wc-green focus:outline-none transition-colors" placeholder="20">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 items-center">
+                <button id="save-llm-config-btn" type="button" class="btn-primary px-5 py-3 rounded-lg font-semibold transition-all hover:scale-105">
+                    <i class="fas fa-save mr-2"></i>保存配置
+                </button>
+                <button id="reload-llm-config-btn" type="button" class="px-4 py-3 rounded-lg border border-gray-700 text-gray-300 hover:border-wc-green hover:text-white transition-colors">
+                    <i class="fas fa-sync-alt mr-2"></i>重新读取
+                </button>
+                <span id="llm-config-message" class="text-sm text-gray-400"></span>
+            </div>
+            <p class="text-xs text-gray-500 mt-3 flex items-start">
+                <i class="fas fa-info-circle mr-1 text-wc-green-light mt-0.5"></i>
+                <span>配置仅在当前服务运行期间生效；API Key 不会在页面回显明文。大模型只负责解释 v4.5 模型结果，胜平负概率和可能比分仍由本地模型计算。</span>
+            </p>
+        </div>
+
+        <div id="loading" class="hidden text-center py-16">
+            <div class="inline-block">
+                <div class="w-16 h-16 border-4 border-wc-green border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-gray-400">AI正在分析球队数据...</p>
+                <p class="text-xs text-gray-500 mt-2">正在计算胜平负概率 · 战术风格 · 实力对比</p>
+            </div>
+        </div>
+
+        <div id="error-message" class="hidden bg-red-900/30 border border-red-800 rounded-xl p-4 mb-6 text-red-300 text-sm"></div>
+
+        <div id="analysis-result" class="hidden space-y-6">
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-percent text-wc-gold mr-2"></i>胜平负概率分析
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="probability-cards">
+                </div>
+                <div class="mt-6 p-4 bg-wc-navy rounded-xl border border-gray-700">
+                    <p class="text-xs text-gray-400 flex items-start">
+                        <i class="fas fa-shield-alt text-wc-gold mr-2 mt-0.5"></i>
+                        <span>概率分析基于 Elo评分、真实历史赛果、H2H、TheStatsAPI 高级统计、球员/首发评分、赛事权重、时间衰减与2024回测校准参数综合计算，并非比赛结果承诺。足球比赛结果受临场发挥、裁判判罚、天气等众多不可控因素影响。</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-brain text-wc-gold mr-2"></i>大模型赛果解读
+                </h3>
+                <div id="llm-analysis-content"></div>
+            </div>
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-list-ol text-wc-gold mr-2"></i>可能比分分布
+                </h3>
+                <div id="possible-score-content"></div>
+            </div>
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-chart-pie text-wc-gold mr-2"></i>总进球数区间分析
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="goal-range-cards">
+                </div>
+                <div id="expected-goals" class="mt-4 text-center text-sm text-gray-400"></div>
+            </div>
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-chess-board text-wc-gold mr-2"></i>战术风格分析
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tactical-analysis">
+                </div>
+                <div id="style-conflict" class="mt-6 p-4 bg-wc-navy rounded-xl border border-gray-700"></div>
+                <div id="possession-analysis" class="mt-3 text-sm text-gray-400 text-center"></div>
+            </div>
+
+            <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-balance-scale text-wc-gold mr-2"></i>球队实力对比
+                </h3>
+                <div id="strength-comparison"></div>
+                <div id="strength-conclusion" class="mt-6 p-4 bg-wc-navy rounded-xl border border-gray-700"></div>
+            </div>
+
+            <div id="h2h-section" class="hidden bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-history text-wc-gold mr-2"></i>历史对战记录 (H2H)
+                </h3>
+                <div id="h2h-content"></div>
+            </div>
+
+            <div id="calibration-section" class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-vial text-wc-gold mr-2"></i>模型回测校准
+                </h3>
+                <div id="calibration-content"></div>
+            </div>
+
+            <div class="bg-wc-green-dark/20 rounded-2xl p-6 border border-wc-green/30">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-exclamation-triangle text-wc-gold text-xl mt-0.5"></i>
+                    <div>
+                        <h4 class="font-bold text-wc-gold mb-1">重要声明</h4>
+                        <p class="text-sm text-gray-300 leading-relaxed" id="disclaimer-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const homeSelect = document.getElementById('home-team');
+    const awaySelect = document.getElementById('away-team');
+    const loadingDiv = document.getElementById('loading');
+    const errorDiv = document.getElementById('error-message');
+    const resultDiv = document.getElementById('analysis-result');
+    const llmBaseUrlInput = document.getElementById('llm-base-url');
+    const llmModelInput = document.getElementById('llm-model');
+    const llmApiKeyInput = document.getElementById('llm-api-key');
+    const llmTimeoutInput = document.getElementById('llm-timeout');
+    const llmStatusBadge = document.getElementById('llm-status-badge');
+    const llmKeyMask = document.getElementById('llm-key-mask');
+    const llmConfigMessage = document.getElementById('llm-config-message');
+    const saveLlmConfigBtn = document.getElementById('save-llm-config-btn');
+    const reloadLlmConfigBtn = document.getElementById('reload-llm-config-btn');
+
+    loadLLMConfig();
+
+    saveLlmConfigBtn.addEventListener('click', saveLLMConfig);
+    reloadLlmConfigBtn.addEventListener('click', loadLLMConfig);
+
+    async function loadLLMConfig() {
+        try {
+            const response = await fetch('/api/llm-config');
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || '读取失败');
+            renderLLMConfig(data, '配置已读取');
+        } catch (err) {
+            llmStatusBadge.textContent = '读取失败';
+            llmStatusBadge.className = 'px-3 py-1 rounded-full bg-red-900/40 text-red-300 text-xs font-semibold';
+            llmConfigMessage.textContent = '无法读取大模型配置';
+        }
+    }
+
+    async function saveLLMConfig() {
+        saveLlmConfigBtn.disabled = true;
+        llmConfigMessage.textContent = '保存中...';
+        try {
+            const payload = {
+                base_url: llmBaseUrlInput.value.trim(),
+                model: llmModelInput.value.trim(),
+                api_key: llmApiKeyInput.value.trim(),
+                timeout: llmTimeoutInput.value ? Number(llmTimeoutInput.value) : undefined
+            };
+            const response = await fetch('/api/llm-config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || '保存失败');
+            llmApiKeyInput.value = '';
+            renderLLMConfig(data, '配置已保存，下一次分析将使用新配置');
+        } catch (err) {
+            llmConfigMessage.textContent = err.message || '保存失败';
+        } finally {
+            saveLlmConfigBtn.disabled = false;
+        }
+    }
+
+    function renderLLMConfig(data, message) {
+        llmBaseUrlInput.value = data.base_url || '';
+        llmModelInput.value = data.model || '';
+        llmTimeoutInput.value = data.timeout || 20;
+        llmKeyMask.textContent = data.api_key_set ? 'API Key 已配置；为安全起见不显示任何片段。' : '当前未配置API Key，将使用本地模板解释。';
+        llmStatusBadge.textContent = data.enabled ? '大模型已启用' : '未配置Key';
+        llmStatusBadge.className = data.enabled
+            ? 'px-3 py-1 rounded-full bg-green-900/40 text-green-300 text-xs font-semibold'
+            : 'px-3 py-1 rounded-full bg-gray-800 text-gray-400 text-xs font-semibold';
+        llmConfigMessage.textContent = message || '';
+    }
+
+    analyzeBtn.addEventListener('click', async () => {
+        const homeTeam = homeSelect.value;
+        const awayTeam = awaySelect.value;
+
+        if (!homeTeam || !awayTeam) {
+            showError('请选择两支球队进行分析');
+            return;
+        }
+        if (homeTeam === awayTeam) {
+            showError('请选择两支不同的球队');
+            return;
+        }
+
+        errorDiv.classList.add('hidden');
+        resultDiv.classList.add('hidden');
+        loadingDiv.classList.remove('hidden');
+        analyzeBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    home_team: homeTeam,
+                    away_team: awayTeam,
+                    text: ''
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                showError(data.error || data.message || '分析失败，请重试');
+                loadingDiv.classList.add('hidden');
+                analyzeBtn.disabled = false;
+                return;
+            }
+
+            renderResults(data);
+            loadingDiv.classList.add('hidden');
+            resultDiv.classList.remove('hidden');
+            analyzeBtn.disabled = false;
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        } catch (err) {
+            showError('网络错误，请检查连接后重试');
+            loadingDiv.classList.add('hidden');
+            analyzeBtn.disabled = false;
+        }
+    });
+
+    resetBtn.addEventListener('click', () => {
+        homeSelect.value = '';
+        awaySelect.value = '';
+        resultDiv.classList.add('hidden');
+        errorDiv.classList.add('hidden');
+        loadingDiv.classList.add('hidden');
+        analyzeBtn.disabled = false;
+    });
+
+    function showError(msg) {
+        errorDiv.textContent = '⚠ ' + msg;
+        errorDiv.classList.remove('hidden');
+    }
+
+    function renderResults(data) {
+        renderProbability(data.result_probability);
+        renderLLMAnalysis(data.llm_analysis);
+        renderPossibleScores(data.possible_scores);
+        renderGoalRange(data.goal_range_analysis);
+        renderTactical(data.tactical_analysis);
+        renderStrength(data.strength_comparison);
+        renderCalibration(data.model_calibration);
+        if (data.h2h_history) renderH2H(data.h2h_history);
+        document.getElementById('disclaimer-text').textContent = data.disclaimer;
+
+        document.getElementById('expected-goals').innerHTML =
+            `<i class="fas fa-bullseye mr-2 text-wc-gold"></i>预期总进球数：<span class="font-bold text-white">${data.goal_range_analysis['预期总进球']}</span> 球`;
+    }
+
+    function renderProbability(prob) {
+        const container = document.getElementById('probability-cards');
+        const items = [
+            { label: '主队胜', key: 'home_win', color: 'text-green-400', icon: '🏠' },
+            { label: '平局', key: 'draw', color: 'text-yellow-400', icon: '🤝' },
+            { label: '客队胜', key: 'away_win', color: 'text-blue-400', icon: '✈️' }
+        ];
+        container.innerHTML = items.map(item => `
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 text-center hover:border-wc-green/50 transition-all">
+                <div class="text-2xl mb-2">${item.icon}</div>
+                <div class="text-sm text-gray-400 mb-1">${item.label}</div>
+                <div class="text-3xl font-bold ${item.color}">${prob[item.key]}%</div>
+                <div class="mt-3 w-full bg-gray-700 rounded-full h-2.5">
+                    <div class="h-2.5 rounded-full ${item.key === 'home_win' ? 'bg-green-500' : item.key === 'draw' ? 'bg-yellow-500' : 'bg-blue-500'}" style="width: ${prob[item.key]}%"></div>
+                </div>
+            </div>
+        `).join('');
+
+        const oldAdjustment = document.getElementById('advanced-adjustment-panel');
+        if (oldAdjustment) oldAdjustment.remove();
+
+        if (prob.advanced_adjustment) {
+            const adj = prob.advanced_adjustment;
+            container.insertAdjacentHTML('afterend', `
+                <div id="advanced-adjustment-panel" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${renderAdvancedAdjustment('主队高级修正', adj.home, adj.home_base_elo, adj.home_adjusted_elo)}
+                    ${renderAdvancedAdjustment('客队高级修正', adj.away, adj.away_base_elo, adj.away_adjusted_elo)}
+                </div>
+            `);
+        }
+    }
+
+    function renderAdvancedAdjustment(title, data, baseElo, adjustedElo) {
+        if (!data) return '';
+        const factorHtml = (data.factors || []).slice(0, 5).map(f => `
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-wc-navy-light border border-gray-700 text-xs text-gray-300">
+                ${f.factor}: ${f.value} / Elo ${f.elo_delta > 0 ? '+' : ''}${f.elo_delta}
+            </span>
+        `).join('');
+        return `
+            <div class="bg-wc-navy rounded-xl p-4 border border-gray-700">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="text-sm font-semibold text-wc-gold">${title}</div>
+                    <div class="text-xs text-gray-400">置信度 ${(data.confidence * 100).toFixed(0)}%</div>
+                </div>
+                <div class="text-sm text-gray-300 mb-3">基础 Elo <span class="text-white font-bold">${baseElo}</span> → 修正后 <span class="text-white font-bold">${adjustedElo}</span>，修正 <span class="${data.elo_delta >= 0 ? 'text-green-400' : 'text-red-400'} font-bold">${data.elo_delta >= 0 ? '+' : ''}${data.elo_delta}</span></div>
+                <div class="flex flex-wrap gap-2">${factorHtml || '<span class="text-xs text-gray-500">暂无高级统计样本</span>'}</div>
+            </div>
+        `;
+    }
+
+    function renderLLMAnalysis(data) {
+        const container = document.getElementById('llm-analysis-content');
+        if (!container) return;
+        if (!data) {
+            container.innerHTML = '<div class="text-sm text-gray-500">暂无大模型解读</div>';
+            return;
+        }
+
+        const stringifyValue = (value) => {
+            if (value === null || value === undefined) return '';
+            if (typeof value === 'string') return value;
+            if (Array.isArray(value)) return value.map(stringifyValue).filter(Boolean).join('；');
+            if (typeof value === 'object') {
+                return Object.entries(value).map(([key, item]) => `${key}：${stringifyValue(item)}`).filter(Boolean).join('；');
+            }
+            return String(value);
+        };
+        const factors = (data.key_factors || []).map(item => `
+            <li class="flex items-start text-sm text-gray-300 leading-relaxed">
+                <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
+                <span>${stringifyValue(item)}</span>
+            </li>
+        `).join('');
+        const errorHtml = data.error ? `
+            <div class="mb-4 rounded-lg border border-red-500/30 bg-red-900/20 px-4 py-3 text-xs text-red-200">
+                大模型调用失败：${data.error}
+            </div>
+        ` : '';
+
+        container.innerHTML = `
+            ${errorHtml}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                <div class="md:col-span-2 bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-wc-gold font-semibold">胜平负倾向</span>
+                        <span class="text-xs px-2 py-1 rounded-full ${data.enabled ? 'bg-green-900/40 text-green-300' : 'bg-gray-800 text-gray-400'}">
+                            ${data.enabled ? '大模型已启用' : '本地模板'} · ${data.model || 'N/A'}
+                        </span>
+                    </div>
+                    <p class="text-gray-200 leading-relaxed">${stringifyValue(data.summary)}</p>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-wc-gold font-semibold mb-3">可能比分说明</div>
+                    <p class="text-sm text-gray-300 leading-relaxed">${stringifyValue(data.score_view)}</p>
+                </div>
+            </div>
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 mb-4">
+                <div class="text-xs text-wc-gold font-semibold mb-3">关键依据</div>
+                <ul class="space-y-2">${factors || '<li class="text-sm text-gray-500">暂无依据</li>'}</ul>
+            </div>
+            <div class="text-xs text-gray-500 flex items-start">
+                <i class="fas fa-shield-alt text-wc-gold mr-2 mt-0.5"></i>
+                <span>${stringifyValue(data.risk_note) || '结果为概率性分析，仅供参考。'}</span>
+            </div>
+        `;
+    }
+
+    function renderPossibleScores(data) {
+        const container = document.getElementById('possible-score-content');
+        if (!container) return;
+        if (!data) {
+            container.innerHTML = '<div class="text-sm text-gray-500">暂无比分分布</div>';
+            return;
+        }
+
+        const scoreCards = (data.top_scores || []).map(item => `
+            <div class="bg-wc-navy rounded-xl p-4 border border-gray-700 text-center hover:border-wc-green/50 transition-all">
+                <div class="text-xs text-gray-400 mb-1">${item.outcome}</div>
+                <div class="text-2xl font-black text-white mb-1">${item.score}</div>
+                <div class="text-sm text-wc-gold font-semibold">${item.probability}%</div>
+            </div>
+        `).join('');
+
+        const likelyCards = (data.likely_outcome_scores || []).map(item => `
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full bg-wc-green/15 border border-wc-green/30 text-sm text-green-300">
+                ${item.score} · ${item.probability}%
+            </span>
+        `).join('');
+
+        container.innerHTML = `
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-3 mb-5">${scoreCards}</div>
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+                    <div class="text-sm text-gray-300">
+                        <span class="text-wc-gold font-semibold">胜平负概率倾向：</span>${data.likely_outcome}
+                    </div>
+                    <div class="text-sm text-gray-300">
+                        <span class="text-wc-gold font-semibold">预期进球：</span>
+                        主队 ${data.expected_goals.home_xg} / 客队 ${data.expected_goals.away_xg}
+                    </div>
+                </div>
+                <div class="text-xs text-gray-400 mb-2">${data.likely_outcome}倾向下的代表比分</div>
+                <div class="flex flex-wrap gap-2 mb-3">${likelyCards}</div>
+                <p class="text-xs text-gray-500 leading-relaxed"><i class="fas fa-info-circle mr-1 text-wc-green-light"></i>${data.method}。胜平负倾向来自 v4.5 综合概率；预期进球来自 xG/攻防强度的 Dixon-Coles 修正泊松比分模型。两者口径不同，所以可能出现预期进球客队更高但综合概率仍偏主胜的情况。${data.note}</p>
+            </div>
+        `;
+    }
+
+    function renderGoalRange(data) {
+        const container = document.getElementById('goal-range-cards');
+        const colors = ['bg-blue-500', 'bg-yellow-500', 'bg-red-500'];
+        const icons = ['⚽', '⚽⚽', '🔥'];
+        let idx = 0;
+        container.innerHTML = Object.entries(data).filter(([k]) => k !== '预期总进球').map(([key, val]) => {
+            const c = colors[idx];
+            const icon = icons[idx];
+            idx++;
+            return `
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 text-center hover:border-wc-green/50 transition-all">
+                    <div class="text-2xl mb-1">${icon}</div>
+                    <div class="text-sm text-gray-400 mb-1">${key}</div>
+                    <div class="text-3xl font-bold text-white">${val}%</div>
+                    <div class="mt-3 w-full bg-gray-700 rounded-full h-2.5">
+                        <div class="h-2.5 rounded-full ${c}" style="width: ${val}%"></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderTactical(data) {
+        const container = document.getElementById('tactical-analysis');
+        container.innerHTML = `
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                <div class="text-sm text-wc-gold mb-2">🏠 ${data.home_team} · 战术风格</div>
+                <div class="text-lg font-bold mb-2">${data.home_style}</div>
+                <p class="text-gray-400 text-sm leading-relaxed">${data.home_style_analysis}</p>
+            </div>
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                <div class="text-sm text-wc-gold mb-2">✈️ ${data.away_team} · 战术风格</div>
+                <div class="text-lg font-bold mb-2">${data.away_style}</div>
+                <p class="text-gray-400 text-sm leading-relaxed">${data.away_style_analysis}</p>
+            </div>
+        `;
+        document.getElementById('style-conflict').innerHTML = `
+            <i class="fas fa-lightbulb text-wc-gold mr-2"></i>
+            <span class="text-sm text-gray-300">${data.style_conflict_analysis}</span>
+        `;
+        document.getElementById('possession-analysis').textContent = data.possession_analysis;
+    }
+
+    function formatMetricValue(value) {
+        if (value === null || value === undefined || value === '') return '暂无';
+        const num = Number(value);
+        if (Number.isFinite(num)) {
+            return Number.isInteger(num) ? String(num) : num.toFixed(2).replace(/\.00$/, '').replace(/0$/, '');
+        }
+        return value;
+    }
+
+    function renderStrength(data) {
+        const container = document.getElementById('strength-comparison');
+
+        const dimensions = data.dimensions;
+        let html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 text-center">
+                    <div class="text-sm text-gray-400 mb-2">${data.home_team} · 综合实力</div>
+                    <div class="text-4xl font-bold text-green-400">${data.home_overall_score}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 text-center">
+                    <div class="text-sm text-gray-400 mb-2">${data.away_team} · 综合实力</div>
+                    <div class="text-4xl font-bold text-blue-400">${data.away_overall_score}</div>
+                </div>
+            </div>
+            <div class="space-y-3">
+        `;
+
+        for (const [dim, values] of Object.entries(dimensions)) {
+            const homeV = values.home;
+            const awayV = values.away;
+            const homeNum = Number(homeV);
+            const awayNum = Number(awayV);
+            const homeBar = Number.isFinite(homeNum) ? homeNum : 0;
+            const awayBar = Number.isFinite(awayNum) ? awayNum : 0;
+            const maxV = Math.max(homeBar, awayBar, 0.01);
+            const homePct = (homeBar / maxV) * 100;
+            const awayPct = (awayBar / maxV) * 100;
+            const isSampleDim = dim.includes('样本');
+            const lowSample = isSampleDim && (homeBar > 0 || awayBar > 0) && (homeBar < 3 || awayBar < 3);
+            html += `
+                <div class="bg-wc-navy rounded-lg p-4 border ${lowSample ? 'border-yellow-700/60' : 'border-gray-700'}">
+                    <div class="flex items-center justify-between text-sm mb-2">
+                        <span class="text-gray-400">${dim}${lowSample ? ' <span class="text-yellow-400 text-xs ml-1">低样本</span>' : ''}</span>
+                        <span class="flex gap-4 text-xs">
+                            <span class="text-green-400 font-bold">${data.home_team}: ${formatMetricValue(homeV)}</span>
+                            <span class="text-blue-400 font-bold">${data.away_team}: ${formatMetricValue(awayV)}</span>
+                        </span>
+                    </div>
+                    <div class="flex gap-1">
+                        <div class="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 rounded-full" style="width: ${homePct}%"></div>
+                        </div>
+                        <div class="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 rounded-full" style="width: ${awayPct}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        html += `</div>
+            <div class="mt-4 p-4 bg-wc-navy rounded-xl border border-gray-700 text-xs text-gray-400 leading-relaxed">
+                <i class="fas fa-info-circle text-wc-green-light mr-2"></i>
+                xG/xGA 旁边的有效样本数表示 TheStatsAPI 中真正包含该字段的比赛数量；低于 3 场时只作为辅助参考，不代表稳定长期水平。
+            </div>
+        `;
+        container.innerHTML = html;
+
+        document.getElementById('strength-conclusion').innerHTML = `
+            <i class="fas fa-comment-dots text-wc-gold mr-2"></i>
+            <span class="text-sm text-gray-300">${data.conclusion}</span>
+        `;
+    }
+
+    function renderCalibration(data) {
+        const container = document.getElementById('calibration-content');
+        if (!container) return;
+
+        if (!data || Object.keys(data).length === 0) {
+            container.innerHTML = '<div class="text-sm text-gray-500">暂无回测校准数据</div>';
+            return;
+        }
+
+        const labelMap = {
+            validation_matches: '回测样本',
+            log_loss: 'Log Loss',
+            brier_score: 'Brier Score',
+            accuracy: '准确率',
+            calibration_year: '校准年份',
+            model_version: '模型版本'
+        };
+
+        const metricCards = ['validation_matches', 'log_loss', 'brier_score', 'accuracy']
+            .filter(key => data[key] !== null && data[key] !== undefined)
+            .map(key => `
+                <div class="bg-wc-navy rounded-xl p-4 border border-gray-700 text-center">
+                    <div class="text-xs text-gray-400 mb-2">${labelMap[key] || key}</div>
+                    <div class="text-2xl font-bold text-wc-gold">${data[key]}</div>
+                </div>
+            `).join('');
+
+        const note = data.note || data.description || data.calibration_note || '模型通过历史比赛回测进行概率校准，指标用于衡量预测概率与真实赛果之间的偏差。';
+
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                ${metricCards || '<div class="text-sm text-gray-500">暂无可展示指标</div>'}
+            </div>
+            <div class="p-4 bg-wc-navy rounded-xl border border-gray-700 text-sm text-gray-300">
+                <i class="fas fa-info-circle text-wc-green-light mr-2"></i>${note}
+            </div>
+        `;
+    }
+
+    function renderH2H(h2h) {
+        const section = document.getElementById('h2h-section');
+        const content = document.getElementById('h2h-content');
+        section.classList.remove('hidden');
+
+        const lastMatches = (h2h.last_matches || []).slice(-5).map(m =>
+            `<div class="text-xs text-gray-400 py-1 border-b border-gray-700/50">
+                ${m.date} | ${m.competition} | ${m.score_a_b}
+            </div>`
+        ).join('');
+
+        content.innerHTML = `
+            <div class="grid grid-cols-3 gap-4 mb-4 text-center">
+                <div class="bg-wc-navy rounded-xl p-3 border border-gray-700">
+                    <div class="text-xs text-gray-400">近${h2h.total_matches}场</div>
+                    <div class="text-2xl font-bold text-green-400">${Object.values(h2h).find((v,i) => i===1) || 0}</div>
+                    <div class="text-xs">${Object.keys(h2h)[1] || '主胜'}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-3 border border-gray-700">
+                    <div class="text-xs text-gray-400">平局</div>
+                    <div class="text-2xl font-bold text-yellow-400">${h2h['平局'] || 0}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-3 border border-gray-700">
+                    <div class="text-xs text-gray-400">近${h2h.total_matches}场</div>
+                    <div class="text-2xl font-bold text-blue-400">${Object.values(h2h).find((v,i) => i===3) || 0}</div>
+                    <div class="text-xs">${Object.keys(h2h)[3] || '客胜'}</div>
+                </div>
+            </div>
+            <div class="text-xs text-gray-500 mb-3 text-center">
+                <i class="fas fa-futbol mr-1"></i>历史场均进球: <span class="text-white font-bold">${h2h.avg_goals}</span>
+            </div>
+            <div class="text-xs text-gray-500 font-semibold mb-2">最近对战:</div>
+            ${lastMatches || '<div class="text-xs text-gray-500">暂无详细记录</div>'}
+        `;
+    }
+</script>
+{% endblock %}

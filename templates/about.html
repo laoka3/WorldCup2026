@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block title %}关于 - 世界杯足球数据分析Agent{% endblock %}
+{% block content %}
+
+<section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
+    <div class="absolute inset-0 pitch-grid opacity-20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <p class="text-wc-gold font-semibold mb-2">About WorldSoccer AI</p>
+        <h1 class="text-3xl md:text-5xl font-black mb-3">关于平台</h1>
+        <p class="text-gray-300 max-w-3xl mx-auto">世界杯足球数据分析Agent · 基于真实缓存数据和 v4 Elo 算法的合规赛事分析工具</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
+            <div class="stat-card"><span>{{ stats.historical_matches }}</span><p>国家队比赛</p></div>
+            <div class="stat-card"><span>{{ stats.h2h_records }}</span><p>H2H记录</p></div>
+            <div class="stat-card"><span>官方</span><p>2026赛程</p></div>
+            <div class="stat-card"><span>{{ stats.teams }}</span><p>球队池</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-bullseye text-wc-gold mr-2"></i>平台定位
+            </h2>
+            <p class="text-gray-300 leading-relaxed">
+                世界杯足球数据分析Agent是一个合规的足球赛事分析工具平台。我们专注于为球迷提供：
+            </p>
+            <ul class="space-y-2 mt-4 text-gray-400">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
+                    <span>2026世界杯完整赛程展示与实时赛果查询</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
+                    <span>基于数据的球队实力对比与战术风格分析</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
+                    <span>AI辅助的概率性分析（胜平负概率、进球区间）</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-shield-haltered text-wc-gold mr-2"></i>合规声明
+            </h2>
+            <div class="space-y-4 text-gray-300 leading-relaxed">
+                <p>本平台严格遵守以下合规要求：</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                        <i class="fas fa-ban text-red-400 text-xl mb-2"></i>
+                        <p class="text-sm text-gray-400">不提供任何彩票、投注、竞猜相关功能</p>
+                    </div>
+                    <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                        <i class="fas fa-ban text-red-400 text-xl mb-2"></i>
+                        <p class="text-sm text-gray-400">不进行精准比分预测</p>
+                    </div>
+                    <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                        <i class="fas fa-ban text-red-400 text-xl mb-2"></i>
+                        <p class="text-sm text-gray-400">不提供付费预测服务</p>
+                    </div>
+                    <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                        <i class="fas fa-ban text-red-400 text-xl mb-2"></i>
+                        <p class="text-sm text-gray-400">不传播未经证实的内容信息</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6 md:p-8 border border-white/10">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-robot text-wc-gold mr-2"></i>AI分析说明
+            </h2>
+            <p class="text-gray-300 leading-relaxed">
+                本平台的AI分析模块基于以下真实数据维度进行计算：
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">Elo 评分</span>
+                    <p class="text-gray-400 text-xs mt-1">逐场迭代计算，体现对手强度差异</p>
+                </div>
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">赛事权重</span>
+                    <p class="text-gray-400 text-xs mt-1">世界杯/洲际杯权重高于友谊赛</p>
+                </div>
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">时间衰减</span>
+                    <p class="text-gray-400 text-xs mt-1">2024 数据影响大于 2023/2022</p>
+                </div>
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">H2H 历史对战</span>
+                    <p class="text-gray-400 text-xs mt-1">真实历史交锋记录参与概率修正</p>
+                </div>
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">攻防评级</span>
+                    <p class="text-gray-400 text-xs mt-1">基于真实场均进失球和胜率生成</p>
+                </div>
+                <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
+                    <span class="text-wc-gold font-semibold">近期状态</span>
+                    <p class="text-gray-400 text-xs mt-1">最近比赛 W/D/L 走势用于状态评分</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-4 flex items-start">
+                <i class="fas fa-info-circle mr-2 text-wc-green-light mt-0.5"></i>
+                {{ data_note }}。用于 2026 世界杯 AI 战术分析与球队实力对比。
+            </p>
+        </div>
+
+        <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-code text-wc-gold mr-2"></i>技术架构
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                    <i class="fab fa-html5 text-3xl text-orange-400 mb-2"></i>
+                    <p class="text-sm font-semibold">HTML5</p>
+                </div>
+                <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                    <i class="fab fa-css3-alt text-3xl text-blue-400 mb-2"></i>
+                    <p class="text-sm font-semibold">Tailwind CSS</p>
+                </div>
+                <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                    <i class="fab fa-js text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-sm font-semibold">JavaScript</p>
+                </div>
+                <div class="bg-wc-navy p-4 rounded-xl border border-gray-700">
+                    <i class="fab fa-python text-3xl text-green-400 mb-2"></i>
+                    <p class="text-sm font-semibold">Flask</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

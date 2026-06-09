@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block title %}2026世界杯赛程 - 美国·加拿大·墨西哥{% endblock %}
+{% block content %}
+
+<section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_right,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
+    <div class="absolute inset-0 pitch-grid opacity-20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-8">
+            <p class="text-wc-gold font-semibold mb-2">FIFA official fixtures · Beijing Time</p>
+            <h1 class="text-3xl md:text-5xl font-black mb-3">2026 世界杯赛程中心</h1>
+            <p class="text-gray-300">{{ tournament }} | {{ stats.hosts }} | 48队 · 12组 · 104场 · 北京时间 UTC+8</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="stat-card"><span>{{ stats.total_matches }}</span><p>总比赛</p></div>
+            <div class="stat-card"><span>{{ stats.groups }}</span><p>小组</p></div>
+            <div class="stat-card"><span>{{ stats.venues }}</span><p>球场</p></div>
+            <div class="stat-card"><span>39</span><p>比赛日</p></div>
+        </div>
+    </div>
+</section>
+
+{% if group_info %}
+<section class="py-8 bg-wc-navy-light border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-5">
+            <h2 class="text-2xl font-black text-white"><i class="fas fa-layer-group text-wc-gold mr-2"></i>小组分布</h2>
+            <p class="text-xs text-gray-500">点击小组卡片可筛选对应赛程</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3" id="group-grid">
+            {% for g_name in group_info %}
+            <div class="group-mini premium-card rounded-2xl p-4 border border-white/10 hover:border-wc-gold/60 transition-all cursor-pointer" data-g="{{ g_name }}">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="text-wc-gold font-black">{{ g_name }} 组</div>
+                    <span class="text-xs text-gray-500">4队</span>
+                </div>
+                <div class="space-y-1.5">
+                    {% for team in group_info[g_name] %}
+                    <div class="text-sm text-gray-300 truncate flex items-center gap-2" title="{{ team }}">
+                        <span class="w-1.5 h-1.5 rounded-full bg-wc-green-light"></span>{{ '🏴 ' if team == '英格兰' else '' }}{{ team }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="py-8 bg-wc-navy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="sticky top-16 z-30 bg-wc-navy/95 backdrop-blur-md py-4 mb-6 border-b border-white/5">
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button class="group-filter active px-4 py-2 rounded-xl text-sm font-semibold bg-wc-green text-white" data-group="all">全部比赛</button>
+                {% for group in groups %}
+                <button class="group-filter px-4 py-2 rounded-xl text-sm font-semibold bg-wc-navy-light text-gray-300 hover:bg-wc-green hover:text-white transition-colors border border-gray-700" data-group="{{ group }}">
+                    {% if group == '淘汰赛' %}淘汰赛{% else %}{{ group }}组{% endif %}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% for group, matches in groups.items() %}
+        <div class="group-section mb-10" data-group="{{ group }}">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl md:text-2xl font-black text-wc-gold flex items-center">
+                    {% if group == '淘汰赛' %}
+                    <span class="w-10 h-10 rounded-2xl bg-red-700 flex items-center justify-center text-white font-bold text-xs mr-3">KO</span>淘汰赛阶段
+                    {% else %}
+                    <span class="w-10 h-10 rounded-2xl bg-wc-green flex items-center justify-center text-white font-bold text-sm mr-3">{{ group }}</span>{{ group }} 组
+                    {% endif %}
+                </h2>
+                <span class="text-xs text-gray-500">{{ matches|length }} 场</span>
+            </div>
+            <div class="space-y-3">
+                {% for match in matches %}
+                <div class="match-row premium-card rounded-2xl p-4 md:p-5 border border-white/10">
+                    <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 items-center">
+                        <div class="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="text-3xl">{{ match.home_flag }}</span>
+                                <span class="font-bold truncate">{{ match.home_team }}</span>
+                            </div>
+                            <span class="px-4 py-2 rounded-full bg-wc-navy border border-wc-gold/30 text-wc-gold font-black">VS</span>
+                            <div class="flex items-center gap-3 justify-end min-w-0">
+                                <span class="font-bold truncate">{{ match.away_team }}</span>
+                                <span class="text-3xl">{{ match.away_flag }}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap lg:flex-nowrap items-center gap-2 text-xs text-gray-400 lg:justify-end">
+                            <span class="px-2.5 py-1 rounded-lg bg-wc-green/20 text-green-300">{{ match.stage }}</span>
+                            <span><i class="far fa-calendar text-wc-gold mr-1"></i>{{ match.date }}</span>
+                            <span><i class="far fa-clock text-wc-gold mr-1"></i>{{ match.time }} 北京时间</span>
+                            <span class="truncate max-w-[260px]" title="{{ match.venue }}"><i class="fas fa-location-dot text-wc-gold mr-1"></i>{{ match.venue }}</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-wc-green/20 text-wc-green-light">未开始</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    document.querySelectorAll('.group-filter').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.group-filter').forEach(b => {
+                b.classList.remove('active', 'bg-wc-green', 'text-white');
+                b.classList.add('bg-wc-navy-light', 'text-gray-300', 'border', 'border-gray-700');
+            });
+            this.classList.add('active', 'bg-wc-green', 'text-white');
+            this.classList.remove('bg-wc-navy-light', 'text-gray-300', 'border', 'border-gray-700');
+
+            const group = this.dataset.group;
+            document.querySelectorAll('.group-section').forEach(section => {
+                section.style.display = (group === 'all' || section.dataset.group === group) ? 'block' : 'none';
+            });
+        });
+    });
+
+    document.querySelectorAll('.group-mini').forEach(card => {
+        card.addEventListener('click', function() {
+            const g = this.dataset.g;
+            const btn = document.querySelector(`.group-filter[data-group="${g}"]`);
+            if (btn) btn.click();
+            document.querySelector('.group-section[style="display: block;"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,1030 @@
+{
+  "name": "TheStatsAPI 2025-2026 independent backtest",
+  "data_window": "2025-01-01 to 2026-06-01",
+  "source": "local TheStatsAPI match cache",
+  "excluded_competitions": [
+    "comp_29967"
+  ],
+  "excluded_note": "排除 International Friendly Games / 友谊赛",
+  "method_note": "使用当前生产预测函数计算胜平负概率；TheStatsAPI高级球队特征来自当前缓存，可能包含测试窗口内比赛聚合，因此这是线上模型一致性回测，不是严格时间滚动前瞻回测。",
+  "raw_unique_finished_matches": 311,
+  "evaluated_matches": 311,
+  "skipped_matches": 0,
+  "overall": {
+    "matches": 311,
+    "accuracy": 55.95,
+    "log_loss": 0.9731,
+    "brier_score": 0.5787,
+    "actual_distribution": {
+      "draw": 79,
+      "home_win": 139,
+      "away_win": 93
+    },
+    "predicted_distribution": {
+      "home_win": 209,
+      "away_win": 100,
+      "draw": 2
+    }
+  },
+  "by_year": {
+    "2025": {
+      "matches": 293,
+      "accuracy": 56.66,
+      "log_loss": 0.9702,
+      "brier_score": 0.5766,
+      "actual_distribution": {
+        "draw": 71,
+        "home_win": 134,
+        "away_win": 88
+      },
+      "predicted_distribution": {
+        "home_win": 195,
+        "away_win": 96,
+        "draw": 2
+      }
+    },
+    "2026": {
+      "matches": 18,
+      "accuracy": 44.44,
+      "log_loss": 1.02,
+      "brier_score": 0.6119,
+      "actual_distribution": {
+        "home_win": 5,
+        "draw": 8,
+        "away_win": 5
+      },
+      "predicted_distribution": {
+        "home_win": 14,
+        "away_win": 4
+      }
+    }
+  },
+  "by_competition": {
+    "comp_0836": {
+      "matches": 23,
+      "accuracy": 43.48,
+      "log_loss": 1.0478,
+      "brier_score": 0.6319,
+      "actual_distribution": {
+        "home_win": 8,
+        "away_win": 7,
+        "draw": 8
+      },
+      "predicted_distribution": {
+        "home_win": 20,
+        "away_win": 3
+      }
+    },
+    "comp_1554": {
+      "matches": 33,
+      "accuracy": 54.55,
+      "log_loss": 1.0164,
+      "brier_score": 0.6109,
+      "actual_distribution": {
+        "home_win": 14,
+        "draw": 10,
+        "away_win": 9
+      },
+      "predicted_distribution": {
+        "home_win": 27,
+        "away_win": 6
+      }
+    },
+    "comp_193547": {
+      "matches": 4,
+      "accuracy": 50.0,
+      "log_loss": 1.0264,
+      "brier_score": 0.6117,
+      "actual_distribution": {
+        "away_win": 2,
+        "home_win": 2
+      },
+      "predicted_distribution": {
+        "home_win": 4
+      }
+    },
+    "comp_2954": {
+      "matches": 84,
+      "accuracy": 70.24,
+      "log_loss": 0.8342,
+      "brier_score": 0.4818,
+      "actual_distribution": {
+        "away_win": 28,
+        "home_win": 40,
+        "draw": 16
+      },
+      "predicted_distribution": {
+        "away_win": 36,
+        "home_win": 48
+      }
+    },
+    "comp_3135": {
+      "matches": 12,
+      "accuracy": 50.0,
+      "log_loss": 0.9848,
+      "brier_score": 0.5872,
+      "actual_distribution": {
+        "home_win": 5,
+        "draw": 5,
+        "away_win": 2
+      },
+      "predicted_distribution": {
+        "home_win": 10,
+        "away_win": 2
+      }
+    },
+    "comp_3444": {
+      "matches": 18,
+      "accuracy": 55.56,
+      "log_loss": 1.0692,
+      "brier_score": 0.6504,
+      "actual_distribution": {
+        "home_win": 3,
+        "away_win": 6,
+        "draw": 9
+      },
+      "predicted_distribution": {
+        "home_win": 7,
+        "away_win": 9,
+        "draw": 2
+      }
+    },
+    "comp_4682": {
+      "matches": 26,
+      "accuracy": 42.31,
+      "log_loss": 1.0617,
+      "brier_score": 0.6426,
+      "actual_distribution": {
+        "home_win": 13,
+        "away_win": 4,
+        "draw": 9
+      },
+      "predicted_distribution": {
+        "away_win": 13,
+        "home_win": 13
+      }
+    },
+    "comp_5720": {
+      "matches": 40,
+      "accuracy": 52.5,
+      "log_loss": 1.0474,
+      "brier_score": 0.6271,
+      "actual_distribution": {
+        "home_win": 18,
+        "away_win": 16,
+        "draw": 6
+      },
+      "predicted_distribution": {
+        "home_win": 32,
+        "away_win": 8
+      }
+    },
+    "comp_574977": {
+      "matches": 16,
+      "accuracy": 50.0,
+      "log_loss": 1.0876,
+      "brier_score": 0.6623,
+      "actual_distribution": {
+        "away_win": 5,
+        "home_win": 6,
+        "draw": 5
+      },
+      "predicted_distribution": {
+        "away_win": 6,
+        "home_win": 10
+      }
+    },
+    "comp_7363": {
+      "matches": 2,
+      "accuracy": 0.0,
+      "log_loss": 1.3651,
+      "brier_score": 0.842,
+      "actual_distribution": {
+        "home_win": 1,
+        "away_win": 1
+      },
+      "predicted_distribution": {
+        "away_win": 1,
+        "home_win": 1
+      }
+    },
+    "comp_892803": {
+      "matches": 20,
+      "accuracy": 65.0,
+      "log_loss": 0.8744,
+      "brier_score": 0.5056,
+      "actual_distribution": {
+        "draw": 2,
+        "home_win": 12,
+        "away_win": 6
+      },
+      "predicted_distribution": {
+        "home_win": 11,
+        "away_win": 9
+      }
+    },
+    "comp_8973": {
+      "matches": 33,
+      "accuracy": 48.48,
+      "log_loss": 0.9889,
+      "brier_score": 0.5884,
+      "actual_distribution": {
+        "home_win": 17,
+        "draw": 9,
+        "away_win": 7
+      },
+      "predicted_distribution": {
+        "home_win": 26,
+        "away_win": 7
+      }
+    }
+  },
+  "by_actual_result": {
+    "away_win": {
+      "matches": 93,
+      "accuracy": 59.14,
+      "log_loss": 1.0503,
+      "brier_score": 0.6273,
+      "actual_distribution": {
+        "away_win": 93
+      },
+      "predicted_distribution": {
+        "away_win": 55,
+        "home_win": 38
+      }
+    },
+    "draw": {
+      "matches": 79,
+      "accuracy": 2.53,
+      "log_loss": 1.229,
+      "brier_score": 0.7736,
+      "actual_distribution": {
+        "draw": 79
+      },
+      "predicted_distribution": {
+        "home_win": 54,
+        "away_win": 23,
+        "draw": 2
+      }
+    },
+    "home_win": {
+      "matches": 139,
+      "accuracy": 84.17,
+      "log_loss": 0.776,
+      "brier_score": 0.4354,
+      "actual_distribution": {
+        "home_win": 139
+      },
+      "predicted_distribution": {
+        "home_win": 117,
+        "away_win": 22
+      }
+    }
+  },
+  "by_elo_gap": {
+    "Elo差150-250": {
+      "matches": 48,
+      "accuracy": 68.75,
+      "log_loss": 0.8042,
+      "brier_score": 0.4627,
+      "actual_distribution": {
+        "home_win": 22,
+        "away_win": 17,
+        "draw": 9
+      },
+      "predicted_distribution": {
+        "home_win": 25,
+        "away_win": 23
+      }
+    },
+    "Elo差75-150": {
+      "matches": 94,
+      "accuracy": 63.83,
+      "log_loss": 0.9184,
+      "brier_score": 0.5373,
+      "actual_distribution": {
+        "home_win": 46,
+        "away_win": 30,
+        "draw": 18
+      },
+      "predicted_distribution": {
+        "away_win": 45,
+        "home_win": 49
+      }
+    },
+    "Elo差<75": {
+      "matches": 162,
+      "accuracy": 46.91,
+      "log_loss": 1.0641,
+      "brier_score": 0.6435,
+      "actual_distribution": {
+        "draw": 51,
+        "home_win": 67,
+        "away_win": 44
+      },
+      "predicted_distribution": {
+        "home_win": 131,
+        "away_win": 29,
+        "draw": 2
+      }
+    },
+    "Elo差>=250": {
+      "matches": 7,
+      "accuracy": 71.43,
+      "log_loss": 0.7584,
+      "brier_score": 0.4283,
+      "actual_distribution": {
+        "draw": 1,
+        "away_win": 2,
+        "home_win": 4
+      },
+      "predicted_distribution": {
+        "home_win": 4,
+        "away_win": 3
+      }
+    }
+  },
+  "sample_predictions": [
+    {
+      "id": "mt_197706060",
+      "date": "2025-02-21T19:45:00.000Z",
+      "competition_id": "comp_892803",
+      "home": "Portugal",
+      "away": "England",
+      "score": "1-1",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 40.3,
+        "draw": 31.2,
+        "away_win": 28.5
+      },
+      "home_elo": 1647.0,
+      "away_elo": 1649.1
+    },
+    {
+      "id": "mt_974412124",
+      "date": "2025-02-21T20:10:00.000Z",
+      "competition_id": "comp_892803",
+      "home": "France",
+      "away": "Norway",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 53.7,
+        "draw": 25.4,
+        "away_win": 20.9
+      },
+      "home_elo": 1655.9,
+      "away_elo": 1595.8
+    },
+    {
+      "id": "mt_625539364",
+      "date": "2025-02-25T20:10:00.000Z",
+      "competition_id": "comp_892803",
+      "home": "France",
+      "away": "Iceland",
+      "score": "3-2",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 73.1,
+        "draw": 16.0,
+        "away_win": 10.9
+      },
+      "home_elo": 1655.9,
+      "away_elo": 1441.9
+    },
+    {
+      "id": "mt_197706018",
+      "date": "2025-02-26T19:15:00.000Z",
+      "competition_id": "comp_892803",
+      "home": "Belgium",
+      "away": "Portugal",
+      "score": "0-1",
+      "actual": "away_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 31.2,
+        "draw": 30.8,
+        "away_win": 38.0
+      },
+      "home_elo": 1490.0,
+      "away_elo": 1647.0
+    },
+    {
+      "id": "mt_258867622",
+      "date": "2025-02-26T20:00:00.000Z",
+      "competition_id": "comp_892803",
+      "home": "England",
+      "away": "Spain",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 27.4,
+        "draw": 31.0,
+        "away_win": 41.6
+      },
+      "home_elo": 1649.1,
+      "away_elo": 1766.2
+    },
+    {
+      "id": "mt_013414950",
+      "date": "2025-03-20T10:35:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Japan",
+      "away": "Bahrain",
+      "score": "2-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 55.4,
+        "draw": 25.1,
+        "away_win": 19.5
+      },
+      "home_elo": 1601.2,
+      "away_elo": 1488.9
+    },
+    {
+      "id": "mt_830535740",
+      "date": "2025-03-20T11:00:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "South Korea",
+      "away": "Oman",
+      "score": "1-1",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 39.6,
+        "draw": 32.1,
+        "away_win": 28.3
+      },
+      "home_elo": 1547.5,
+      "away_elo": 1531.4
+    },
+    {
+      "id": "mt_745949637",
+      "date": "2025-03-20T16:00:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Uzbekistan",
+      "away": "Kyrgyzstan",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 68.4,
+        "draw": 18.9,
+        "away_win": 12.7
+      },
+      "home_elo": 1609.2,
+      "away_elo": 1393.3
+    },
+    {
+      "id": "mt_361868472",
+      "date": "2025-03-20T16:00:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Iran",
+      "away": "United Arab Emirates",
+      "score": "2-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 50.1,
+        "draw": 27.4,
+        "away_win": 22.5
+      },
+      "home_elo": 1591.6,
+      "away_elo": 1523.9
+    },
+    {
+      "id": "mt_361868236",
+      "date": "2025-03-20T18:15:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Saudi Arabia",
+      "away": "China",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 42.4,
+        "draw": 31.3,
+        "away_win": 26.3
+      },
+      "home_elo": 1479.3,
+      "away_elo": 1442.2
+    },
+    {
+      "id": "mt_257650676",
+      "date": "2025-03-20T18:15:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Jordan",
+      "away": "Palestine",
+      "score": "3-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 50.7,
+        "draw": 28.0,
+        "away_win": 21.3
+      },
+      "home_elo": 1549.2,
+      "away_elo": 1459.2
+    },
+    {
+      "id": "mt_013414588",
+      "date": "2025-03-20T18:15:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Iraq",
+      "away": "Kuwait",
+      "score": "2-2",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 47.0,
+        "draw": 28.5,
+        "away_win": 24.5
+      },
+      "home_elo": 1530.7,
+      "away_elo": 1468.6
+    },
+    {
+      "id": "mt_629323049",
+      "date": "2025-03-20T18:15:00.000Z",
+      "competition_id": "comp_8973",
+      "home": "Qatar",
+      "away": "North Korea",
+      "score": "5-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 48.2,
+        "draw": 28.7,
+        "away_win": 23.1
+      },
+      "home_elo": 1566.8,
+      "away_elo": 1492.1
+    },
+    {
+      "id": "mt_401126192",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Italy",
+      "away": "Germany",
+      "score": "1-2",
+      "actual": "away_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 32.0,
+        "draw": 33.2,
+        "away_win": 34.8
+      },
+      "home_elo": 1593.0,
+      "away_elo": 1606.8
+    },
+    {
+      "id": "mt_583391364",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Croatia",
+      "away": "France",
+      "score": "2-0",
+      "actual": "home_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 29.7,
+        "draw": 30.0,
+        "away_win": 40.3
+      },
+      "home_elo": 1567.7,
+      "away_elo": 1655.9
+    },
+    {
+      "id": "mt_019952331",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Ukraine",
+      "away": "Belgium",
+      "score": "3-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 36.6,
+        "draw": 30.8,
+        "away_win": 32.6
+      },
+      "home_elo": 1527.8,
+      "away_elo": 1490.0
+    },
+    {
+      "id": "mt_836679006",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Greece",
+      "away": "Scotland",
+      "score": "0-1",
+      "actual": "away_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 59.1,
+        "draw": 23.7,
+        "away_win": 17.2
+      },
+      "home_elo": 1620.3,
+      "away_elo": 1474.1
+    },
+    {
+      "id": "mt_740063012",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Netherlands",
+      "away": "Spain",
+      "score": "2-2",
+      "actual": "draw",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 26.1,
+        "draw": 29.5,
+        "away_win": 44.4
+      },
+      "home_elo": 1615.7,
+      "away_elo": 1766.2
+    },
+    {
+      "id": "mt_625504993",
+      "date": "2025-03-20T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Austria",
+      "away": "Serbia",
+      "score": "1-1",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 45.3,
+        "draw": 29.4,
+        "away_win": 25.3
+      },
+      "home_elo": 1553.3,
+      "away_elo": 1540.8
+    },
+    {
+      "id": "mt_258887885",
+      "date": "2025-03-20T23:00:00.000Z",
+      "competition_id": "comp_193547",
+      "home": "USA",
+      "away": "Panama",
+      "score": "0-1",
+      "actual": "away_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 35.8,
+        "draw": 32.6,
+        "away_win": 31.6
+      },
+      "home_elo": 1447.2,
+      "away_elo": 1498.4
+    },
+    {
+      "id": "mt_197753909",
+      "date": "2025-03-20T23:00:00.000Z",
+      "competition_id": "comp_4682",
+      "home": "Paraguay",
+      "away": "Chile",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 31.0,
+        "draw": 31.6,
+        "away_win": 37.4
+      },
+      "home_elo": 1422.4,
+      "away_elo": 1516.6
+    },
+    {
+      "id": "mt_740032492",
+      "date": "2025-03-21T00:45:00.000Z",
+      "competition_id": "comp_4682",
+      "home": "Brazil",
+      "away": "Colombia",
+      "score": "2-1",
+      "actual": "home_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 33.5,
+        "draw": 31.6,
+        "away_win": 34.9
+      },
+      "home_elo": 1628.8,
+      "away_elo": 1710.0
+    },
+    {
+      "id": "mt_197776773",
+      "date": "2025-03-21T02:30:00.000Z",
+      "competition_id": "comp_193547",
+      "home": "Canada",
+      "away": "Mexico",
+      "score": "0-2",
+      "actual": "away_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 43.1,
+        "draw": 31.0,
+        "away_win": 25.9
+      },
+      "home_elo": 1512.2,
+      "away_elo": 1499.5
+    },
+    {
+      "id": "mt_401494150",
+      "date": "2025-03-21T06:00:00.000Z",
+      "competition_id": "comp_7363",
+      "home": "New Zealand",
+      "away": "Fiji",
+      "score": "7-0",
+      "actual": "home_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 31.5,
+        "draw": 31.7,
+        "away_win": 36.8
+      },
+      "home_elo": 1446.4,
+      "away_elo": 1518.3
+    },
+    {
+      "id": "mt_623626945",
+      "date": "2025-03-21T16:00:00.000Z",
+      "competition_id": "comp_5720",
+      "home": "DR Congo",
+      "away": "South Sudan",
+      "score": "1-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 34.5,
+        "draw": 31.9,
+        "away_win": 33.6
+      },
+      "home_elo": 1450,
+      "away_elo": 1506.2
+    },
+    {
+      "id": "mt_407404745",
+      "date": "2025-03-21T16:00:00.000Z",
+      "competition_id": "comp_5720",
+      "home": "South Africa",
+      "away": "Lesotho",
+      "score": "0-3",
+      "actual": "away_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 49.9,
+        "draw": 28.6,
+        "away_win": 21.5
+      },
+      "home_elo": 1559.2,
+      "away_elo": 1484.5
+    },
+    {
+      "id": "mt_014010229",
+      "date": "2025-03-21T19:00:00.000Z",
+      "competition_id": "comp_5720",
+      "home": "Ghana",
+      "away": "Chad",
+      "score": "5-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 34.3,
+        "draw": 31.9,
+        "away_win": 33.8
+      },
+      "home_elo": 1442.3,
+      "away_elo": 1480.8
+    },
+    {
+      "id": "mt_258809560",
+      "date": "2025-03-21T21:00:00.000Z",
+      "competition_id": "comp_4682",
+      "home": "Ecuador",
+      "away": "Venezuela",
+      "score": "2-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 34.4,
+        "draw": 32.3,
+        "away_win": 33.3
+      },
+      "home_elo": 1562.6,
+      "away_elo": 1621.9
+    },
+    {
+      "id": "mt_362270673",
+      "date": "2025-03-21T23:30:00.000Z",
+      "competition_id": "comp_4682",
+      "home": "Uruguay",
+      "away": "Argentina",
+      "score": "0-1",
+      "actual": "away_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 23.0,
+        "draw": 28.5,
+        "away_win": 48.5
+      },
+      "home_elo": 1593.8,
+      "away_elo": 1745.5
+    },
+    {
+      "id": "mt_019070521",
+      "date": "2025-03-22T17:00:00.000Z",
+      "competition_id": "comp_2954",
+      "home": "Moldova",
+      "away": "Norway",
+      "score": "0-5",
+      "actual": "away_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 33.5,
+        "draw": 31.3,
+        "away_win": 35.2
+      },
+      "home_elo": 1541.8,
+      "away_elo": 1595.8
+    },
+    {
+      "id": "mt_836828796",
+      "date": "2025-03-22T19:45:00.000Z",
+      "competition_id": "comp_2954",
+      "home": "Czechia",
+      "away": "Faroe Islands",
+      "score": "2-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 42.2,
+        "draw": 31.0,
+        "away_win": 26.8
+      },
+      "home_elo": 1450,
+      "away_elo": 1450.9
+    },
+    {
+      "id": "mt_740063556",
+      "date": "2025-03-23T17:00:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Scotland",
+      "away": "Greece",
+      "score": "0-3",
+      "actual": "away_win",
+      "predicted": "away_win",
+      "probabilities": {
+        "home_win": 25.2,
+        "draw": 30.6,
+        "away_win": 44.2
+      },
+      "home_elo": 1474.1,
+      "away_elo": 1620.3
+    },
+    {
+      "id": "mt_362247111",
+      "date": "2025-03-23T17:00:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Serbia",
+      "away": "Austria",
+      "score": "2-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 34.5,
+        "draw": 31.4,
+        "away_win": 34.1
+      },
+      "home_elo": 1540.8,
+      "away_elo": 1553.3
+    },
+    {
+      "id": "mt_625504586",
+      "date": "2025-03-23T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Germany",
+      "away": "Italy",
+      "score": "3-3",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 45.0,
+        "draw": 32.3,
+        "away_win": 22.7
+      },
+      "home_elo": 1606.8,
+      "away_elo": 1593.0
+    },
+    {
+      "id": "mt_019952979",
+      "date": "2025-03-23T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "France",
+      "away": "Croatia",
+      "score": "2-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 53.3,
+        "draw": 24.0,
+        "away_win": 22.7
+      },
+      "home_elo": 1655.9,
+      "away_elo": 1567.7
+    },
+    {
+      "id": "mt_401126886",
+      "date": "2025-03-23T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Belgium",
+      "away": "Ukraine",
+      "score": "3-0",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 42.7,
+        "draw": 30.6,
+        "away_win": 26.7
+      },
+      "home_elo": 1490.0,
+      "away_elo": 1527.8
+    },
+    {
+      "id": "mt_197785749",
+      "date": "2025-03-23T19:45:00.000Z",
+      "competition_id": "comp_574977",
+      "home": "Spain",
+      "away": "Netherlands",
+      "score": "2-2",
+      "actual": "draw",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 59.2,
+        "draw": 22.7,
+        "away_win": 18.1
+      },
+      "home_elo": 1766.2,
+      "away_elo": 1615.7
+    },
+    {
+      "id": "mt_837649477",
+      "date": "2025-03-23T22:00:00.000Z",
+      "competition_id": "comp_193547",
+      "home": "Canada",
+      "away": "USA",
+      "score": "2-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 49.6,
+        "draw": 27.9,
+        "away_win": 22.5
+      },
+      "home_elo": 1512.2,
+      "away_elo": 1447.2
+    },
+    {
+      "id": "mt_746023267",
+      "date": "2025-03-24T01:30:00.000Z",
+      "competition_id": "comp_193547",
+      "home": "Mexico",
+      "away": "Panama",
+      "score": "2-1",
+      "actual": "home_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 40.6,
+        "draw": 32.6,
+        "away_win": 26.8
+      },
+      "home_elo": 1499.5,
+      "away_elo": 1498.4
+    },
+    {
+      "id": "mt_251896925",
+      "date": "2025-03-24T06:00:00.000Z",
+      "competition_id": "comp_7363",
+      "home": "New Caledonia",
+      "away": "New Zealand",
+      "score": "0-3",
+      "actual": "away_win",
+      "predicted": "home_win",
+      "probabilities": {
+        "home_win": 53.0,
+        "draw": 26.3,
+        "away_win": 20.7
+      },
+      "home_elo": 1524.3,
+      "away_elo": 1446.4
+    }
+  ],
+  "skipped_sample": []
+}

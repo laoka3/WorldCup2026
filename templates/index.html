@@ -1,0 +1,165 @@
+{% extends "layout.html" %}
+{% block title %}2026世界杯数据分析Agent - 真实数据首页{% endblock %}
+{% block content %}
+
+<section class="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_42%,#07111f_100%)] py-16 md:py-24">
+    <div class="absolute inset-0 pitch-grid opacity-25"></div>
+    <div class="absolute -top-24 -right-24 w-80 h-80 bg-wc-gold/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-wc-green/20 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-sm text-wc-gold mb-5">
+                    <i class="fas fa-database"></i>
+                    <span>{{ dashboard.data_note }}</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black leading-tight text-white mb-5">
+                    2026 世界杯<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-wc-gold to-green-300">真实数据分析中心</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
+                    基于 API-Football 本地缓存、2022-2024 国家队真实比赛、H2H 历史对战与 v4 Elo 算法，展示 2026 世界杯赛程与球队概率分析。
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="/analysis" class="btn-primary px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105 shadow-lg shadow-green-900/30">
+                        <i class="fas fa-robot mr-2"></i>开始 AI 分析
+                    </a>
+                    <a href="/schedule" class="btn-secondary px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105">
+                        <i class="fas fa-calendar-days mr-2"></i>查看 104 场赛程
+                    </a>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">
+                    <i class="fas fa-info-circle text-wc-green-light mr-1"></i>
+                    榜单基于 v4.5 模型全赛程蒙特卡洛模拟，显示各队夺冠概率；非单纯 Elo 排名。
+                </p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 border border-white/10 shadow-2xl">
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <p class="text-sm text-gray-400">{{ dashboard.champion_board.title }}</p>
+                        <h2 class="text-2xl font-bold text-white">{{ dashboard.champion_board.subtitle }}</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-wc-gold/20 flex items-center justify-center text-wc-gold">
+                        <i class="fas fa-ranking-star text-xl"></i>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    {% for team in dashboard.top_teams %}
+                    <div class="bg-wc-navy/70 rounded-2xl p-4 border border-white/5 hover:border-wc-gold/40 transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-full bg-wc-green flex items-center justify-center text-sm font-bold">{{ loop.index }}</span>
+                                <div>
+                                    <div class="font-bold">{{ team.name }}</div>
+                                    <div class="text-xs text-gray-400">{{ dashboard.champion_board.note }} · Elo {{ team.elo }}</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-wc-gold font-black text-xl">{{ team.score_label }}</div>
+                                <div class="text-xs text-gray-500">{{ team.style }} · {{ team.games }}场样本</div>
+                            </div>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-gray-800 overflow-hidden">
+                            <div class="h-full rounded-full bg-gradient-to-r from-wc-green to-wc-gold" style="width: {{ team.bar_width }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-10 bg-wc-navy border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+            <div class="stat-card"><span>{{ dashboard.stats.teams }}</span><p>参赛球队</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.matches }}</span><p>总赛程</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.groups }}</span><p>小组</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.venues }}</span><p>球场</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.group_matches }}</span><p>小组赛</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.knockout_matches }}</span><p>淘汰赛</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.historical_matches }}</span><p>历史比赛</p></div>
+            <div class="stat-card"><span>{{ dashboard.stats.h2h_records }}</span><p>H2H记录</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-gradient-to-b from-wc-navy to-wc-navy-light">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-3">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">FIFA official fixtures · Beijing Time</p>
+                <h2 class="text-2xl md:text-4xl font-black">2026 首轮真实赛程展示</h2>
+                <p class="text-gray-400 mt-2">比赛编号、日期、场馆和对阵来自 FIFA 2026 官方赛程；页面统一显示北京时间 UTC+8。</p>
+            </div>
+            <a href="/schedule" class="text-wc-gold hover:text-green-300 transition-colors text-sm font-semibold">
+                查看完整赛程 <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+            {% for match in matches %}
+            <div class="match-card premium-card rounded-2xl p-5 border border-white/10">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="px-3 py-1 rounded-full bg-wc-green/25 text-green-300 text-xs font-bold">{{ match.stage }} · {{ match.group }}组</span>
+                    <span class="text-xs text-gray-400">{{ match.date }}</span>
+                </div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="text-center flex-1 min-w-0">
+                        <div class="text-3xl mb-1">{{ match.home_flag }}</div>
+                        <div class="font-bold truncate">{{ match.home_team }}</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-wc-navy border border-wc-gold/40 flex items-center justify-center text-wc-gold font-black">VS</div>
+                    <div class="text-center flex-1 min-w-0">
+                        <div class="text-3xl mb-1">{{ match.away_flag }}</div>
+                        <div class="font-bold truncate">{{ match.away_team }}</div>
+                    </div>
+                </div>
+                <div class="mt-5 pt-4 border-t border-white/10 text-xs text-gray-400 space-y-2">
+                    <p><i class="far fa-clock text-wc-gold mr-2"></i>{{ match.time }}</p>
+                    <p class="truncate" title="{{ match.venue }}"><i class="fas fa-location-dot text-wc-gold mr-2"></i>{{ match.venue }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-wc-navy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="premium-card rounded-2xl p-6 border border-white/10">
+                <i class="fas fa-chart-line text-3xl text-wc-gold mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Elo 对手强度归一化</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">赢强队加分更多，赢弱队加分更少，避免简单场均进球带来的样本偏差。</p>
+            </div>
+            <div class="premium-card rounded-2xl p-6 border border-white/10">
+                <i class="fas fa-weight-hanging text-3xl text-wc-gold mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">赛事与时间加权</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">世界杯、欧洲杯、美洲杯权重更高；2024 数据影响大于 2023/2022。</p>
+            </div>
+            <div class="premium-card rounded-2xl p-6 border border-white/10">
+                <i class="fas fa-shield-halved text-3xl text-wc-gold mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">合规概率分析</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">只展示概率、实力、战术与历史数据，不提供投注、竞猜或精准比分内容。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 bg-wc-navy">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="glass-card rounded-3xl p-8 border border-white/10">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">
+                <i class="fas fa-shield-alt text-wc-green-light mr-2"></i>数据与合规声明
+            </h2>
+            <p class="text-gray-400 leading-relaxed">
+                首页展示的赛事数量、球队数量、H2H记录、Elo榜单均来自本地真实缓存与 v4 算法计算。所有分析结果属于概率性数据分析，仅供参考；平台不提供任何彩票、投注、竞猜、精准比分相关内容。
+            </p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
