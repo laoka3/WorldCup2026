@@ -69,14 +69,12 @@ export APIFOOTBALL_API_KEY="your_api_key"
 # TheStatsAPI，可选，用于刷新高级统计数据
 export THESTATS_API_KEY="your_api_key"
 
-# 大模型解读，可选，只影响自然语言解释，不影响预测概率
+# 大模型解读，可选，只影响自然语言解释，不影响预测概率，apikey可以在https://api.mirrorworkforce.cn站点申请
 export LLM_API_KEY="your_api_key"
 export LLM_BASE_URL="https://api.mirrorworkforce.cn/v1"
 export LLM_MODEL="gpt-5.5"
 export LLM_TIMEOUT="90"
 
-# 新闻接口，可选
-export BING_NEWS_API_KEY="your_api_key"
 ```
 
 Windows PowerShell 示例：
