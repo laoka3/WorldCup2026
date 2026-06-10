@@ -5,7 +5,9 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 ## 功能特性
 
 - 2026 世界杯赛程与球队数据展示
+- 首页赛程卡片点击后直接进入单场分析并自动预测
 - 单场比赛胜平负概率预测
+- 赛前情境 Agent：根据真实赛程、场地、东道主和海拔做小幅概率修正
 - Dixon-Coles 修正 Poisson 可能比分分布
 - TheStatsAPI 高级数据质量评分与权重降级
 - v4.5 模型校准与 2025-2026 非友谊赛回测报告
@@ -35,8 +37,10 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 ├── simulate_wc2026_once.py                 # 单次世界杯模拟脚本
 ├── data/
 │   ├── teams.json                          # 球队数据
-│   ├── schedule.json                       # 赛程数据
-│   └── news.json                           # 新闻数据
+│   ├── schedule.json                       # 早期占位赛程数据
+│   ├── news.json                           # 新闻数据
+│   └── cache/
+│       └── wc2026_schedule.json            # 2026 世界杯官方赛程缓存，含 104 场、场地和北京时间
 ├── templates/                              # 页面模板
 ├── static/                                 # 静态资源
 ├── requirements.txt
@@ -135,6 +139,7 @@ Elo 评分
 + TheStatsAPI 高级数据修正
 + TheStatsAPI 数据质量评分与权重降级
 + H2H 修正
++ 赛前情境 Agent 场地/东道主/海拔修正
 + Dixon-Coles 修正 Poisson 比分模型
 + 回测校准参数
 + 蒙特卡洛模拟
@@ -184,7 +189,8 @@ simulate_wc2026_monte_carlo_out.json
 
 ## 数据与安全
 
-- `data/cache/` 为本地 API 缓存，已通过 `.gitignore` 排除。
+- `data/cache/wc2026_schedule.json` 是随仓库提交的 2026 世界杯官方赛程缓存，用于首页赛程和赛前情境 Agent。
+- 其他 `data/cache/` 本地 API 缓存默认通过 `.gitignore` 排除。
 - `.env`、`.env.*` 已排除。
 - 代码中不应提交任何真实 API Key。
 - 大模型 API Key 不会在页面回显明文或片段。

@@ -1035,14 +1035,141 @@ def calculate_advanced_elo_adjustment(team):
     }
 
 
+def _load_schedule_matches():
+    schedule = _load_wc2026_schedule() or {}
+    matches = schedule.get("matches", []) if isinstance(schedule, dict) else []
+    if matches:
+        return matches
+    path = os.path.join(BASE_DIR, "data", "schedule.json")
+    if not os.path.exists(path):
+        return []
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get("matches", []) if isinstance(data, dict) else []
+
+
+HOST_TEAM_COUNTRIES = {
+    "美国": "USA",
+    "加拿大": "Canada",
+    "墨西哥": "Mexico",
+}
+
+VENUE_CONTEXTS = [
+    {"keys": ["阿兹特克", "墨西哥城", "Azteca"], "stadium": "阿兹特克体育场", "city": "墨西哥城", "country": "Mexico", "altitude_m": 2240, "climate_note": "高海拔，对不适应球队的体能和恢复有额外压力。"},
+    {"keys": ["AT&T", "阿灵顿", "Dallas"], "stadium": "AT&T Stadium", "city": "阿灵顿", "country": "USA", "altitude_m": 184, "climate_note": "可控屋顶环境，天气直接影响较低。"},
+    {"keys": ["玫瑰碗", "洛杉矶", "Rose Bowl"], "stadium": "玫瑰碗", "city": "洛杉矶", "country": "USA", "altitude_m": 263, "climate_note": "温暖干燥环境，天气影响通常中低。"},
+    {"keys": ["吉列", "波士顿", "Gillette"], "stadium": "吉列体育场", "city": "波士顿", "country": "USA", "altitude_m": 88, "climate_note": "东北部气候，需关注临近天气。"},
+    {"keys": ["大都会", "纽约", "新泽西", "MetLife"], "stadium": "大都会体育场", "city": "纽约/新泽西", "country": "USA", "altitude_m": 2, "climate_note": "低海拔露天环境，需关注降雨和风。"},
+    {"keys": ["李维斯", "旧金山", "Levi"], "stadium": "李维斯体育场", "city": "旧金山湾区", "country": "USA", "altitude_m": 2, "climate_note": "低海拔，温和气候。"},
+    {"keys": ["BC体育场", "温哥华", "BC Place"], "stadium": "BC体育场", "city": "温哥华", "country": "Canada", "altitude_m": 70, "climate_note": "可控屋顶环境，天气直接影响较低。"},
+    {"keys": ["BMO", "多伦多"], "stadium": "BMO体育场", "city": "多伦多", "country": "Canada", "altitude_m": 76, "climate_note": "低海拔，需关注临近天气。"},
+    {"keys": ["费城", "林肯"], "stadium": "林肯金融体育场", "city": "费城", "country": "USA", "altitude_m": 12, "climate_note": "低海拔露天环境。"},
+    {"keys": ["休斯顿", "NRG"], "stadium": "NRG体育场", "city": "休斯顿", "country": "USA", "altitude_m": 13, "climate_note": "湿热风险较高，但屋顶可降低天气影响。"},
+    {"keys": ["亚特兰大", "梅赛德斯"], "stadium": "梅赛德斯-奔驰体育场", "city": "亚特兰大", "country": "USA", "altitude_m": 320, "climate_note": "可控屋顶环境，天气直接影响较低。"},
+    {"keys": ["迈阿密", "硬石"], "stadium": "硬石体育场", "city": "迈阿密", "country": "USA", "altitude_m": 2, "climate_note": "湿热风险较高，体能消耗可能增加。"},
+]
+
+
+def _venue_context(venue):
+    text = venue or ""
+    for item in VENUE_CONTEXTS:
+        if any(key.lower() in text.lower() for key in item["keys"]):
+            return {k: v for k, v in item.items() if k != "keys"}
+    return {"stadium": venue or "未知场地", "city": "未知", "country": "Unknown", "altitude_m": None, "climate_note": "暂无稳定场地资料。"}
+
+
+def _find_scheduled_match(home_name, away_name):
+    home_n = _normalize_name(home_name)
+    away_n = _normalize_name(away_name)
+    for match in _load_schedule_matches():
+        mh = _normalize_name(match.get("home_team", ""))
+        ma = _normalize_name(match.get("away_team", ""))
+        if mh == home_n and ma == away_n:
+            return match
+        if mh == away_n and ma == home_n:
+            swapped = dict(match)
+            swapped["home_team"], swapped["away_team"] = match.get("away_team"), match.get("home_team")
+            swapped["home_flag"], swapped["away_flag"] = match.get("away_flag"), match.get("home_flag")
+            swapped["swapped_from_schedule"] = True
+            return swapped
+    return None
+
+
+def search_match_context(home_team, away_team):
+    """赛前情境 Agent：用当前可稳定获得的赛程/场地数据补充预测。天气和伤停保留为待接入项。"""
+    home_name = home_team.get("name", "")
+    away_name = away_team.get("name", "")
+    match = _find_scheduled_match(home_name, away_name)
+    venue = _venue_context(match.get("venue") if match else "")
+    home_country = HOST_TEAM_COUNTRIES.get(home_name)
+    away_country = HOST_TEAM_COUNTRIES.get(away_name)
+    home_delta = 0.0
+    away_delta = 0.0
+    factors = []
+
+    if match:
+        factors.append({"factor": "赛程匹配", "value": f"{match.get('date', '未知日期')} · {match.get('venue', '未知场地')}", "home_elo_delta": 0, "away_elo_delta": 0})
+    else:
+        factors.append({"factor": "赛程匹配", "value": "未在本地2026赛程中找到完全匹配，按中立/未知场地处理", "home_elo_delta": 0, "away_elo_delta": 0})
+
+    if home_country and venue.get("country") == home_country:
+        home_delta += 20
+        factors.append({"factor": "东道主真实主场", "value": f"{home_name}在{venue.get('city')}比赛", "home_elo_delta": 20, "away_elo_delta": 0})
+    if away_country and venue.get("country") == away_country:
+        away_delta += 20
+        factors.append({"factor": "东道主真实主场", "value": f"{away_name}在{venue.get('city')}比赛", "home_elo_delta": 0, "away_elo_delta": 20})
+
+    altitude = venue.get("altitude_m")
+    if altitude and altitude >= 1500:
+        if home_country and venue.get("country") == home_country:
+            home_delta += 12
+            away_delta -= 6
+            factors.append({"factor": "高海拔适应", "value": f"{venue.get('city')}约{altitude}米", "home_elo_delta": 12, "away_elo_delta": -6})
+        elif away_country and venue.get("country") == away_country:
+            away_delta += 12
+            home_delta -= 6
+            factors.append({"factor": "高海拔适应", "value": f"{venue.get('city')}约{altitude}米", "home_elo_delta": -6, "away_elo_delta": 12})
+        else:
+            factors.append({"factor": "高海拔场地", "value": f"{venue.get('city')}约{altitude}米，双方均按中性影响处理", "home_elo_delta": 0, "away_elo_delta": 0})
+
+    if venue.get("city") in {"迈阿密", "休斯顿"}:
+        factors.append({"factor": "湿热风险", "value": venue.get("climate_note"), "home_elo_delta": 0, "away_elo_delta": 0})
+
+    home_delta = max(-35, min(35, home_delta))
+    away_delta = max(-35, min(35, away_delta))
+    confidence = 0.65 if match else 0.25
+    if not match:
+        confidence = 0.2
+
+    return {
+        "enabled": True,
+        "status": "local_context_agent",
+        "match_found": bool(match),
+        "match": match,
+        "venue": venue,
+        "weather": {"status": "pending", "note": "未接入稳定天气 API，暂不参与概率修正。"},
+        "team_news": {"status": "pending", "note": "未接入稳定伤停来源，暂不参与概率修正。"},
+        "adjustment": {
+            "home_elo_delta": round(home_delta, 1),
+            "away_elo_delta": round(away_delta, 1),
+            "confidence": confidence,
+        },
+        "factors": factors,
+        "sources": ["data/cache/wc2026_schedule.json", "内置2026世界杯场地城市/海拔表"],
+        "note": "第一版仅使用本地赛程和场地资料；天气、伤停等无稳定来源时不会修正概率。",
+    }
+
+
 def calculate_match_result_prob(home_team, away_team, h2h_data=None):
-    """v4.5 胜平负概率: Elo基准 + TheStatsAPI质量降权 + H2H + Dixon-Coles比分模型融合"""
+    """v4.5 胜平负概率: Elo基准 + TheStatsAPI质量降权 + H2H + Dixon-Coles比分模型融合 + 赛前情境Agent"""
     home_base_elo = home_team.get("elo_rating", 1450)
     away_base_elo = away_team.get("elo_rating", 1450)
     home_adv = calculate_advanced_elo_adjustment(home_team)
     away_adv = calculate_advanced_elo_adjustment(away_team)
-    home_elo = home_base_elo + home_adv["elo_delta"]
-    away_elo = away_base_elo + away_adv["elo_delta"]
+    context_agent = search_match_context(home_team, away_team)
+    context_adj = context_agent.get("adjustment", {})
+    home_elo = home_base_elo + home_adv["elo_delta"] + context_adj.get("home_elo_delta", 0)
+    away_elo = away_base_elo + away_adv["elo_delta"] + context_adj.get("away_elo_delta", 0)
     params = get_model_calibration()["params"]
 
     normalized_h2h = None
@@ -1074,6 +1201,7 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
         "advanced_adjustment": {
             "home": home_adv,
             "away": away_adv,
+            "context_agent": context_agent,
             "home_adjusted_elo": round(home_elo, 1),
             "away_adjusted_elo": round(away_elo, 1),
             "home_base_elo": round(home_base_elo, 1),
@@ -1495,8 +1623,18 @@ def _call_openai_compatible_llm(payload):
 
     try:
         with urllib.request.urlopen(request, timeout=LLM_TIMEOUT) as response:
-            raw = json.loads(response.read().decode("utf-8"))
-        content = raw["choices"][0]["message"]["content"].strip()
+            response_text = response.read().decode("utf-8", errors="ignore").strip()
+        if not response_text:
+            LLM_LAST_ERROR = "大模型接口返回空响应"
+            return None
+        raw = json.loads(response_text)
+        content = (raw.get("choices") or [{}])[0].get("message", {}).get("content")
+        if content is None:
+            content = (raw.get("choices") or [{}])[0].get("text")
+        content = (content or "").strip()
+        if not content:
+            LLM_LAST_ERROR = "大模型返回内容为空"
+            return None
         try:
             parsed = _extract_json_object(content)
             summary = _llm_text(parsed.get("summary"))
@@ -1527,12 +1665,14 @@ def _call_openai_compatible_llm(payload):
         LLM_LAST_ERROR = f"网络错误：{exc.reason}"
     except TimeoutError:
         LLM_LAST_ERROR = "请求超时"
-    except (KeyError, ValueError, json.JSONDecodeError) as exc:
+    except json.JSONDecodeError as exc:
+        LLM_LAST_ERROR = f"响应不是有效JSON：{exc.msg}"
+    except (KeyError, IndexError, ValueError, TypeError) as exc:
         LLM_LAST_ERROR = f"响应解析失败：{exc}"
     return None
 
 
-def generate_llm_match_analysis(home_team, away_team, result_prob, possible_scores, tactical, strength_comp, h2h_summary, calibration):
+def generate_llm_match_analysis(home_team, away_team, result_prob, possible_scores, tactical, strength_comp, h2h_summary, calibration, context_agent=None):
     raw_dimensions = strength_comp.get("dimensions") or []
     if isinstance(raw_dimensions, dict):
         compact_dimensions = list(raw_dimensions.values())[:12]
@@ -1552,6 +1692,16 @@ def generate_llm_match_analysis(home_team, away_team, result_prob, possible_scor
             "draws": h2h_summary.get("平局"),
             "avg_goals": h2h_summary.get("avg_goals"),
         }
+    compact_context = None
+    if context_agent:
+        compact_context = {
+            "match_found": context_agent.get("match_found"),
+            "venue": context_agent.get("venue"),
+            "adjustment": context_agent.get("adjustment"),
+            "factors": context_agent.get("factors"),
+            "weather_note": (context_agent.get("weather") or {}).get("note"),
+            "team_news_note": (context_agent.get("team_news") or {}).get("note"),
+        }
     payload = {
         "match": {"home_team": home_team["name"], "away_team": away_team["name"]},
         "v4_5_result_probability": {
@@ -1568,6 +1718,7 @@ def generate_llm_match_analysis(home_team, away_team, result_prob, possible_scor
             "dimensions": compact_dimensions,
         },
         "tactical_analysis": tactical,
+        "pre_match_context_agent": compact_context,
         "h2h_history": compact_h2h,
         "model_calibration": {
             "version": calibration.get("version"),
@@ -1594,6 +1745,7 @@ def run_full_analysis(home_team_name, away_team_name):
     h2h = get_h2h(home_team_name, away_team_name)
 
     result_prob = calculate_match_result_prob(home_team, away_team, h2h)
+    context_agent = (result_prob.get("advanced_adjustment") or {}).get("context_agent")
     goal_range = calculate_goal_range(home_team, away_team)
     possible_scores = calculate_possible_scores(home_team, away_team, result_prob)
     tactical = analyze_tactical_style(home_team, away_team)
@@ -1621,7 +1773,7 @@ def run_full_analysis(home_team_name, away_team_name):
         "accuracy": calibration["metrics"]["accuracy"],
         "params": calibration["params"],
     }
-    llm_analysis = generate_llm_match_analysis(home_team, away_team, result_prob, possible_scores, tactical, strength_comp, h2h_summary, calibration_summary)
+    llm_analysis = generate_llm_match_analysis(home_team, away_team, result_prob, possible_scores, tactical, strength_comp, h2h_summary, calibration_summary, context_agent)
 
     return {
         "match": {"home_team": home_team_name, "away_team": away_team_name,
@@ -1636,7 +1788,8 @@ def run_full_analysis(home_team_name, away_team_name):
         "strength_comparison": strength_comp,
         "h2h_history": h2h_summary,
         "model_calibration": calibration_summary,
-        "data_source": f"API-Football v3 | TheStatsAPI 高级统计/球员评分/首发强度 | 2022-2024 国际赛事 {match_count}场 | Elo评分 + 2024回测校准 | 2026 预测",
+        "context_agent": context_agent,
+        "data_source": f"API-Football v3 | TheStatsAPI 高级统计/球员评分/首发强度 | 赛前情境Agent | 2022-2024 国际赛事 {match_count}场 | Elo评分 + 2024回测校准 | 2026 预测",
         "disclaimer": f"本分析基于 Elo 评分系统（{match_count}场国家队比赛、赛事加权、时间衰减）、TheStatsAPI近况高级统计、球员评分、首发强度和2024回测校准参数。高级特征以小幅 Elo 修正方式进入胜平负概率。回测指标: Log Loss {calibration['metrics']['log_loss']}、Brier {calibration['metrics']['brier_score']}、样本 {calibration['metrics']['matches']} 场。结果为概率性分析，仅供参考。",
     }
 

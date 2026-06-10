@@ -142,9 +142,16 @@
                 <div class="mt-6 p-4 bg-wc-navy rounded-xl border border-gray-700">
                     <p class="text-xs text-gray-400 flex items-start">
                         <i class="fas fa-shield-alt text-wc-gold mr-2 mt-0.5"></i>
-                        <span>概率分析基于 Elo评分、真实历史赛果、H2H、TheStatsAPI 高级统计、球员/首发评分、赛事权重、时间衰减与2024回测校准参数综合计算，并非比赛结果承诺。足球比赛结果受临场发挥、裁判判罚、天气等众多不可控因素影响。</span>
+                        <span>概率分析基于 Elo评分、真实历史赛果、H2H、TheStatsAPI 高级统计、球员/首发评分、赛事权重、时间衰减、赛前情境 Agent 与回测校准参数综合计算，并非比赛结果承诺。足球比赛结果受临场发挥、裁判判罚、天气等众多不可控因素影响。</span>
                     </p>
                 </div>
+            </div>
+
+            <div id="context-agent-section" class="hidden bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-satellite-dish text-wc-gold mr-2"></i>赛前情境 Agent
+                </h3>
+                <div id="context-agent-content"></div>
             </div>
 
             <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
@@ -236,6 +243,15 @@
     const reloadLlmConfigBtn = document.getElementById('reload-llm-config-btn');
 
     loadLLMConfig();
+
+    const initialParams = new URLSearchParams(window.location.search);
+    const initialHome = initialParams.get('home');
+    const initialAway = initialParams.get('away');
+    if (initialHome) homeSelect.value = initialHome;
+    if (initialAway) awaySelect.value = initialAway;
+    if (initialHome && initialAway && initialHome !== initialAway) {
+        window.setTimeout(() => analyzeBtn.click(), 300);
+    }
 
     saveLlmConfigBtn.addEventListener('click', saveLLMConfig);
     reloadLlmConfigBtn.addEventListener('click', loadLLMConfig);
@@ -358,6 +374,7 @@
 
     function renderResults(data) {
         renderProbability(data.result_probability);
+        renderContextAgent(data.context_agent || (data.result_probability?.advanced_adjustment || {}).context_agent);
         renderLLMAnalysis(data.llm_analysis);
         renderPossibleScores(data.possible_scores);
         renderGoalRange(data.goal_range_analysis);
@@ -418,6 +435,56 @@
                 </div>
                 <div class="text-sm text-gray-300 mb-3">基础 Elo <span class="text-white font-bold">${baseElo}</span> → 修正后 <span class="text-white font-bold">${adjustedElo}</span>，修正 <span class="${data.elo_delta >= 0 ? 'text-green-400' : 'text-red-400'} font-bold">${data.elo_delta >= 0 ? '+' : ''}${data.elo_delta}</span></div>
                 <div class="flex flex-wrap gap-2">${factorHtml || '<span class="text-xs text-gray-500">暂无高级统计样本</span>'}</div>
+            </div>
+        `;
+    }
+
+    function renderContextAgent(data) {
+        const section = document.getElementById('context-agent-section');
+        const container = document.getElementById('context-agent-content');
+        if (!section || !container) return;
+        if (!data || !data.enabled) {
+            section.classList.add('hidden');
+            return;
+        }
+        section.classList.remove('hidden');
+        const venue = data.venue || {};
+        const match = data.match || {};
+        const adj = data.adjustment || {};
+        const factors = (data.factors || []).map(f => `
+            <li class="flex items-start text-sm text-gray-300 leading-relaxed">
+                <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
+                <span>${f.factor}：${f.value}<span class="ml-2 text-xs text-gray-500">主队 ${Number(f.home_elo_delta || 0) >= 0 ? '+' : ''}${f.home_elo_delta || 0} / 客队 ${Number(f.away_elo_delta || 0) >= 0 ? '+' : ''}${f.away_elo_delta || 0}</span></span>
+            </li>
+        `).join('');
+        const sources = (data.sources || []).map(s => `<span class="inline-flex px-2 py-1 rounded bg-gray-800 text-gray-400 text-xs">${s}</span>`).join(' ');
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-wc-gold font-semibold mb-2">比赛场地</div>
+                    <div class="text-lg font-bold text-white mb-1">${venue.stadium || match.venue || '未知场地'}</div>
+                    <div class="text-sm text-gray-400">${venue.city || '未知城市'} · ${venue.country || '未知国家'}</div>
+                    <div class="text-sm text-gray-400 mt-1">海拔：${venue.altitude_m === null || venue.altitude_m === undefined ? '暂无' : venue.altitude_m + ' 米'}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-wc-gold font-semibold mb-2">情境 Elo 修正</div>
+                    <div class="text-sm text-gray-300">主队：<span class="font-bold ${Number(adj.home_elo_delta || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${Number(adj.home_elo_delta || 0) >= 0 ? '+' : ''}${adj.home_elo_delta || 0}</span></div>
+                    <div class="text-sm text-gray-300">客队：<span class="font-bold ${Number(adj.away_elo_delta || 0) >= 0 ? 'text-green-400' : 'text-red-400'}">${Number(adj.away_elo_delta || 0) >= 0 ? '+' : ''}${adj.away_elo_delta || 0}</span></div>
+                    <div class="text-xs text-gray-500 mt-2">置信度：${Math.round((adj.confidence || 0) * 100)}%</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-wc-gold font-semibold mb-2">天气 / 伤停</div>
+                    <div class="text-sm text-gray-300">天气：${(data.weather || {}).note || '暂无'}</div>
+                    <div class="text-sm text-gray-300 mt-1">伤停：${(data.team_news || {}).note || '暂无'}</div>
+                </div>
+            </div>
+            <div class="bg-wc-navy rounded-xl p-5 border border-gray-700 mb-4">
+                <div class="text-xs text-wc-gold font-semibold mb-3">修正依据</div>
+                <ul class="space-y-2">${factors || '<li class="text-sm text-gray-500">暂无情境修正</li>'}</ul>
+            </div>
+            <div class="text-xs text-gray-500 leading-relaxed">
+                <i class="fas fa-info-circle text-wc-green-light mr-1"></i>${data.note || '情境 Agent 只做小幅概率修正。'}
+                <div class="mt-2 flex flex-wrap gap-2">${sources}</div>
             </div>
         `;
     }

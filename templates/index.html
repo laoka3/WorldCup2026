@@ -101,7 +101,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
             {% for match in matches %}
-            <div class="match-card premium-card rounded-2xl p-5 border border-white/10">
+            <a href="/analysis?home={{ match.home_team|urlencode }}&away={{ match.away_team|urlencode }}" class="match-card premium-card rounded-2xl p-5 border border-white/10 block hover:border-wc-gold/50 transition-all" title="点击直接分析 {{ match.home_team }} vs {{ match.away_team }}">
                 <div class="flex justify-between items-center mb-4">
                     <span class="px-3 py-1 rounded-full bg-wc-green/25 text-green-300 text-xs font-bold">{{ match.stage }} · {{ match.group }}组</span>
                     <span class="text-xs text-gray-400">{{ match.date }}</span>
@@ -121,7 +121,7 @@
                     <p><i class="far fa-clock text-wc-gold mr-2"></i>{{ match.time }}</p>
                     <p class="truncate" title="{{ match.venue }}"><i class="fas fa-location-dot text-wc-gold mr-2"></i>{{ match.venue }}</p>
                 </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </div>

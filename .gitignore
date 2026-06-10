@@ -8,7 +8,8 @@ __pycache__/
 .idea/
 
 # local/API cache and generated runtime artifacts
-data/cache/
+data/cache/*
+!data/cache/wc2026_schedule.json
 encoding_test.json
 report.pdf
 
