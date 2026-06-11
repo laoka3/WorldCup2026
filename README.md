@@ -16,7 +16,7 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 
 ## 技术栈
 
-- Python 3
+- Python 3.10+
 - Flask
 - Requests
 - HTML / CSS / JavaScript
@@ -26,43 +26,78 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 
 ```text
 .
-├── app.py                                  # Flask 入口
-├── ai_engine.py                            # 核心预测与解读引擎
-├── api_client.py                           # API-Football / TheStatsAPI 客户端
-├── sync_historical.py                      # 历史数据同步脚本
-├── build_wc2026.py                         # 世界杯基础数据构建脚本
-├── backtest_thestats_2025_2026.py          # TheStatsAPI 2025-2026 回测
-├── search_v44_params.py                    # 参数搜索脚本
-├── simulate_wc2026_monte_carlo.py          # 蒙特卡洛模拟脚本
-├── simulate_wc2026_once.py                 # 单次世界杯模拟脚本
+├── app.py                                      # Flask Web 应用入口，定义页面路由和 API 路由
+├── ai_engine.py                                # 核心预测、模型校准、新闻与大模型解读逻辑
+├── api_client.py                               # API-Football / TheStatsAPI 数据客户端与缓存逻辑
+├── build_wc2026.py                             # 世界杯基础赛程、球队、场馆数据构建脚本
+├── sync_historical.py                          # 历史比赛数据同步脚本，需要 APIFOOTBALL_API_KEY
+├── backtest_thestats_2025_2026.py              # TheStatsAPI 2025-2026 非友谊赛回测脚本
+├── search_v44_params.py                        # v4.4/v4.5 参数搜索脚本
+├── simulate_wc2026_once.py                     # 单次世界杯赛程模拟脚本
+├── simulate_wc2026_monte_carlo.py              # 多轮蒙特卡洛模拟脚本
+├── model_calibration_v4_3_out.json             # v4.3 校准输出
+├── model_calibration_v4_4_thestats_out.json    # v4.4 TheStats 校准输出
+├── thestats_2025_2026_backtest_report.json     # TheStats 回测报告输出
+├── simulate_wc2026_once_out.json               # 单次模拟输出
+├── simulate_wc2026_monte_carlo_out.json        # 蒙特卡洛模拟输出
 ├── data/
-│   ├── teams.json                          # 球队数据
-│   ├── schedule.json                       # 早期占位赛程数据
-│   ├── news.json                           # 新闻数据
+│   ├── teams.json                              # 球队基础数据、中文名、能力值等
+│   ├── schedule.json                           # 早期占位赛程数据
+│   ├── news.json                               # 本地新闻兜底数据
 │   └── cache/
-│       └── wc2026_schedule.json            # 2026 世界杯官方赛程缓存，含 104 场、场地和北京时间
-├── templates/                              # 页面模板
-├── static/                                 # 静态资源
-├── requirements.txt
-└── .gitignore
+│       └── wc2026_schedule.json                # 2026 世界杯官方赛程缓存，含 104 场、场地和北京时间
+├── templates/
+│   ├── layout.html                             # 全站基础布局、导航和公共资源
+│   ├── index.html                              # 首页
+│   ├── analysis.html                           # 单场比赛分析页
+│   ├── schedule.html                           # 赛程页
+│   └── about.html                              # 项目说明页
+├── static/
+│   ├── css/
+│   │   └── style.css                           # 自定义样式
+│   ├── js/
+│   │   └── main.js                             # 前端交互脚本
+│   └── img/
+│       └── news-placeholder.svg                # 新闻占位图
+├── requirements.txt                            # Python 运行依赖
+├── .gitignore                                  # 本地缓存、密钥和临时文件排除规则
+└── README.md
 ```
 
-## 安装与运行
+## 第一次使用
 
-### 1. 克隆仓库
+项目可以在 macOS 和 Windows 上直接用 Python 虚拟环境运行。首次使用建议先确认 Python 版本：
+
+```bash
+python --version
+```
+
+如果系统里同时装了多个 Python 版本，macOS 通常使用 `python3`，Windows 通常使用 `py -3`。
+
+### macOS 配置环境
+
+1. 克隆仓库并进入目录：
 
 ```bash
 git clone https://github.com/WJS-WEB/WorldCup.git
 cd WorldCup
 ```
 
-### 2. 安装依赖
+2. 创建并启用虚拟环境：
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+3. 升级 pip 并安装依赖：
+
+```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 3. 配置环境变量
+4. 按需配置环境变量：
 
 项目不会在代码中保存 API Key。需要按需配置环境变量。
 
@@ -78,20 +113,9 @@ export LLM_API_KEY="your_api_key"
 export LLM_BASE_URL="https://api.mirrorworkforce.cn/v1"
 export LLM_MODEL="gpt-5.5"
 export LLM_TIMEOUT="90"
-
 ```
 
-Windows PowerShell 示例：
-
-```powershell
-$env:THESTATS_API_KEY="your_api_key"
-$env:LLM_API_KEY="your_api_key"
-$env:LLM_BASE_URL="https://api.mirrorworkforce.cn/v1"
-$env:LLM_MODEL="gpt-5.5"
-$env:LLM_TIMEOUT="90"
-```
-
-### 4. 启动应用
+5. 启动应用：
 
 ```bash
 python app.py
@@ -101,6 +125,93 @@ python app.py
 
 ```text
 http://127.0.0.1:5000
+```
+
+### Windows 配置环境
+
+以下命令在 PowerShell 中执行。
+
+1. 克隆仓库并进入目录：
+
+```powershell
+git clone https://github.com/WJS-WEB/WorldCup.git
+cd WorldCup
+```
+
+2. 创建并启用虚拟环境：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+如果 PowerShell 提示脚本执行策略限制，可以只对当前用户放开本地脚本执行：
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+.\.venv\Scripts\Activate.ps1
+```
+
+3. 升级 pip 并安装依赖：
+
+```powershell
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+4. 按需配置环境变量：
+
+```powershell
+$env:APIFOOTBALL_API_KEY="your_api_key"
+$env:THESTATS_API_KEY="your_api_key"
+$env:LLM_API_KEY="your_api_key"
+$env:LLM_BASE_URL="https://api.mirrorworkforce.cn/v1"
+$env:LLM_MODEL="gpt-5.5"
+$env:LLM_TIMEOUT="90"
+```
+
+5. 启动应用：
+
+```powershell
+python app.py
+```
+
+浏览器访问：
+
+```text
+http://127.0.0.1:5000
+```
+
+### 环境变量说明
+
+所有环境变量都是可选项，不配置也可以使用仓库内置数据启动页面和本地预测。需要刷新外部数据或启用大模型解读时再配置对应 Key。
+
+| 变量名 | 是否必需 | 用途 |
+| --- | --- | --- |
+| `APIFOOTBALL_API_KEY` | 可选 | API-Football 历史比赛数据同步 |
+| `THESTATS_API_KEY` | 可选 | TheStatsAPI 高级统计数据刷新 |
+| `LLM_API_KEY` | 可选 | 大模型赛果解读 |
+| `LLM_BASE_URL` | 可选 | 大模型接口地址，默认 `https://api.mirrorworkforce.cn/v1` |
+| `LLM_MODEL` | 可选 | 大模型名称，默认 `gpt-5.5` |
+| `LLM_TIMEOUT` | 可选 | 大模型请求超时时间，默认 `20` 秒 |
+| `BING_NEWS_API_KEY` | 可选 | 新闻搜索接口 Key |
+| `BING_NEWS_API_HOST` | 可选 | 新闻搜索接口 Host |
+| `BING_NEWS_API_URL` | 可选 | 新闻搜索接口 URL |
+
+### 常用命令
+
+```bash
+# 启动 Web 应用
+python app.py
+
+# 运行 TheStatsAPI 回测
+python backtest_thestats_2025_2026.py
+
+# 搜索模型参数
+python search_v44_params.py
+
+# 运行蒙特卡洛模拟
+python simulate_wc2026_monte_carlo.py
 ```
 
 ## 主要页面
