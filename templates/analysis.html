@@ -7,7 +7,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <p class="text-wc-gold font-semibold mb-2">v4.5 Probability Engine</p>
         <h1 class="text-3xl md:text-5xl font-black mb-3">单场概率分析</h1>
-        <p class="text-gray-300 max-w-3xl mx-auto">选择两支球队，基于 {{ stats.historical_matches }} 场国家队比赛、{{ stats.h2h_records }} 条 H2H 记录、Elo、TheStatsAPI、Dixon-Coles 和回测校准，生成胜平负概率、战术和实力对比。</p>
+        <p class="text-gray-300 max-w-3xl mx-auto">选择两支球队，优先基于世界杯预选赛、最近热身赛、本地球队画像、H2H、Dixon-Coles 和回测校准生成胜平负概率、战术和实力对比；TheStats 仅作为可选增强。</p>
+        {% if dashboard.data_warning %}
+        <div class="mt-5 max-w-4xl mx-auto rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100 leading-relaxed">
+            <i class="fas fa-triangle-exclamation text-wc-gold mr-1"></i>{{ dashboard.data_warning }}
+        </div>
+        {% endif %}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
             <div class="stat-card"><span>{{ stats.historical_matches }}</span><p>历史比赛</p></div>
             <div class="stat-card"><span>{{ stats.validation_matches }}</span><p>回测样本</p></div>
@@ -74,7 +79,7 @@
 
             <p class="text-xs text-gray-500 mt-3 flex items-center">
                 <i class="fas fa-info-circle mr-1 text-wc-green-light"></i>
-                概率分析基于 2022-2024 真实国家队比赛、H2H 记录、Elo 评分、赛事权重、时间衰减和回测校准，结果属于概率性分析，仅供参考。
+                概率分析优先使用世界杯预选赛与最近热身赛；当前 API plan 无法读取对应赛季时，会明确降级到本地球队画像或占位值。
             </p>
         </div>
 
@@ -131,7 +136,9 @@
 
         <div id="error-message" class="hidden bg-red-900/30 border border-red-800 rounded-xl p-4 mb-6 text-red-300 text-sm"></div>
 
-        <div id="analysis-result" class="hidden space-y-6">
+            <div id="analysis-result" class="hidden space-y-6">
+
+            <div id="data-health-warning" class="hidden rounded-2xl p-4 border border-yellow-700/60 bg-yellow-900/20 text-yellow-100 text-sm leading-relaxed"></div>
 
             <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
                 <h3 class="text-lg font-bold mb-6 flex items-center">
@@ -142,7 +149,7 @@
                 <div class="mt-6 p-4 bg-wc-navy rounded-xl border border-gray-700">
                     <p class="text-xs text-gray-400 flex items-start">
                         <i class="fas fa-shield-alt text-wc-gold mr-2 mt-0.5"></i>
-                        <span>概率分析基于 Elo评分、真实历史赛果、H2H、TheStatsAPI 高级统计、球员/首发评分、赛事权重、时间衰减、赛前情境 Agent 与回测校准参数综合计算，并非比赛结果承诺。足球比赛结果受临场发挥、裁判判罚、天气等众多不可控因素影响。</span>
+                        <span>概率分析优先基于世界杯预选赛、最近热身赛、本地球队画像、H2H、赛前情境 Agent 与回测校准参数；TheStats 高级数据只在缓存存在时作为增强项。足球比赛结果受临场发挥、裁判判罚、天气等众多不可控因素影响。</span>
                     </p>
                 </div>
             </div>
@@ -152,6 +159,27 @@
                     <i class="fas fa-satellite-dish text-wc-gold mr-2"></i>赛前情境 Agent
                 </h3>
                 <div id="context-agent-content"></div>
+            </div>
+
+            <div id="qualification-section" class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-trophy text-wc-gold mr-2"></i>世界杯预选赛状态
+                </h3>
+                <div id="qualification-content"></div>
+            </div>
+
+            <div id="recent-friendlies-section" class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-running text-wc-gold mr-2"></i>最近热身赛状态
+                </h3>
+                <div id="recent-friendlies-content"></div>
+            </div>
+
+            <div id="market-odds-section" class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
+                <h3 class="text-lg font-bold mb-6 flex items-center">
+                    <i class="fas fa-chart-simple text-wc-gold mr-2"></i>市场预期信号
+                </h3>
+                <div id="market-odds-content"></div>
             </div>
 
             <div class="bg-wc-navy-light rounded-2xl p-6 md:p-8 border border-gray-800">
@@ -373,8 +401,12 @@
     }
 
     function renderResults(data) {
+        renderDataHealth(data.data_health);
         renderProbability(data.result_probability);
         renderContextAgent(data.context_agent || (data.result_probability?.advanced_adjustment || {}).context_agent);
+        renderQualification(data.result_probability?.qualification_agent);
+        renderRecentFriendlies(data.result_probability?.recent_friendlies_agent);
+        renderMarketOdds(data.result_probability?.market_odds_agent);
         renderLLMAnalysis(data.llm_analysis);
         renderPossibleScores(data.possible_scores);
         renderGoalRange(data.goal_range_analysis);
@@ -386,6 +418,37 @@
 
         document.getElementById('expected-goals').innerHTML =
             `<i class="fas fa-bullseye mr-2 text-wc-gold"></i>预期总进球数：<span class="font-bold text-white">${data.goal_range_analysis['预期总进球']}</span> 球`;
+    }
+
+    function renderDataHealth(data) {
+        const container = document.getElementById('data-health-warning');
+        if (!container) return;
+        const warning = data?.warning || '';
+        if (!data) {
+            container.classList.add('hidden');
+            container.innerHTML = '';
+            return;
+        }
+        const statusItems = [
+            ['预选赛', data.qualification_matches?.available, data.qualification_matches?.count || 0],
+            ['最近热身赛', data.recent_friendlies?.available, data.recent_friendlies?.count || 0],
+            ['H2H', data.h2h?.available, data.h2h?.count || 0],
+            ['市场预期信号', data.market_odds?.available, data.market_odds?.count || 0],
+            ['本地球队画像', data.static_team_profiles?.available, data.static_team_profiles?.count || 0],
+            ['赛程/场地', data.schedule?.available, data.schedule?.matches || 0],
+            ['TheStats可选增强', data.thestats_enrichment?.available, data.thestats_enrichment?.count || 0]
+        ];
+        const chips = statusItems.map(([label, ok, count]) => `
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full border ${ok ? 'border-green-700/50 bg-green-900/20 text-green-200' : 'border-yellow-700/50 bg-yellow-900/20 text-yellow-100'}">
+                <i class="fas ${ok ? 'fa-check-circle' : 'fa-circle-exclamation'}"></i>${label}: ${ok ? '可用' : '缺失'}${count ? ` · ${count}` : ''}
+            </span>
+        `).join('');
+        container.classList.remove('hidden');
+        container.innerHTML = `
+            <div class="mb-3 flex flex-wrap gap-2 text-xs">${chips}</div>
+            ${warning ? `<div><i class="fas fa-triangle-exclamation text-wc-gold mr-2"></i>${warning}</div>` : ''}
+            ${data.thestats_enrichment?.optional_warning ? `<div class="mt-2 text-xs text-gray-300">${data.thestats_enrichment.optional_warning}</div>` : ''}
+        `;
     }
 
     function renderProbability(prob) {
@@ -439,6 +502,105 @@
         `;
     }
 
+    function renderRecentFriendlies(data) {
+        const container = document.getElementById('recent-friendlies-content');
+        if (!container) return;
+        const summaryCard = (title, summary, delta) => {
+            const s = summary || {};
+            return `
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-sm font-semibold text-wc-gold">${title}</div>
+                        <div class="text-xs text-gray-400">confidence ${s.confidence || 'none'}</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-sm text-gray-300">
+                        <div>场次：<span class="text-white font-bold">${s.matches || 0}</span></div>
+                        <div>W/D/L：<span class="text-white font-bold">${s.wins || 0}/${s.draws || 0}/${s.losses || 0}</span></div>
+                        <div>进球：<span class="text-white font-bold">${s.goals_for || 0}</span></div>
+                        <div>失球：<span class="text-white font-bold">${s.goals_against || 0}</span></div>
+                    </div>
+                    <div class="mt-3 text-sm text-gray-300">Elo 修正：<span class="${Number(delta || 0) >= 0 ? 'text-green-400' : 'text-red-400'} font-bold">${Number(delta || 0) >= 0 ? '+' : ''}${delta || 0}</span></div>
+                </div>
+            `;
+        };
+        const warning = data?.warning || data?.home_warning || data?.away_warning || '';
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                ${summaryCard('主队热身赛状态', data?.home_summary, data?.home_team_delta)}
+                ${summaryCard('客队热身赛状态', data?.away_summary, data?.away_team_delta)}
+            </div>
+            ${warning ? `<div class="rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100">${warning}</div>` : ''}
+        `;
+    }
+
+    function renderQualification(data) {
+        const container = document.getElementById('qualification-content');
+        if (!container) return;
+        const summaryCard = (title, summary, delta) => {
+            const s = summary || {};
+            return `
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="text-sm font-semibold text-wc-gold">${title}</div>
+                        <div class="text-xs text-gray-400">confidence ${s.confidence || 'none'}</div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-sm text-gray-300">
+                        <div>场次：<span class="text-white font-bold">${s.matches || 0}</span></div>
+                        <div>W/D/L：<span class="text-white font-bold">${s.wins || 0}/${s.draws || 0}/${s.losses || 0}</span></div>
+                        <div>进球：<span class="text-white font-bold">${s.goals_for || 0}</span></div>
+                        <div>失球：<span class="text-white font-bold">${s.goals_against || 0}</span></div>
+                    </div>
+                    <div class="mt-3 text-sm text-gray-300">Elo 修正：<span class="${Number(delta || 0) >= 0 ? 'text-green-400' : 'text-red-400'} font-bold">${Number(delta || 0) >= 0 ? '+' : ''}${delta || 0}</span></div>
+                </div>
+            `;
+        };
+        const warning = data?.warning || data?.home_warning || data?.away_warning || '';
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                ${summaryCard('主队预选赛状态', data?.home_summary, data?.home_team_delta)}
+                ${summaryCard('客队预选赛状态', data?.away_summary, data?.away_team_delta)}
+            </div>
+            ${warning ? `<div class="rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100">${warning}</div>` : ''}
+        `;
+    }
+
+    function renderMarketOdds(data) {
+        const container = document.getElementById('market-odds-content');
+        if (!container) return;
+        const odds = data?.raw_odds || {};
+        const implied = data?.normalized_implied_probabilities || {};
+        const pct = (value) => value === null || value === undefined ? '暂无' : `${(Number(value) * 100).toFixed(1)}%`;
+        const oddsValue = (value) => value === null || value === undefined ? '暂无' : Number(value).toFixed(2);
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-gray-400 mb-2">1X2 平均欧赔</div>
+                    <div class="text-sm text-gray-300">主胜 ${oddsValue(odds.home)}</div>
+                    <div class="text-sm text-gray-300">平局 ${oddsValue(odds.draw)}</div>
+                    <div class="text-sm text-gray-300">客胜 ${oddsValue(odds.away)}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-gray-400 mb-2">去水隐含概率</div>
+                    <div class="text-sm text-gray-300">主胜 ${pct(implied.home)}</div>
+                    <div class="text-sm text-gray-300">平局 ${pct(implied.draw)}</div>
+                    <div class="text-sm text-gray-300">客胜 ${pct(implied.away)}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-gray-400 mb-2">市场融合权重</div>
+                    <div class="text-2xl font-bold text-wc-gold">${pct(data?.market_weight || 0)}</div>
+                </div>
+                <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
+                    <div class="text-xs text-gray-400 mb-2">Bookmaker 数</div>
+                    <div class="text-2xl font-bold text-white">${data?.bookmaker_count || 0}</div>
+                </div>
+            </div>
+            ${data?.warning ? `<div class="rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100 mb-3">${data.warning}</div>` : ''}
+            <div class="text-xs text-gray-500 leading-relaxed">
+                <i class="fas fa-shield-alt text-wc-gold mr-1"></i>${data?.disclaimer || '盘口数据仅用于概率校准和市场预期参考，不构成投注建议。'}
+            </div>
+        `;
+    }
+
     function renderContextAgent(data) {
         const section = document.getElementById('context-agent-section');
         const container = document.getElementById('context-agent-content');
@@ -473,8 +635,8 @@
                     <div class="text-xs text-gray-500 mt-2">置信度：${Math.round((adj.confidence || 0) * 100)}%</div>
                 </div>
                 <div class="bg-wc-navy rounded-xl p-5 border border-gray-700">
-                    <div class="text-xs text-wc-gold font-semibold mb-2">天气 / 伤停</div>
-                    <div class="text-sm text-gray-300">天气：${(data.weather || {}).note || '暂无'}</div>
+                    <div class="text-xs text-wc-gold font-semibold mb-2">场地气候 / 伤停备注</div>
+                    <div class="text-sm text-gray-300">场地气候：${(data.weather || {}).note || '暂无'}</div>
                     <div class="text-sm text-gray-300 mt-1">伤停：${(data.team_news || {}).note || '暂无'}</div>
                 </div>
             </div>
@@ -692,7 +854,7 @@
         html += `</div>
             <div class="mt-4 p-4 bg-wc-navy rounded-xl border border-gray-700 text-xs text-gray-400 leading-relaxed">
                 <i class="fas fa-info-circle text-wc-green-light mr-2"></i>
-                xG/xGA 旁边的有效样本数表示 TheStatsAPI 中真正包含该字段的比赛数量；低于 3 场时只作为辅助参考，不代表稳定长期水平。
+                TheStats 高级指标只在缓存存在时显示；没有该缓存时不影响基础模型运行。低样本高级指标只作为辅助参考。
             </div>
         `;
         container.innerHTML = html;

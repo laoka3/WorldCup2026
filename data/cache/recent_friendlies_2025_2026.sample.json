@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "source": "sample",
+    "source_provider": "API-Football",
+    "source_endpoint": "fixtures",
+    "generated_at": "2026-06-11T14:51:40Z",
+    "date_from": "2025-01-01",
+    "date_to": "2026-06-10",
+    "teams_count": 48,
+    "warning": "Sample schema only. Do not treat as real recent friendlies."
+  },
+  "teams": {
+    "Germany": {
+      "matches": [
+        {
+          "fixture_id": 123456,
+          "date": "2026-03-25",
+          "competition": "Friendlies",
+          "home_team": "Germany",
+          "away_team": "France",
+          "team_side": "home",
+          "opponent": "France",
+          "goals_for": 2,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": 1680,
+          "venue": "Berlin",
+          "status": "FT",
+          "source": "sample"
+        }
+      ],
+      "summary": {
+        "matches": 1,
+        "wins": 1,
+        "draws": 0,
+        "losses": 0,
+        "goals_for": 2,
+        "goals_against": 1,
+        "form_score": 0.68,
+        "elo_delta": 8.5,
+        "confidence": "sample"
+      }
+    }
+  }
+}

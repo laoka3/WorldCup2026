@@ -1,0 +1,43 @@
+{
+  "name": "First-stage backtest skeleton with market expectation and recent friendlies",
+  "generated_at": "2026-06-11T15:39:31.574094+00:00",
+  "coverage_note": "coverage insufficient; do not claim model improvement.",
+  "variants": {
+    "baseline": {
+      "accuracy": null,
+      "log_loss": null,
+      "brier_score": null,
+      "draw_recall": null,
+      "market_coverage": 72,
+      "friendlies_coverage": 45,
+      "warning": "coverage insufficient; do not claim model improvement."
+    },
+    "baseline_plus_recent_friendlies": {
+      "accuracy": null,
+      "log_loss": null,
+      "brier_score": null,
+      "draw_recall": null,
+      "market_coverage": 72,
+      "friendlies_coverage": 45,
+      "warning": "coverage insufficient; do not claim model improvement."
+    },
+    "baseline_plus_market_odds": {
+      "accuracy": null,
+      "log_loss": null,
+      "brier_score": null,
+      "draw_recall": null,
+      "market_coverage": 72,
+      "friendlies_coverage": 45,
+      "warning": "coverage insufficient; do not claim model improvement."
+    },
+    "baseline_plus_both": {
+      "accuracy": null,
+      "log_loss": null,
+      "brier_score": null,
+      "draw_recall": null,
+      "market_coverage": 72,
+      "friendlies_coverage": 45,
+      "warning": "coverage insufficient; do not claim model improvement."
+    }
+  }
+}

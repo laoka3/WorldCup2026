@@ -9,10 +9,22 @@ __pycache__/
 .DS_Store
 .vscode/
 .idea/
+data/imports/*.csv
+data/imports/*.json
+!data/imports/.gitkeep
 
 # local/API cache and generated runtime artifacts
 data/cache/*
 !data/cache/wc2026_schedule.json
+!data/cache/recent_friendlies_2025_2026.sample.json
+!data/cache/recent_friendlies_2025_2026.json
+!data/cache/market_odds.sample.json
+!data/cache/market_odds.json
+!data/cache/qualification_friendlies_matches.json
+!data/cache/qualification_matches.json
+!data/cache/qualification_friendlies_team_profiles.json
+!data/cache/qualification_friendlies_meta.json
+!data/cache/historical_h2h.json
 encoding_test.json
 report.pdf
 

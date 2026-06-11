@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "source": "sample",
+    "source_provider": "API-Football / TheStatsAPI / The Odds API",
+    "source_endpoint": "odds",
+    "generated_at": "2026-06-11T14:51:40Z",
+    "odds_format": "decimal",
+    "markets": ["1X2", "Asian Handicap", "Over/Under"],
+    "warning": "Sample schema only. Market odds are used only as market expectation signals, not betting advice."
+  },
+  "matches": {
+    "Mexico|South Africa|2026-06-11": {
+      "fixture_id": 123456,
+      "home_team": "Mexico",
+      "away_team": "South Africa",
+      "date": "2026-06-11",
+      "fetched_at": "2026-06-10T12:00:00Z",
+      "bookmaker_count": 8,
+      "markets": {
+        "1x2": {
+          "average": {
+            "home": 1.70,
+            "draw": 3.50,
+            "away": 5.20
+          },
+          "bookmakers": [
+            {
+              "name": "Pinnacle",
+              "home": 1.72,
+              "draw": 3.45,
+              "away": 5.10
+            }
+          ]
+        },
+        "asian_handicap": {
+          "line": -0.75,
+          "home_odds": 1.92,
+          "away_odds": 1.96
+        },
+        "over_under": {
+          "line": 2.5,
+          "over": 1.88,
+          "under": 2.00
+        }
+      }
+    }
+  }
+}

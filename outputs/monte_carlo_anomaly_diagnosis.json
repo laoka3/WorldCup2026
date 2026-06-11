@@ -1,0 +1,2291 @@
+{
+  "generated_at": "2026-06-11T15:54:37.909595+00:00",
+  "model_usage": {
+    "simulate_calls_calculate_match_result_prob": true,
+    "prob_cache_used": true,
+    "external_api_per_simulation": false,
+    "llm_per_simulation": false,
+    "matches_per_run": 104,
+    "group_matches": 72,
+    "knockout_matches": 32,
+    "normal_speed": true,
+    "notes": [
+      "scripts/simulate_wc2026_monte_carlo.py imports calculate_match_result_prob, build_team_data, get_h2h, get_schedule_data.",
+      "calculate_match_result_prob includes qualification_form_delta, recent_friendlies_delta, h2h_adjustment, venue_context_adjustment, optional advanced adjustment, score_model_blend, and market_odds_agent.",
+      "match_probs() caches each team-pair probability in prob_cache, so expensive model features are computed once per unique pair.",
+      "Each Monte Carlo run then samples outcomes and updates standings/bracket; it does not call The Odds API or an LLM."
+    ]
+  },
+  "market_coverage": {
+    "events_returned": 72,
+    "matched_matches": 72,
+    "total_cache_matches": 72,
+    "is_72_group_stage_matches": true,
+    "group_stage_matches": 72,
+    "knockout_matches": 32,
+    "knockout_odds_present": false,
+    "market_keys_present": {
+      "1x2": 72,
+      "asian_handicap": 72,
+      "over_under": 72
+    },
+    "bookmaker_count_min": 27,
+    "bookmaker_count_max": 41,
+    "outright_or_champion_market_present": false,
+    "warning": null
+  },
+  "market_samples": [
+    {
+      "label": "Mexico vs South Africa",
+      "local_home_team": "Mexico",
+      "local_away_team": "South Africa",
+      "event_home_team": "Mexico",
+      "event_away_team": "South Africa",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.411,
+        "draw": 4.52,
+        "away": 8.579
+      },
+      "implied_probabilities": {
+        "home": 0.6772,
+        "draw": 0.2114,
+        "away": 0.1114
+      },
+      "bookmaker_count": 41,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Japan vs Netherlands",
+      "local_home_team": "Netherlands",
+      "local_away_team": "Japan",
+      "event_home_team": "Netherlands",
+      "event_away_team": "Japan",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 2.034,
+        "draw": 3.498,
+        "away": 3.676
+      },
+      "implied_probabilities": {
+        "home": 0.4684,
+        "draw": 0.2724,
+        "away": 0.2592
+      },
+      "bookmaker_count": 39,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Japan vs Sweden",
+      "local_home_team": "Japan",
+      "local_away_team": "Sweden",
+      "event_home_team": "Japan",
+      "event_away_team": "Sweden",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 2.057,
+        "draw": 3.36,
+        "away": 3.518
+      },
+      "implied_probabilities": {
+        "home": 0.4552,
+        "draw": 0.2787,
+        "away": 0.2661
+      },
+      "bookmaker_count": 27,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Japan vs Tunisia",
+      "local_home_team": "Tunisia",
+      "local_away_team": "Japan",
+      "event_home_team": "Tunisia",
+      "event_away_team": "Japan",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 5.229,
+        "draw": 3.538,
+        "away": 1.71
+      },
+      "implied_probabilities": {
+        "home": 0.1806,
+        "draw": 0.267,
+        "away": 0.5524
+      },
+      "bookmaker_count": 35,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Ivory Coast vs Germany",
+      "local_home_team": "Germany",
+      "local_away_team": "Ivory Coast",
+      "event_home_team": "Germany",
+      "event_away_team": "Ivory Coast",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.536,
+        "draw": 4.25,
+        "away": 5.724
+      },
+      "implied_probabilities": {
+        "home": 0.6136,
+        "draw": 0.2218,
+        "away": 0.1647
+      },
+      "bookmaker_count": 35,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Ivory Coast vs Ecuador",
+      "local_home_team": "Ivory Coast",
+      "local_away_team": "Ecuador",
+      "event_home_team": "Ivory Coast",
+      "event_away_team": "Ecuador",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 3.565,
+        "draw": 2.816,
+        "away": 2.411
+      },
+      "implied_probabilities": {
+        "home": 0.267,
+        "draw": 0.3381,
+        "away": 0.3949
+      },
+      "bookmaker_count": 40,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Ivory Coast vs Curaçao",
+      "local_home_team": "Curaçao",
+      "local_away_team": "Ivory Coast",
+      "event_home_team": "Curaçao",
+      "event_away_team": "Ivory Coast",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 12.934,
+        "draw": 6.026,
+        "away": 1.215
+      },
+      "implied_probabilities": {
+        "home": 0.0725,
+        "draw": 0.1556,
+        "away": 0.7719
+      },
+      "bookmaker_count": 27,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Argentina vs Algeria",
+      "local_home_team": "Argentina",
+      "local_away_team": "Algeria",
+      "event_home_team": "Argentina",
+      "event_away_team": "Algeria",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.382,
+        "draw": 4.634,
+        "away": 9.002
+      },
+      "implied_probabilities": {
+        "home": 0.6888,
+        "draw": 0.2054,
+        "away": 0.1057
+      },
+      "bookmaker_count": 39,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Argentina vs Austria",
+      "local_home_team": "Argentina",
+      "local_away_team": "Austria",
+      "event_home_team": "Argentina",
+      "event_away_team": "Austria",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.644,
+        "draw": 3.798,
+        "away": 5.364
+      },
+      "implied_probabilities": {
+        "home": 0.5749,
+        "draw": 0.2489,
+        "away": 0.1762
+      },
+      "bookmaker_count": 35,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Jordan vs Argentina",
+      "local_home_team": "Jordan",
+      "local_away_team": "Argentina",
+      "event_home_team": "Jordan",
+      "event_away_team": "Argentina",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 13.95,
+        "draw": 6.638,
+        "away": 1.186
+      },
+      "implied_probabilities": {
+        "home": 0.0673,
+        "draw": 0.1414,
+        "away": 0.7913
+      },
+      "bookmaker_count": 27,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "France vs Senegal",
+      "local_home_team": "France",
+      "local_away_team": "Senegal",
+      "event_home_team": "France",
+      "event_away_team": "Senegal",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.459,
+        "draw": 4.399,
+        "away": 7.277
+      },
+      "implied_probabilities": {
+        "home": 0.6527,
+        "draw": 0.2165,
+        "away": 0.1309
+      },
+      "bookmaker_count": 39,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "France vs Iraq",
+      "local_home_team": "France",
+      "local_away_team": "Iraq",
+      "event_home_team": "France",
+      "event_away_team": "Iraq",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.115,
+        "draw": 8.706,
+        "away": 23.108
+      },
+      "implied_probabilities": {
+        "home": 0.8501,
+        "draw": 0.1089,
+        "away": 0.041
+      },
+      "bookmaker_count": 33,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Norway vs France",
+      "local_home_team": "Norway",
+      "local_away_team": "France",
+      "event_home_team": "Norway",
+      "event_away_team": "France",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 4.228,
+        "draw": 3.552,
+        "away": 1.808
+      },
+      "implied_probabilities": {
+        "home": 0.2208,
+        "draw": 0.2628,
+        "away": 0.5164
+      },
+      "bookmaker_count": 27,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Spain vs Cabo Verde",
+      "local_home_team": "Spain",
+      "local_away_team": "Cabo Verde",
+      "event_home_team": "Spain",
+      "event_away_team": "Cape Verde",
+      "swapped_from_api": false,
+      "alias_mapping_used": true,
+      "raw_odds": {
+        "home": 1.089,
+        "draw": 11.288,
+        "away": 25.904
+      },
+      "implied_probabilities": {
+        "home": 0.8783,
+        "draw": 0.0847,
+        "away": 0.0369
+      },
+      "bookmaker_count": 40,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Spain vs Saudi Arabia",
+      "local_home_team": "Spain",
+      "local_away_team": "Saudi Arabia",
+      "event_home_team": "Spain",
+      "event_away_team": "Saudi Arabia",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.105,
+        "draw": 9.555,
+        "away": 23.624
+      },
+      "implied_probabilities": {
+        "home": 0.8603,
+        "draw": 0.0995,
+        "away": 0.0402
+      },
+      "bookmaker_count": 35,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Uruguay vs Spain",
+      "local_home_team": "Uruguay",
+      "local_away_team": "Spain",
+      "event_home_team": "Uruguay",
+      "event_away_team": "Spain",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 5.242,
+        "draw": 3.818,
+        "away": 1.62
+      },
+      "implied_probabilities": {
+        "home": 0.1783,
+        "draw": 0.2448,
+        "away": 0.5769
+      },
+      "bookmaker_count": 27,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Brazil vs Morocco",
+      "local_home_team": "Brazil",
+      "local_away_team": "Morocco",
+      "event_home_team": "Brazil",
+      "event_away_team": "Morocco",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.653,
+        "draw": 3.772,
+        "away": 5.47
+      },
+      "implied_probabilities": {
+        "home": 0.5746,
+        "draw": 0.2518,
+        "away": 0.1736
+      },
+      "bookmaker_count": 41,
+      "market_weight": 0.2,
+      "warning": null
+    },
+    {
+      "label": "Brazil vs Haiti",
+      "local_home_team": "Brazil",
+      "local_away_team": "Haiti",
+      "event_home_team": "Brazil",
+      "event_away_team": "Haiti",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 1.074,
+        "draw": 11.901,
+        "away": 28.625
+      },
+      "implied_probabilities": {
+        "home": 0.8867,
+        "draw": 0.08,
+        "away": 0.0333
+      },
+      "bookmaker_count": 32,
+      "market_weight": 0.1,
+      "warning": null
+    },
+    {
+      "label": "Scotland vs Brazil",
+      "local_home_team": "Scotland",
+      "local_away_team": "Brazil",
+      "event_home_team": "Scotland",
+      "event_away_team": "Brazil",
+      "swapped_from_api": false,
+      "alias_mapping_used": false,
+      "raw_odds": {
+        "home": 6.733,
+        "draw": 4.412,
+        "away": 1.445
+      },
+      "implied_probabilities": {
+        "home": 0.1392,
+        "draw": 0.2124,
+        "away": 0.6485
+      },
+      "bookmaker_count": 28,
+      "market_weight": 0.1,
+      "warning": null
+    }
+  ],
+  "home_advantage": [
+    {
+      "match": "Mexico vs South Africa",
+      "listed_home": "Mexico",
+      "venue": "Mexico City Stadium (Estadio Azteca)",
+      "original_home_advantage": 60,
+      "neutral_fixed_home_advantage": 0,
+      "venue_context_adjustment": {
+        "home_elo_delta": 32.0,
+        "away_elo_delta": -6.0,
+        "confidence": 0.65
+      },
+      "note": "Host-country venue effects are separate from fixed listed-home advantage."
+    },
+    {
+      "match": "Germany vs Curaçao",
+      "listed_home": "Germany",
+      "venue": "Houston Stadium (NRG)",
+      "original_home_advantage": 60,
+      "neutral_fixed_home_advantage": 0,
+      "venue_context_adjustment": {
+        "home_elo_delta": 0.0,
+        "away_elo_delta": 0.0,
+        "confidence": 0.65
+      },
+      "note": "Host-country venue effects are separate from fixed listed-home advantage."
+    },
+    {
+      "match": "Netherlands vs Japan",
+      "listed_home": "Netherlands",
+      "venue": "Dallas Stadium (AT&T)",
+      "original_home_advantage": 60,
+      "neutral_fixed_home_advantage": 0,
+      "venue_context_adjustment": {
+        "home_elo_delta": 0.0,
+        "away_elo_delta": 0.0,
+        "confidence": 0.65
+      },
+      "note": "Host-country venue effects are separate from fixed listed-home advantage."
+    },
+    {
+      "match": "France vs Senegal",
+      "listed_home": "France",
+      "venue": "New York New Jersey Stadium (MetLife)",
+      "original_home_advantage": 60,
+      "neutral_fixed_home_advantage": 0,
+      "venue_context_adjustment": {
+        "home_elo_delta": 0.0,
+        "away_elo_delta": 0.0,
+        "confidence": 0.65
+      },
+      "note": "Host-country venue effects are separate from fixed listed-home advantage."
+    }
+  ],
+  "team_profiles": {
+    "static_team_profiles_count": 24,
+    "schedule_teams_count": 48,
+    "missing_team_profiles": [
+      "南非",
+      "捷克",
+      "波黑",
+      "卡塔尔",
+      "瑞士",
+      "海地",
+      "苏格兰",
+      "巴拉圭",
+      "土耳其",
+      "库拉索",
+      "科特迪瓦",
+      "厄瓜多尔",
+      "瑞典",
+      "突尼斯",
+      "新西兰",
+      "佛得角",
+      "沙特阿拉伯",
+      "伊拉克",
+      "挪威",
+      "阿尔及利亚",
+      "奥地利",
+      "约旦",
+      "刚果民主共和国",
+      "乌兹别克斯坦",
+      "加纳",
+      "巴拿马"
+    ],
+    "profiles": {
+      "Japan": {
+        "team_key_used": "日本",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 88,
+        "midfield_rating": 72,
+        "estimated_elo": 1668.5,
+        "recent_form": [
+          "W",
+          "D",
+          "L",
+          "W",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 20场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Ivory Coast": {
+        "team_key_used": "科特迪瓦",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 89,
+        "midfield_rating": 74,
+        "estimated_elo": 1640.1,
+        "recent_form": [
+          "W",
+          "L",
+          "W",
+          "W",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 15场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Morocco": {
+        "team_key_used": "摩洛哥",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 88,
+        "midfield_rating": 77,
+        "estimated_elo": 1650.9,
+        "recent_form": [
+          "W",
+          "D",
+          "W",
+          "W",
+          "W",
+          "D"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 18场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "South Korea": {
+        "team_key_used": "韩国",
+        "fifa_rank": null,
+        "attack_rating": 94,
+        "defense_rating": 82,
+        "midfield_rating": 70,
+        "estimated_elo": 1649.3,
+        "recent_form": [
+          "W",
+          "W",
+          "L",
+          "L",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 26场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Germany": {
+        "team_key_used": "德国",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 81,
+        "midfield_rating": 77,
+        "estimated_elo": 1606.4,
+        "recent_form": [
+          "W",
+          "W",
+          "W",
+          "W",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 10场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Argentina": {
+        "team_key_used": "阿根廷",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 86,
+        "midfield_rating": 73,
+        "estimated_elo": 1632.3,
+        "recent_form": [
+          "W",
+          "W",
+          "W",
+          "W",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 25场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "France": {
+        "team_key_used": "法国",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 80,
+        "midfield_rating": 74,
+        "estimated_elo": 1592.7,
+        "recent_form": [
+          "W",
+          "W",
+          "W",
+          "W",
+          "L",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 10场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Spain": {
+        "team_key_used": "西班牙",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 86,
+        "midfield_rating": 71,
+        "estimated_elo": 1591.4,
+        "recent_form": [
+          "W",
+          "D",
+          "W",
+          "D",
+          "D",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 10场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "Brazil": {
+        "team_key_used": "巴西",
+        "fifa_rank": null,
+        "attack_rating": 85,
+        "defense_rating": 79,
+        "midfield_rating": 66,
+        "estimated_elo": 1576.2,
+        "recent_form": [
+          "W",
+          "D",
+          "L",
+          "W",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 25场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      },
+      "England": {
+        "team_key_used": "英格兰",
+        "fifa_rank": null,
+        "attack_rating": 95,
+        "defense_rating": 87,
+        "midfield_rating": 74,
+        "estimated_elo": 1598.2,
+        "recent_form": [
+          "W",
+          "W",
+          "D",
+          "L",
+          "W",
+          "W"
+        ],
+        "market_value": null,
+        "data_source": "2022-2024 14场比赛",
+        "elo_source": "historical_cache",
+        "warning": ""
+      }
+    }
+  },
+  "experiments": {
+    "A_original_home_advantage_60_market_on": {
+      "name": "A_original_home_advantage_60_market_on",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": true,
+        "neutral_home_advantage": false,
+        "poisson_scores": false,
+        "knockout_draw_handling": false,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 8.8,
+        "科特迪瓦": 7.3,
+        "摩洛哥": 6.8,
+        "韩国": 6.7,
+        "德国": 5.6,
+        "阿根廷": 5.4,
+        "阿尔及利亚": 4.4,
+        "伊朗": 3.9,
+        "挪威": 3.7,
+        "比利时": 3.6,
+        "西班牙": 3.3,
+        "法国": 2.9,
+        "奥地利": 2.8,
+        "荷兰": 2.7,
+        "瑞士": 2.6,
+        "英格兰": 2.6,
+        "塞内加尔": 2.6,
+        "埃及": 2.3,
+        "土耳其": 2.1,
+        "厄瓜多尔": 1.9,
+        "葡萄牙": 1.8,
+        "突尼斯": 1.5,
+        "克罗地亚": 1.3,
+        "库拉索": 1.2,
+        "巴西": 1.2,
+        "刚果民主共和国": 1.1,
+        "伊拉克": 1.1,
+        "哥伦比亚": 1.0,
+        "南非": 0.7,
+        "苏格兰": 0.7,
+        "波黑": 0.7,
+        "澳大利亚": 0.7,
+        "美国": 0.6,
+        "巴拿马": 0.6,
+        "乌兹别克斯坦": 0.6,
+        "墨西哥": 0.6,
+        "加拿大": 0.4,
+        "乌拉圭": 0.4,
+        "海地": 0.4,
+        "巴拉圭": 0.3,
+        "加纳": 0.3,
+        "沙特阿拉伯": 0.2,
+        "新西兰": 0.2,
+        "卡塔尔": 0.1,
+        "约旦": 0.1,
+        "瑞典": 0.1,
+        "捷克": 0.0,
+        "佛得角": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 8.8,
+        "科特迪瓦": 7.3,
+        "摩洛哥": 6.8,
+        "韩国": 6.7,
+        "阿根廷": 5.4,
+        "法国": 2.9,
+        "西班牙": 3.3,
+        "巴西": 1.2,
+        "英格兰": 2.6,
+        "德国": 5.6
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 54.9,
+          "墨西哥": 24.6,
+          "南非": 14.3,
+          "捷克": 6.2
+        },
+        "B": {
+          "瑞士": 53.5,
+          "加拿大": 19.9,
+          "波黑": 17.9,
+          "卡塔尔": 8.7
+        },
+        "C": {
+          "摩洛哥": 44.2,
+          "巴西": 22.8,
+          "苏格兰": 20.3,
+          "海地": 12.6
+        },
+        "D": {
+          "土耳其": 45.4,
+          "美国": 22.8,
+          "澳大利亚": 17.5,
+          "巴拉圭": 14.3
+        },
+        "E": {
+          "德国": 35.3,
+          "科特迪瓦": 34.4,
+          "厄瓜多尔": 18.4,
+          "库拉索": 11.9
+        },
+        "F": {
+          "日本": 44.9,
+          "荷兰": 32.4,
+          "突尼斯": 17.4,
+          "瑞典": 5.3
+        },
+        "G": {
+          "伊朗": 34.4,
+          "比利时": 32.9,
+          "埃及": 24.0,
+          "新西兰": 8.7
+        },
+        "H": {
+          "西班牙": 60.4,
+          "乌拉圭": 23.0,
+          "沙特阿拉伯": 11.8,
+          "佛得角": 4.9
+        },
+        "I": {
+          "挪威": 38.3,
+          "法国": 28.0,
+          "塞内加尔": 22.8,
+          "伊拉克": 10.9
+        },
+        "J": {
+          "阿根廷": 45.4,
+          "阿尔及利亚": 27.3,
+          "奥地利": 21.3,
+          "约旦": 6.1
+        },
+        "K": {
+          "葡萄牙": 41.8,
+          "哥伦比亚": 23.4,
+          "刚果民主共和国": 20.8,
+          "乌兹别克斯坦": 14.0
+        },
+        "L": {
+          "英格兰": 45.8,
+          "克罗地亚": 25.9,
+          "巴拿马": 17.2,
+          "加纳": 11.1
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "C": 25.5,
+          "F": 21.9,
+          "A": 19.8,
+          "D": 17.9,
+          "B": 15.0
+        },
+        "M77": {
+          "G": 40.4,
+          "H": 20.2,
+          "C": 13.4,
+          "D": 13.1,
+          "F": 12.8
+        },
+        "M79": {
+          "E": 39.1,
+          "I": 37.7,
+          "H": 9.4,
+          "F": 7.2,
+          "C": 6.6
+        },
+        "M80": {
+          "J": 39.9,
+          "K": 35.9,
+          "I": 10.3,
+          "E": 8.4,
+          "H": 5.5
+        },
+        "M81": {
+          "B": 39.0,
+          "J": 17.3,
+          "E": 15.3,
+          "F": 15.2,
+          "I": 13.2
+        },
+        "M82": {
+          "A": 48.4,
+          "H": 18.9,
+          "J": 12.2,
+          "I": 10.1,
+          "E": 9.9,
+          "L": 0.2,
+          "K": 0.1,
+          "G": 0.1,
+          "D": 0.1,
+          "B": 0.0,
+          "C": 0.0,
+          "F": 0.0
+        },
+        "M85": {
+          "G": 40.8,
+          "F": 21.5,
+          "J": 12.2,
+          "E": 11.1,
+          "I": 10.3,
+          "L": 1.6,
+          "K": 0.9,
+          "D": 0.6,
+          "C": 0.6,
+          "B": 0.2,
+          "A": 0.1,
+          "H": 0.0
+        },
+        "M87": {
+          "L": 70.8,
+          "D": 24.6,
+          "I": 1.8,
+          "J": 1.6,
+          "E": 1.1,
+          "K": 0.0,
+          "C": 0.0,
+          "B": 0.0,
+          "A": 0.0,
+          "H": 0.0
+        }
+      }
+    },
+    "B_market_weight_0": {
+      "name": "B_market_weight_0",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": false,
+        "neutral_home_advantage": false,
+        "poisson_scores": false,
+        "knockout_draw_handling": false,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 9.2,
+        "科特迪瓦": 7.5,
+        "摩洛哥": 7.0,
+        "韩国": 6.8,
+        "阿根廷": 5.0,
+        "德国": 4.9,
+        "阿尔及利亚": 4.7,
+        "伊朗": 4.0,
+        "挪威": 3.5,
+        "比利时": 3.4,
+        "西班牙": 3.3,
+        "奥地利": 2.9,
+        "法国": 2.6,
+        "瑞士": 2.6,
+        "荷兰": 2.5,
+        "塞内加尔": 2.5,
+        "英格兰": 2.4,
+        "埃及": 2.4,
+        "土耳其": 2.1,
+        "厄瓜多尔": 1.8,
+        "葡萄牙": 1.7,
+        "突尼斯": 1.6,
+        "库拉索": 1.5,
+        "伊拉克": 1.3,
+        "克罗地亚": 1.3,
+        "刚果民主共和国": 1.2,
+        "巴西": 1.0,
+        "哥伦比亚": 1.0,
+        "南非": 0.8,
+        "澳大利亚": 0.7,
+        "波黑": 0.7,
+        "苏格兰": 0.7,
+        "巴拿马": 0.7,
+        "美国": 0.7,
+        "乌兹别克斯坦": 0.6,
+        "墨西哥": 0.6,
+        "海地": 0.5,
+        "加拿大": 0.5,
+        "乌拉圭": 0.4,
+        "加纳": 0.3,
+        "巴拉圭": 0.3,
+        "沙特阿拉伯": 0.3,
+        "新西兰": 0.2,
+        "卡塔尔": 0.2,
+        "约旦": 0.1,
+        "瑞典": 0.0,
+        "佛得角": 0.0,
+        "捷克": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 9.2,
+        "科特迪瓦": 7.5,
+        "摩洛哥": 7.0,
+        "韩国": 6.8,
+        "阿根廷": 5.0,
+        "法国": 2.6,
+        "西班牙": 3.3,
+        "巴西": 1.0,
+        "英格兰": 2.4,
+        "德国": 4.9
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 56.4,
+          "墨西哥": 21.7,
+          "南非": 15.6,
+          "捷克": 6.3
+        },
+        "B": {
+          "瑞士": 50.8,
+          "波黑": 19.6,
+          "加拿大": 19.1,
+          "卡塔尔": 10.6
+        },
+        "C": {
+          "摩洛哥": 46.9,
+          "苏格兰": 19.2,
+          "巴西": 18.9,
+          "海地": 15.0
+        },
+        "D": {
+          "土耳其": 44.6,
+          "美国": 21.6,
+          "澳大利亚": 19.4,
+          "巴拉圭": 14.5
+        },
+        "E": {
+          "科特迪瓦": 36.7,
+          "德国": 30.7,
+          "厄瓜多尔": 17.1,
+          "库拉索": 15.5
+        },
+        "F": {
+          "日本": 47.0,
+          "荷兰": 28.8,
+          "突尼斯": 19.8,
+          "瑞典": 4.3
+        },
+        "G": {
+          "伊朗": 36.6,
+          "比利时": 29.6,
+          "埃及": 24.6,
+          "新西兰": 9.3
+        },
+        "H": {
+          "西班牙": 57.6,
+          "乌拉圭": 22.2,
+          "沙特阿拉伯": 14.5,
+          "佛得角": 5.7
+        },
+        "I": {
+          "挪威": 36.4,
+          "法国": 25.0,
+          "塞内加尔": 24.9,
+          "伊拉克": 13.8
+        },
+        "J": {
+          "阿根廷": 40.7,
+          "阿尔及利亚": 31.1,
+          "奥地利": 21.2,
+          "约旦": 7.0
+        },
+        "K": {
+          "葡萄牙": 37.4,
+          "刚果民主共和国": 24.7,
+          "哥伦比亚": 22.3,
+          "乌兹别克斯坦": 15.5
+        },
+        "L": {
+          "英格兰": 42.5,
+          "克罗地亚": 26.2,
+          "巴拿马": 19.7,
+          "加纳": 11.6
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "C": 24.7,
+          "F": 22.5,
+          "A": 19.4,
+          "D": 18.1,
+          "B": 15.3
+        },
+        "M77": {
+          "G": 40.3,
+          "H": 21.0,
+          "D": 13.2,
+          "C": 13.0,
+          "F": 12.5
+        },
+        "M79": {
+          "E": 38.7,
+          "I": 37.7,
+          "H": 9.7,
+          "C": 6.9,
+          "F": 6.9
+        },
+        "M80": {
+          "J": 39.7,
+          "K": 36.4,
+          "I": 10.0,
+          "E": 8.3,
+          "H": 5.7
+        },
+        "M81": {
+          "B": 39.1,
+          "J": 17.2,
+          "E": 15.3,
+          "F": 15.0,
+          "I": 13.3
+        },
+        "M82": {
+          "A": 47.3,
+          "H": 19.9,
+          "J": 12.2,
+          "I": 10.1,
+          "E": 10.0,
+          "L": 0.2,
+          "K": 0.1,
+          "G": 0.1,
+          "D": 0.1,
+          "F": 0.0,
+          "C": 0.0,
+          "B": 0.0
+        },
+        "M85": {
+          "G": 40.0,
+          "F": 21.9,
+          "J": 12.4,
+          "E": 11.3,
+          "I": 10.7,
+          "L": 1.6,
+          "K": 0.8,
+          "D": 0.6,
+          "C": 0.5,
+          "B": 0.1,
+          "A": 0.1,
+          "H": 0.0
+        },
+        "M87": {
+          "L": 70.9,
+          "D": 24.7,
+          "I": 1.6,
+          "J": 1.6,
+          "E": 1.2,
+          "K": 0.0,
+          "C": 0.0,
+          "B": 0.0,
+          "H": 0.0
+        }
+      }
+    },
+    "C_neutral_home_advantage_0": {
+      "name": "C_neutral_home_advantage_0",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": true,
+        "neutral_home_advantage": true,
+        "poisson_scores": false,
+        "knockout_draw_handling": false,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 8.4,
+        "摩洛哥": 6.0,
+        "韩国": 5.9,
+        "阿根廷": 5.7,
+        "科特迪瓦": 5.5,
+        "阿尔及利亚": 5.4,
+        "伊朗": 5.2,
+        "比利时": 4.9,
+        "德国": 3.9,
+        "奥地利": 3.7,
+        "埃及": 3.4,
+        "西班牙": 3.3,
+        "挪威": 3.2,
+        "英格兰": 3.0,
+        "瑞士": 2.8,
+        "塞内加尔": 2.7,
+        "法国": 2.6,
+        "荷兰": 2.5,
+        "土耳其": 2.0,
+        "葡萄牙": 1.9,
+        "厄瓜多尔": 1.5,
+        "克罗地亚": 1.5,
+        "突尼斯": 1.4,
+        "伊拉克": 1.3,
+        "刚果民主共和国": 1.3,
+        "库拉索": 1.1,
+        "巴西": 1.0,
+        "哥伦比亚": 0.9,
+        "澳大利亚": 0.8,
+        "巴拿马": 0.8,
+        "波黑": 0.7,
+        "美国": 0.6,
+        "苏格兰": 0.6,
+        "南非": 0.5,
+        "加纳": 0.5,
+        "乌兹别克斯坦": 0.4,
+        "乌拉圭": 0.4,
+        "海地": 0.4,
+        "加拿大": 0.4,
+        "墨西哥": 0.4,
+        "巴拉圭": 0.3,
+        "新西兰": 0.3,
+        "沙特阿拉伯": 0.2,
+        "卡塔尔": 0.1,
+        "约旦": 0.1,
+        "捷克": 0.0,
+        "瑞典": 0.0,
+        "佛得角": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 8.4,
+        "科特迪瓦": 5.5,
+        "摩洛哥": 6.0,
+        "韩国": 5.9,
+        "阿根廷": 5.7,
+        "法国": 2.6,
+        "西班牙": 3.3,
+        "巴西": 1.0,
+        "英格兰": 3.0,
+        "德国": 3.9
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 57.4,
+          "墨西哥": 22.2,
+          "南非": 15.0,
+          "捷克": 5.4
+        },
+        "B": {
+          "瑞士": 50.1,
+          "波黑": 20.6,
+          "加拿大": 19.6,
+          "卡塔尔": 9.7
+        },
+        "C": {
+          "摩洛哥": 47.0,
+          "巴西": 20.9,
+          "苏格兰": 18.4,
+          "海地": 13.6
+        },
+        "D": {
+          "土耳其": 42.2,
+          "美国": 21.7,
+          "澳大利亚": 19.6,
+          "巴拉圭": 16.6
+        },
+        "E": {
+          "科特迪瓦": 37.4,
+          "德国": 33.1,
+          "厄瓜多尔": 16.4,
+          "库拉索": 13.0
+        },
+        "F": {
+          "日本": 48.7,
+          "荷兰": 29.8,
+          "突尼斯": 15.4,
+          "瑞典": 6.1
+        },
+        "G": {
+          "伊朗": 37.0,
+          "比利时": 29.8,
+          "埃及": 25.7,
+          "新西兰": 7.5
+        },
+        "H": {
+          "西班牙": 58.6,
+          "乌拉圭": 21.7,
+          "沙特阿拉伯": 13.8,
+          "佛得角": 6.0
+        },
+        "I": {
+          "挪威": 34.8,
+          "法国": 27.5,
+          "塞内加尔": 25.6,
+          "伊拉克": 12.2
+        },
+        "J": {
+          "阿根廷": 41.7,
+          "阿尔及利亚": 29.2,
+          "奥地利": 24.0,
+          "约旦": 5.1
+        },
+        "K": {
+          "葡萄牙": 39.7,
+          "刚果民主共和国": 22.9,
+          "哥伦比亚": 21.7,
+          "乌兹别克斯坦": 15.7
+        },
+        "L": {
+          "英格兰": 42.7,
+          "克罗地亚": 28.5,
+          "巴拿马": 15.7,
+          "加纳": 13.1
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "C": 25.0,
+          "F": 20.9,
+          "A": 20.2,
+          "D": 18.6,
+          "B": 15.4
+        },
+        "M77": {
+          "G": 40.4,
+          "H": 20.7,
+          "D": 13.2,
+          "C": 13.1,
+          "F": 12.6
+        },
+        "M79": {
+          "E": 38.5,
+          "I": 38.0,
+          "H": 9.9,
+          "F": 7.0,
+          "C": 6.4
+        },
+        "M80": {
+          "J": 40.9,
+          "K": 35.5,
+          "I": 10.0,
+          "E": 8.3,
+          "H": 5.4
+        },
+        "M81": {
+          "B": 39.7,
+          "J": 16.6,
+          "E": 15.4,
+          "F": 15.1,
+          "I": 13.1
+        },
+        "M82": {
+          "A": 47.3,
+          "H": 19.3,
+          "J": 12.2,
+          "E": 10.4,
+          "I": 10.4,
+          "L": 0.2,
+          "K": 0.1,
+          "G": 0.1,
+          "C": 0.1,
+          "D": 0.1,
+          "B": 0.0,
+          "F": 0.0
+        },
+        "M85": {
+          "G": 40.6,
+          "F": 22.0,
+          "J": 12.4,
+          "E": 10.8,
+          "I": 10.4,
+          "L": 1.6,
+          "K": 0.8,
+          "D": 0.6,
+          "C": 0.4,
+          "B": 0.2,
+          "A": 0.1,
+          "H": 0.0
+        },
+        "M87": {
+          "L": 70.7,
+          "D": 24.9,
+          "I": 1.7,
+          "J": 1.5,
+          "E": 1.2,
+          "K": 0.0,
+          "C": 0.0,
+          "A": 0.0,
+          "B": 0.0
+        }
+      }
+    },
+    "D_market0_neutral0": {
+      "name": "D_market0_neutral0",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": false,
+        "neutral_home_advantage": true,
+        "poisson_scores": false,
+        "knockout_draw_handling": false,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 8.6,
+        "摩洛哥": 6.1,
+        "韩国": 5.8,
+        "阿尔及利亚": 5.7,
+        "科特迪瓦": 5.7,
+        "伊朗": 5.3,
+        "阿根廷": 5.3,
+        "比利时": 4.7,
+        "奥地利": 3.7,
+        "德国": 3.6,
+        "埃及": 3.6,
+        "西班牙": 3.3,
+        "挪威": 3.2,
+        "英格兰": 2.9,
+        "塞内加尔": 2.8,
+        "瑞士": 2.7,
+        "荷兰": 2.4,
+        "法国": 2.2,
+        "土耳其": 2.0,
+        "葡萄牙": 1.7,
+        "克罗地亚": 1.6,
+        "突尼斯": 1.6,
+        "伊拉克": 1.5,
+        "刚果民主共和国": 1.4,
+        "库拉索": 1.4,
+        "厄瓜多尔": 1.4,
+        "哥伦比亚": 0.9,
+        "巴西": 0.9,
+        "澳大利亚": 0.8,
+        "巴拿马": 0.8,
+        "波黑": 0.7,
+        "美国": 0.6,
+        "南非": 0.6,
+        "苏格兰": 0.5,
+        "海地": 0.5,
+        "加纳": 0.5,
+        "乌兹别克斯坦": 0.5,
+        "乌拉圭": 0.4,
+        "加拿大": 0.4,
+        "墨西哥": 0.4,
+        "巴拉圭": 0.4,
+        "新西兰": 0.4,
+        "沙特阿拉伯": 0.3,
+        "卡塔尔": 0.1,
+        "约旦": 0.1,
+        "捷克": 0.0,
+        "瑞典": 0.0,
+        "佛得角": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 8.6,
+        "科特迪瓦": 5.7,
+        "摩洛哥": 6.1,
+        "韩国": 5.8,
+        "阿根廷": 5.3,
+        "法国": 2.2,
+        "西班牙": 3.3,
+        "巴西": 0.9,
+        "英格兰": 2.9,
+        "德国": 3.6
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 59.6,
+          "墨西哥": 18.8,
+          "南非": 16.2,
+          "捷克": 5.4
+        },
+        "B": {
+          "瑞士": 47.2,
+          "波黑": 22.8,
+          "加拿大": 18.1,
+          "卡塔尔": 12.0
+        },
+        "C": {
+          "摩洛哥": 49.8,
+          "苏格兰": 17.6,
+          "巴西": 16.4,
+          "海地": 16.2
+        },
+        "D": {
+          "土耳其": 41.1,
+          "澳大利亚": 21.8,
+          "美国": 20.0,
+          "巴拉圭": 17.1
+        },
+        "E": {
+          "科特迪瓦": 39.5,
+          "德国": 28.2,
+          "库拉索": 17.0,
+          "厄瓜多尔": 15.3
+        },
+        "F": {
+          "日本": 51.5,
+          "荷兰": 26.1,
+          "突尼斯": 17.4,
+          "瑞典": 5.0
+        },
+        "G": {
+          "伊朗": 39.3,
+          "埃及": 26.5,
+          "比利时": 26.0,
+          "新西兰": 8.2
+        },
+        "H": {
+          "西班牙": 54.4,
+          "乌拉圭": 21.0,
+          "沙特阿拉伯": 17.3,
+          "佛得角": 7.3
+        },
+        "I": {
+          "挪威": 32.6,
+          "塞内加尔": 28.3,
+          "法国": 23.5,
+          "伊拉克": 15.7
+        },
+        "J": {
+          "阿根廷": 36.8,
+          "阿尔及利亚": 33.4,
+          "奥地利": 23.9,
+          "约旦": 5.9
+        },
+        "K": {
+          "葡萄牙": 34.8,
+          "刚果民主共和国": 27.2,
+          "哥伦比亚": 20.2,
+          "乌兹别克斯坦": 17.8
+        },
+        "L": {
+          "英格兰": 38.8,
+          "克罗地亚": 29.3,
+          "巴拿马": 18.1,
+          "加纳": 13.8
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "C": 24.3,
+          "F": 21.5,
+          "A": 19.8,
+          "D": 18.6,
+          "B": 15.8
+        },
+        "M77": {
+          "G": 40.8,
+          "H": 21.2,
+          "D": 13.1,
+          "C": 12.7,
+          "F": 12.2
+        },
+        "M79": {
+          "E": 38.2,
+          "I": 38.1,
+          "H": 10.6,
+          "F": 6.8,
+          "C": 6.3
+        },
+        "M80": {
+          "J": 40.0,
+          "K": 36.4,
+          "I": 9.9,
+          "E": 8.1,
+          "H": 5.6
+        },
+        "M81": {
+          "B": 39.5,
+          "J": 17.0,
+          "E": 15.2,
+          "F": 15.2,
+          "I": 13.2
+        },
+        "M82": {
+          "A": 46.6,
+          "H": 19.7,
+          "J": 12.5,
+          "E": 10.3,
+          "I": 10.2,
+          "K": 0.3,
+          "L": 0.2,
+          "D": 0.1,
+          "G": 0.1,
+          "C": 0.0,
+          "B": 0.0,
+          "F": 0.0
+        },
+        "M85": {
+          "G": 40.0,
+          "F": 22.3,
+          "J": 12.2,
+          "E": 11.0,
+          "I": 10.7,
+          "L": 1.6,
+          "K": 0.7,
+          "D": 0.6,
+          "C": 0.4,
+          "B": 0.2,
+          "H": 0.1,
+          "A": 0.0
+        },
+        "M87": {
+          "L": 70.9,
+          "D": 24.7,
+          "J": 1.6,
+          "I": 1.6,
+          "E": 1.2,
+          "C": 0.0,
+          "K": 0.0,
+          "B": 0.0,
+          "A": 0.0,
+          "H": 0.0
+        }
+      }
+    },
+    "E_poisson_scores": {
+      "name": "E_poisson_scores",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": true,
+        "neutral_home_advantage": false,
+        "poisson_scores": true,
+        "knockout_draw_handling": false,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 8.6,
+        "科特迪瓦": 6.8,
+        "摩洛哥": 6.5,
+        "韩国": 6.5,
+        "德国": 5.4,
+        "阿根廷": 5.0,
+        "阿尔及利亚": 4.7,
+        "比利时": 4.0,
+        "挪威": 3.7,
+        "伊朗": 3.6,
+        "西班牙": 3.3,
+        "奥地利": 3.3,
+        "荷兰": 2.9,
+        "法国": 2.9,
+        "英格兰": 2.6,
+        "塞内加尔": 2.6,
+        "瑞士": 2.5,
+        "土耳其": 2.4,
+        "埃及": 2.3,
+        "厄瓜多尔": 2.2,
+        "葡萄牙": 1.7,
+        "突尼斯": 1.5,
+        "库拉索": 1.3,
+        "克罗地亚": 1.3,
+        "巴西": 1.2,
+        "刚果民主共和国": 1.1,
+        "伊拉克": 1.1,
+        "哥伦比亚": 1.0,
+        "墨西哥": 0.7,
+        "巴拿马": 0.7,
+        "澳大利亚": 0.7,
+        "波黑": 0.7,
+        "苏格兰": 0.6,
+        "南非": 0.6,
+        "乌兹别克斯坦": 0.6,
+        "美国": 0.6,
+        "加拿大": 0.5,
+        "乌拉圭": 0.5,
+        "海地": 0.4,
+        "巴拉圭": 0.3,
+        "加纳": 0.3,
+        "新西兰": 0.3,
+        "沙特阿拉伯": 0.2,
+        "约旦": 0.1,
+        "卡塔尔": 0.1,
+        "捷克": 0.0,
+        "瑞典": 0.0,
+        "佛得角": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 8.6,
+        "科特迪瓦": 6.8,
+        "摩洛哥": 6.5,
+        "韩国": 6.5,
+        "阿根廷": 5.0,
+        "法国": 2.9,
+        "西班牙": 3.3,
+        "巴西": 1.2,
+        "英格兰": 2.6,
+        "德国": 5.4
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 48.9,
+          "墨西哥": 27.3,
+          "南非": 16.4,
+          "捷克": 7.4
+        },
+        "B": {
+          "瑞士": 47.7,
+          "加拿大": 23.1,
+          "波黑": 19.2,
+          "卡塔尔": 10.0
+        },
+        "C": {
+          "摩洛哥": 39.4,
+          "巴西": 27.6,
+          "苏格兰": 21.3,
+          "海地": 11.7
+        },
+        "D": {
+          "土耳其": 39.9,
+          "美国": 25.1,
+          "澳大利亚": 19.7,
+          "巴拉圭": 15.2
+        },
+        "E": {
+          "德国": 36.7,
+          "科特迪瓦": 28.7,
+          "厄瓜多尔": 21.0,
+          "库拉索": 13.5
+        },
+        "F": {
+          "日本": 41.0,
+          "荷兰": 32.1,
+          "突尼斯": 20.5,
+          "瑞典": 6.4
+        },
+        "G": {
+          "比利时": 38.9,
+          "伊朗": 27.3,
+          "埃及": 22.2,
+          "新西兰": 11.7
+        },
+        "H": {
+          "西班牙": 56.4,
+          "乌拉圭": 24.5,
+          "沙特阿拉伯": 13.0,
+          "佛得角": 6.0
+        },
+        "I": {
+          "挪威": 34.1,
+          "法国": 30.6,
+          "塞内加尔": 22.4,
+          "伊拉克": 12.9
+        },
+        "J": {
+          "阿根廷": 39.3,
+          "阿尔及利亚": 27.4,
+          "奥地利": 25.9,
+          "约旦": 7.4
+        },
+        "K": {
+          "葡萄牙": 35.8,
+          "哥伦比亚": 26.5,
+          "刚果民主共和国": 21.0,
+          "乌兹别克斯坦": 16.7
+        },
+        "L": {
+          "英格兰": 40.3,
+          "克罗地亚": 25.5,
+          "巴拿马": 20.2,
+          "加纳": 14.0
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "F": 21.8,
+          "C": 21.4,
+          "B": 19.7,
+          "D": 19.0,
+          "A": 18.1
+        },
+        "M77": {
+          "G": 34.3,
+          "H": 25.9,
+          "D": 13.8,
+          "C": 13.5,
+          "F": 12.5
+        },
+        "M79": {
+          "E": 38.0,
+          "I": 37.7,
+          "H": 8.9,
+          "F": 7.8,
+          "C": 7.6
+        },
+        "M80": {
+          "J": 39.3,
+          "K": 36.5,
+          "E": 9.4,
+          "I": 9.1,
+          "H": 5.7
+        },
+        "M81": {
+          "B": 37.8,
+          "J": 19.4,
+          "F": 15.2,
+          "E": 13.8,
+          "I": 13.8
+        },
+        "M82": {
+          "A": 48.9,
+          "H": 19.0,
+          "J": 11.3,
+          "I": 10.3,
+          "E": 10.1,
+          "L": 0.2,
+          "G": 0.1,
+          "K": 0.1,
+          "D": 0.1,
+          "C": 0.1,
+          "B": 0.0,
+          "F": 0.0
+        },
+        "M85": {
+          "G": 47.2,
+          "F": 20.2,
+          "J": 10.4,
+          "I": 9.8,
+          "E": 9.5,
+          "L": 1.4,
+          "K": 0.6,
+          "D": 0.5,
+          "C": 0.4,
+          "B": 0.1,
+          "H": 0.1,
+          "A": 0.0
+        },
+        "M87": {
+          "L": 70.5,
+          "D": 23.8,
+          "J": 2.0,
+          "E": 1.8,
+          "I": 1.8,
+          "K": 0.0,
+          "C": 0.0,
+          "B": 0.0,
+          "A": 0.0
+        }
+      }
+    },
+    "F_knockout_draw_handling": {
+      "name": "F_knockout_draw_handling",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": true,
+        "neutral_home_advantage": false,
+        "poisson_scores": false,
+        "knockout_draw_handling": true,
+        "third_place_mode": "greedy_strongest"
+      },
+      "champion_probabilities": {
+        "日本": 7.5,
+        "韩国": 6.2,
+        "科特迪瓦": 6.0,
+        "摩洛哥": 5.8,
+        "阿根廷": 4.9,
+        "阿尔及利亚": 4.6,
+        "德国": 4.6,
+        "伊朗": 3.9,
+        "挪威": 3.6,
+        "比利时": 3.6,
+        "西班牙": 3.2,
+        "奥地利": 3.0,
+        "法国": 2.8,
+        "瑞士": 2.8,
+        "塞内加尔": 2.8,
+        "荷兰": 2.6,
+        "英格兰": 2.5,
+        "埃及": 2.5,
+        "土耳其": 2.5,
+        "厄瓜多尔": 2.0,
+        "葡萄牙": 1.9,
+        "克罗地亚": 1.6,
+        "突尼斯": 1.6,
+        "巴西": 1.6,
+        "刚果民主共和国": 1.4,
+        "库拉索": 1.3,
+        "哥伦比亚": 1.3,
+        "伊拉克": 1.2,
+        "墨西哥": 1.0,
+        "美国": 1.0,
+        "苏格兰": 0.9,
+        "巴拿马": 0.9,
+        "波黑": 0.9,
+        "南非": 0.8,
+        "澳大利亚": 0.8,
+        "乌拉圭": 0.7,
+        "乌兹别克斯坦": 0.7,
+        "海地": 0.5,
+        "加拿大": 0.5,
+        "巴拉圭": 0.4,
+        "加纳": 0.4,
+        "沙特阿拉伯": 0.3,
+        "新西兰": 0.3,
+        "卡塔尔": 0.2,
+        "约旦": 0.2,
+        "瑞典": 0.1,
+        "捷克": 0.1,
+        "佛得角": 0.1
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 7.5,
+        "科特迪瓦": 6.0,
+        "摩洛哥": 5.8,
+        "韩国": 6.2,
+        "阿根廷": 4.9,
+        "法国": 2.8,
+        "西班牙": 3.2,
+        "巴西": 1.6,
+        "英格兰": 2.5,
+        "德国": 4.6
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 54.9,
+          "墨西哥": 24.6,
+          "南非": 14.3,
+          "捷克": 6.2
+        },
+        "B": {
+          "瑞士": 53.5,
+          "加拿大": 19.9,
+          "波黑": 17.9,
+          "卡塔尔": 8.7
+        },
+        "C": {
+          "摩洛哥": 44.2,
+          "巴西": 22.8,
+          "苏格兰": 20.3,
+          "海地": 12.6
+        },
+        "D": {
+          "土耳其": 45.4,
+          "美国": 22.8,
+          "澳大利亚": 17.5,
+          "巴拉圭": 14.3
+        },
+        "E": {
+          "德国": 35.3,
+          "科特迪瓦": 34.4,
+          "厄瓜多尔": 18.4,
+          "库拉索": 11.9
+        },
+        "F": {
+          "日本": 44.9,
+          "荷兰": 32.4,
+          "突尼斯": 17.4,
+          "瑞典": 5.3
+        },
+        "G": {
+          "伊朗": 34.4,
+          "比利时": 32.9,
+          "埃及": 24.0,
+          "新西兰": 8.7
+        },
+        "H": {
+          "西班牙": 60.4,
+          "乌拉圭": 23.0,
+          "沙特阿拉伯": 11.8,
+          "佛得角": 4.9
+        },
+        "I": {
+          "挪威": 38.3,
+          "法国": 28.0,
+          "塞内加尔": 22.8,
+          "伊拉克": 10.9
+        },
+        "J": {
+          "阿根廷": 45.4,
+          "阿尔及利亚": 27.3,
+          "奥地利": 21.3,
+          "约旦": 6.1
+        },
+        "K": {
+          "葡萄牙": 41.8,
+          "哥伦比亚": 23.4,
+          "刚果民主共和国": 20.8,
+          "乌兹别克斯坦": 14.0
+        },
+        "L": {
+          "英格兰": 45.8,
+          "克罗地亚": 25.9,
+          "巴拿马": 17.2,
+          "加纳": 11.1
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "C": 25.5,
+          "F": 21.9,
+          "A": 19.8,
+          "D": 17.9,
+          "B": 15.0
+        },
+        "M77": {
+          "G": 40.4,
+          "H": 20.2,
+          "C": 13.4,
+          "D": 13.1,
+          "F": 12.8
+        },
+        "M79": {
+          "E": 39.1,
+          "I": 37.7,
+          "H": 9.4,
+          "F": 7.2,
+          "C": 6.6
+        },
+        "M80": {
+          "J": 39.9,
+          "K": 35.9,
+          "I": 10.3,
+          "E": 8.4,
+          "H": 5.5
+        },
+        "M81": {
+          "B": 39.0,
+          "J": 17.3,
+          "E": 15.3,
+          "F": 15.2,
+          "I": 13.2
+        },
+        "M82": {
+          "A": 48.4,
+          "H": 18.9,
+          "J": 12.2,
+          "I": 10.1,
+          "E": 9.9,
+          "L": 0.2,
+          "K": 0.1,
+          "G": 0.1,
+          "D": 0.1,
+          "B": 0.0,
+          "C": 0.0,
+          "F": 0.0
+        },
+        "M85": {
+          "G": 40.8,
+          "F": 21.5,
+          "J": 12.2,
+          "E": 11.1,
+          "I": 10.3,
+          "L": 1.6,
+          "K": 0.9,
+          "D": 0.6,
+          "C": 0.6,
+          "B": 0.2,
+          "A": 0.1,
+          "H": 0.0
+        },
+        "M87": {
+          "L": 70.8,
+          "D": 24.6,
+          "I": 1.8,
+          "J": 1.6,
+          "E": 1.1,
+          "K": 0.0,
+          "C": 0.0,
+          "B": 0.0,
+          "A": 0.0,
+          "H": 0.0
+        }
+      }
+    },
+    "G_candidate_order_third_place_approx": {
+      "name": "G_candidate_order_third_place_approx",
+      "runs": 20000,
+      "variant": {
+        "market_enabled": true,
+        "neutral_home_advantage": false,
+        "poisson_scores": false,
+        "knockout_draw_handling": false,
+        "third_place_mode": "candidate_order"
+      },
+      "champion_probabilities": {
+        "日本": 8.7,
+        "科特迪瓦": 7.8,
+        "韩国": 7.2,
+        "摩洛哥": 7.1,
+        "德国": 5.9,
+        "阿根廷": 5.3,
+        "阿尔及利亚": 4.4,
+        "挪威": 3.6,
+        "伊朗": 3.6,
+        "西班牙": 3.3,
+        "比利时": 3.1,
+        "奥地利": 2.8,
+        "法国": 2.7,
+        "瑞士": 2.7,
+        "英格兰": 2.6,
+        "荷兰": 2.6,
+        "塞内加尔": 2.4,
+        "土耳其": 2.2,
+        "埃及": 2.1,
+        "厄瓜多尔": 2.0,
+        "葡萄牙": 1.7,
+        "突尼斯": 1.4,
+        "库拉索": 1.4,
+        "巴西": 1.3,
+        "克罗地亚": 1.2,
+        "刚果民主共和国": 1.0,
+        "哥伦比亚": 0.9,
+        "伊拉克": 0.9,
+        "南非": 0.8,
+        "波黑": 0.8,
+        "苏格兰": 0.7,
+        "墨西哥": 0.7,
+        "澳大利亚": 0.7,
+        "美国": 0.7,
+        "巴拿马": 0.6,
+        "乌兹别克斯坦": 0.6,
+        "海地": 0.5,
+        "加拿大": 0.5,
+        "乌拉圭": 0.4,
+        "加纳": 0.3,
+        "巴拉圭": 0.3,
+        "沙特阿拉伯": 0.2,
+        "新西兰": 0.2,
+        "卡塔尔": 0.1,
+        "约旦": 0.1,
+        "捷克": 0.1,
+        "瑞典": 0.0,
+        "佛得角": 0.0
+      },
+      "focus_team_champion_probabilities": {
+        "日本": 8.7,
+        "科特迪瓦": 7.8,
+        "摩洛哥": 7.1,
+        "韩国": 7.2,
+        "阿根廷": 5.3,
+        "法国": 2.7,
+        "西班牙": 3.3,
+        "巴西": 1.3,
+        "英格兰": 2.6,
+        "德国": 5.9
+      },
+      "group_winner_probabilities": {
+        "A": {
+          "韩国": 54.9,
+          "墨西哥": 24.6,
+          "南非": 14.3,
+          "捷克": 6.2
+        },
+        "B": {
+          "瑞士": 53.5,
+          "加拿大": 19.9,
+          "波黑": 17.9,
+          "卡塔尔": 8.7
+        },
+        "C": {
+          "摩洛哥": 44.2,
+          "巴西": 22.8,
+          "苏格兰": 20.3,
+          "海地": 12.6
+        },
+        "D": {
+          "土耳其": 45.4,
+          "美国": 22.8,
+          "澳大利亚": 17.5,
+          "巴拉圭": 14.3
+        },
+        "E": {
+          "德国": 35.3,
+          "科特迪瓦": 34.4,
+          "厄瓜多尔": 18.4,
+          "库拉索": 11.9
+        },
+        "F": {
+          "日本": 44.9,
+          "荷兰": 32.4,
+          "突尼斯": 17.4,
+          "瑞典": 5.3
+        },
+        "G": {
+          "伊朗": 34.4,
+          "比利时": 32.9,
+          "埃及": 24.0,
+          "新西兰": 8.7
+        },
+        "H": {
+          "西班牙": 60.4,
+          "乌拉圭": 23.0,
+          "沙特阿拉伯": 11.8,
+          "佛得角": 4.9
+        },
+        "I": {
+          "挪威": 38.3,
+          "法国": 28.0,
+          "塞内加尔": 22.8,
+          "伊拉克": 10.9
+        },
+        "J": {
+          "阿根廷": 45.4,
+          "阿尔及利亚": 27.3,
+          "奥地利": 21.3,
+          "约旦": 6.1
+        },
+        "K": {
+          "葡萄牙": 41.8,
+          "哥伦比亚": 23.4,
+          "刚果民主共和国": 20.8,
+          "乌兹别克斯坦": 14.0
+        },
+        "L": {
+          "英格兰": 45.8,
+          "克罗地亚": 25.9,
+          "巴拿马": 17.2,
+          "加纳": 11.1
+        }
+      },
+      "third_slot_counts": {
+        "M74": {
+          "A": 66.0,
+          "B": 23.5,
+          "C": 8.7,
+          "D": 1.5,
+          "F": 0.2
+        },
+        "M77": {
+          "C": 62.0,
+          "D": 26.8,
+          "F": 8.9,
+          "G": 2.0,
+          "H": 0.2
+        },
+        "M79": {
+          "E": 72.5,
+          "F": 18.9,
+          "H": 6.1,
+          "I": 2.5
+        },
+        "M80": {
+          "H": 46.1,
+          "I": 38.3,
+          "J": 13.0,
+          "K": 2.6
+        },
+        "M81": {
+          "B": 42.6,
+          "F": 27.7,
+          "I": 14.3,
+          "J": 14.2,
+          "E": 1.3
+        },
+        "M82": {
+          "J": 36.1,
+          "I": 18.4,
+          "A": 17.6,
+          "H": 16.2,
+          "E": 11.7
+        },
+        "M85": {
+          "G": 70.0,
+          "F": 20.6,
+          "E": 4.9,
+          "J": 4.3,
+          "K": 0.2
+        },
+        "M87": {
+          "L": 48.4,
+          "D": 46.2,
+          "J": 3.1,
+          "I": 1.2,
+          "E": 1.1
+        }
+      }
+    }
+  }
+}

@@ -27,10 +27,13 @@ import json
 import math
 import random
 import os
+import html
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
 import requests
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from collections import defaultdict
 
@@ -52,6 +55,9 @@ BING_NEWS_QUERY = os.getenv("BING_NEWS_QUERY") or "2026 世界杯 OR 国际足�
 BING_NEWS_MARKET = os.getenv("BING_NEWS_MARKET") or "zh-CN"
 BING_NEWS_FRESHNESS = os.getenv("BING_NEWS_FRESHNESS") or "Day"
 NEWS_MAX_RESULTS = int(os.getenv("NEWS_MAX_RESULTS", "12"))
+NEWS_RSS_FEEDS = [
+    os.getenv("GOOGLE_NEWS_RSS_URL") or "https://news.google.com/rss/search?q=2026%E4%B8%96%E7%95%8C%E6%9D%AF%20OR%20FIFA%20World%20Cup%202026&hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
+]
 
 
 def get_llm_config():
@@ -128,10 +134,14 @@ _elo_ratings = None
 _team_profiles = None
 _h2h_data = None
 _wc2022_teams = None
+_static_teams = None
 _wc2026_schedule = None
 _all_matches = None
 _thestats_team_enrichment = None
 _model_calibration = None
+_recent_friendlies_cache = None
+_qualification_matches_cache = None
+_market_odds_cache = None
 
 DEFAULT_MODEL_PARAMS = {
     "home_advantage": 45,
@@ -139,7 +149,7 @@ DEFAULT_MODEL_PARAMS = {
     "draw_base": 0.27,
     "draw_width": 700,
     "h2h_max_weight": 0.15,
-    "h2h_min_matches": 3,
+    "h2h_min_matches": 1,
     "dixon_coles_rho": -0.05,
     "score_model_weight": 0.0,
 }
@@ -157,10 +167,74 @@ def load_cache(name):
     return None
 
 
+def _cache_count(data):
+    if isinstance(data, list):
+        return len(data)
+    if isinstance(data, dict):
+        if isinstance(data.get("teams"), dict):
+            return len(data["teams"])
+        if isinstance(data.get("matches"), dict):
+            return len(data["matches"])
+        if isinstance(data.get("matches"), list):
+            return len(data["matches"])
+        return len(data)
+    return 0
+
+
+def check_prediction_data_health():
+    """检查预测数据完整性，避免把默认值误呈现为真实球队数据。"""
+    priority_matches = load_cache("qualification_friendlies_matches.json") or []
+    priority_profiles = load_cache("qualification_friendlies_team_profiles.json") or []
+    priority_meta = load_cache("qualification_friendlies_meta.json") or {}
+    qualification_cache = load_cache("qualification_matches.json") or {}
+    recent_friendlies_cache = load_cache("recent_friendlies_2025_2026.json") or {}
+    market_odds_cache = load_cache("market_odds.json") or {}
+    historical_matches = load_cache("all_historical_matches.json") or []
+    team_profiles = load_cache("historical_team_profiles.json") or []
+    h2h = load_cache("historical_h2h.json") or {}
+    thestats = load_cache("thestats_team_enrichment.json") or {}
+    schedule = load_cache("wc2026_schedule.json") or {}
+    static_teams = _load_static_teams()
+    schedule_matches = schedule.get("matches", []) if isinstance(schedule, dict) else []
+
+    health = {
+        "qualification_matches": {"available": bool((qualification_cache or {}).get("matches")), "count": _cache_count((qualification_cache or {}).get("matches", [])), "warning": (qualification_cache or {}).get("meta", {}).get("warning", "")},
+        "recent_friendlies": {"available": bool((recent_friendlies_cache or {}).get("teams")), "count": _cache_count((recent_friendlies_cache or {}).get("teams", {})), "warning": (recent_friendlies_cache or {}).get("meta", {}).get("warning", "")},
+        "market_odds": {"available": bool((market_odds_cache or {}).get("matches")), "count": _cache_count((market_odds_cache or {}).get("matches", {})), "warning": (market_odds_cache or {}).get("meta", {}).get("warning", "")},
+        "qualification_friendlies_matches": {"available": bool(priority_matches), "count": _cache_count(priority_matches)},
+        "qualification_friendlies_profiles": {"available": bool(priority_profiles), "count": _cache_count(priority_profiles)},
+        "historical_matches": {"available": bool(historical_matches), "count": _cache_count(historical_matches)},
+        "team_profiles": {"available": bool(team_profiles), "count": _cache_count(team_profiles)},
+        "static_team_profiles": {"available": bool(static_teams), "count": len(static_teams), "source": "data/teams.json"},
+        "h2h": {"available": bool(h2h), "count": _cache_count(h2h)},
+        "thestats_enrichment": {"available": bool(thestats), "count": _cache_count(thestats)},
+        "schedule": {"available": len(schedule_matches) == 104, "matches": len(schedule_matches)},
+        "warning": "",
+    }
+    warnings = []
+    if not health["qualification_friendlies_matches"]["available"] or not health["qualification_friendlies_profiles"]["available"]:
+        if priority_meta.get("warning"):
+            warnings.append(f"世界杯预选赛/近期热身赛暂不可用：{priority_meta['warning']} 当前使用本地静态球队画像或默认占位。")
+        else:
+            warnings.append("世界杯预选赛/近期热身赛缓存尚未同步；当前使用本地静态球队画像或默认占位。")
+    elif health["qualification_friendlies_profiles"]["count"] < 32:
+        warnings.append("世界杯预选赛/近期热身赛画像覆盖不足；缺失球队会回退到本地静态画像或默认占位。")
+    if not health["qualification_friendlies_profiles"]["available"] and not health["static_team_profiles"]["available"]:
+        warnings.append("球队画像缓存缺失；部分球队会回退到默认 Elo 1450 和默认能力值。")
+    if not health["h2h"]["available"]:
+        warnings.append("两队交锋缓存缺失；H2H 修正暂未启用。")
+    if not health["thestats_enrichment"]["available"]:
+        health["thestats_enrichment"]["optional_warning"] = "TheStats 高级数据未同步；xG/player/lineup 只作为可选增强，不影响基础模型运行。"
+    if not health["schedule"]["available"]:
+        warnings.append("World Cup schedule cache is incomplete; venue/context matching may be degraded.")
+    health["warning"] = " ".join(warnings)
+    return health
+
+
 def _load_all_matches():
     global _all_matches
     if _all_matches is None:
-        raw = load_cache("all_historical_matches.json") or []
+        raw = load_cache("qualification_friendlies_matches.json") or load_cache("all_historical_matches.json") or []
         _all_matches = [m for m in raw
                         if m.get("league_name") not in CLUB_COMPETITIONS
                         and m.get("home_goals") is not None
@@ -173,7 +247,7 @@ def _load_all_matches():
 def _load_team_profiles():
     global _team_profiles
     if _team_profiles is None:
-        _team_profiles = load_cache("historical_team_profiles.json") or []
+        _team_profiles = load_cache("qualification_friendlies_team_profiles.json") or load_cache("historical_team_profiles.json") or []
     return _team_profiles
 
 
@@ -189,6 +263,22 @@ def _load_wc2022_teams():
     if _wc2022_teams is None:
         _wc2022_teams = load_cache("wc_team_list.json") or []
     return _wc2022_teams
+
+
+def _load_static_teams():
+    global _static_teams
+    if _static_teams is None:
+        path = os.path.join(BASE_DIR, "data", "teams.json")
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    raw = json.load(f)
+                _static_teams = raw.get("teams", []) if isinstance(raw, dict) else []
+            except (OSError, json.JSONDecodeError):
+                _static_teams = []
+        else:
+            _static_teams = []
+    return _static_teams
 
 
 def _load_wc2026_schedule():
@@ -281,6 +371,13 @@ def get_wc2022_team(team_name):
     for t in teams:
         if t.get("name") == team_name:
             return t
+    return None
+
+
+def get_static_team(team_name):
+    for team in _load_static_teams():
+        if team.get("name") == team_name or _normalize_name(team.get("name", "")) == _normalize_name(team_name):
+            return team
     return None
 
 
@@ -408,9 +505,19 @@ def build_team_data(team_name):
     profile = get_team_profile(team_name)
     thestats = get_thestats_enrichment(team_name)
     wc2022 = get_wc2022_team(team_name)
+    static_team = get_static_team(team_name)
     elo_ratings = get_elo_ratings()
     en_name = _normalize_name(team_name)
     elo = elo_ratings.get(en_name, elo_ratings.get(team_name, 1450))
+    elo_is_estimated = False
+    if elo == 1450 and static_team:
+        static_avg = (
+            static_team.get("attack_rating", 70) * 0.4 +
+            static_team.get("defense_rating", 70) * 0.3 +
+            static_team.get("midfield_rating", 70) * 0.3
+        )
+        elo = 1200 + static_avg * 5
+        elo_is_estimated = True
     elo_score = elo_to_score(elo)
 
     result = {
@@ -430,9 +537,11 @@ def build_team_data(team_name):
         "recent_form": [],
         "style": "均衡",
         "market_value": None,
+        "injuries": [],
         "games_analyzed": 0,
         "elo_rating": round(elo, 1),
         "elo_score": elo_score,
+        "elo_source": "local_static_profile_estimate" if elo_is_estimated else ("historical_cache" if elo != 1450 else "default_placeholder"),
         "wc2022_data": None,
         "data_source": "无历史数据",
         "advanced_inputs": {
@@ -447,6 +556,29 @@ def build_team_data(team_name):
             "source": None,
         },
     }
+
+    if static_team and not profile:
+        result.update({
+            "flag": static_team.get("flag", result["flag"]),
+            "fifa_rank": static_team.get("fifa_rank"),
+            "confederation": static_team.get("confederation", ""),
+            "attack_rating": static_team.get("attack_rating", 70),
+            "defense_rating": static_team.get("defense_rating", 70),
+            "midfield_rating": static_team.get("midfield_rating", 70),
+            "avg_goals_scored": static_team.get("avg_goals_scored", 1.2),
+            "avg_goals_conceded": static_team.get("avg_goals_conceded", 1.1),
+            "xG_per_match": static_team.get("xG_per_match", 1.0),
+            "xGA_per_match": static_team.get("xGA_per_match", 1.0),
+            "avg_possession": static_team.get("avg_possession", 48),
+            "recent_form": static_team.get("recent_form", []),
+            "style": static_team.get("style", "均衡"),
+            "market_value": static_team.get("market_value"),
+            "coach": static_team.get("coach"),
+            "key_player": static_team.get("key_player"),
+            "injuries": static_team.get("injuries", []),
+            "games_analyzed": len(static_team.get("recent_form", [])),
+            "data_source": "本地静态球队画像(data/teams.json)",
+        })
 
     if profile:
         result["attack_rating"] = profile.get("attack_rating", 70)
@@ -673,6 +805,109 @@ def _normalize_bing_news_article(article, index):
     }
 
 
+def _local_news_fallback():
+    path = os.path.join(BASE_DIR, "data", "news.json")
+    if not os.path.exists(path):
+        return {"provider": "local", "query": BING_NEWS_QUERY, "news": []}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return {"provider": "local", "query": BING_NEWS_QUERY, "news": []}
+    news = data.get("news", []) if isinstance(data, dict) else []
+    return {
+        "provider": "local",
+        "query": BING_NEWS_QUERY,
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "news": news[:NEWS_MAX_RESULTS],
+    }
+
+
+def _strip_google_news_source(title):
+    if " - " not in title:
+        return title, ""
+    headline, source = title.rsplit(" - ", 1)
+    return headline.strip(), source.strip()
+
+
+def _clean_news_summary(value):
+    text = html.unescape(value or "")
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = " ".join(text.split())
+    return text
+
+
+def _normalize_rss_news_item(item, index):
+    raw_title = item.findtext("title") or "未命名新闻"
+    title, source_from_title = _strip_google_news_source(raw_title)
+    description = item.findtext("description") or ""
+    link = item.findtext("link") or ""
+    published_at = item.findtext("pubDate") or ""
+    date_text = datetime.now().strftime("%Y-%m-%d")
+    if published_at:
+        try:
+            parsed = datetime.strptime(published_at[:25], "%a, %d %b %Y %H:%M:%S")
+            date_text = parsed.strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    source = item.findtext("source") or source_from_title or "RSS"
+    summary = _clean_news_summary(description)
+    return {
+        "id": f"rss-{date_text}-{index}",
+        "title": title,
+        "summary": summary[:220] if summary else "暂无摘要，请点击原文查看详情。",
+        "image": "/static/img/news-placeholder.svg",
+        "original_image": "",
+        "source": source,
+        "date": date_text,
+        "published_at": published_at,
+        "category": _news_category(title, summary),
+        "url": link,
+        "is_live": True,
+    }
+
+
+def _fetch_rss_news_articles():
+    articles = []
+    for feed_url in NEWS_RSS_FEEDS:
+        if not feed_url:
+            continue
+        request = urllib.request.Request(feed_url, headers={
+            "User-Agent": "WorldSoccerAI/1.0",
+            "Accept": "application/rss+xml, application/xml, text/xml",
+        })
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                raw = response.read()
+            root = ET.fromstring(raw)
+        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ET.ParseError):
+            continue
+
+        channel = root.find("channel")
+        items = channel.findall("item") if channel is not None else root.findall(".//item")
+        for item in items:
+            normalized = _normalize_rss_news_item(item, len(articles) + 1)
+            if _is_relevant_football_news(normalized):
+                articles.append(normalized)
+            if len(articles) >= NEWS_MAX_RESULTS:
+                break
+        if len(articles) >= NEWS_MAX_RESULTS:
+            break
+
+    articles = _dedupe_news_articles(articles)
+    if not articles:
+        return None
+
+    return {
+        "provider": "google-news-rss",
+        "query": BING_NEWS_QUERY,
+        "language": BING_NEWS_MARKET,
+        "country": BING_NEWS_MARKET,
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "news": articles[:NEWS_MAX_RESULTS],
+    }
+
+
 def _fetch_bing_news_articles():
     if not BING_NEWS_API_KEY:
         return None
@@ -732,7 +967,13 @@ def get_news_data():
         save_cache("live_news_latest.json", live_news)
         return live_news
 
-    return {"provider": "bing-news-search", "query": BING_NEWS_QUERY, "news": []}
+    rss_news = _fetch_rss_news_articles()
+    if rss_news:
+        save_cache(today_cache, rss_news)
+        save_cache("live_news_latest.json", rss_news)
+        return rss_news
+
+    return _local_news_fallback()
 
 
 def normalize_form(form_list):
@@ -980,6 +1221,333 @@ def _safe_float(value):
         return None
 
 
+def _clamp(value, low, high):
+    return max(low, min(high, value))
+
+
+def _parse_date(value):
+    if not value:
+        return None
+    text = str(value).strip()
+    for candidate in (text, text[:10]):
+        try:
+            return datetime.fromisoformat(candidate.replace("Z", "+00:00")).date()
+        except ValueError:
+            pass
+    return None
+
+
+def load_recent_friendlies():
+    """source provider: API-Football; source endpoint: fixtures; target competition: Friendlies/International Friendlies."""
+    global _recent_friendlies_cache
+    if _recent_friendlies_cache is None:
+        _recent_friendlies_cache = load_cache("recent_friendlies_2025_2026.json") or {}
+    return _recent_friendlies_cache
+
+
+def load_qualification_matches():
+    """source provider: local_csv/API-Football; source endpoint: qualification_matches.json / fixtures."""
+    global _qualification_matches_cache
+    if _qualification_matches_cache is None:
+        raw = load_cache("qualification_matches.json") or {}
+        if isinstance(raw, dict):
+            _qualification_matches_cache = raw
+        elif isinstance(raw, list):
+            _qualification_matches_cache = {"meta": {"source": "legacy_list"}, "matches": raw}
+        else:
+            _qualification_matches_cache = {}
+    return _qualification_matches_cache
+
+
+def _empty_friendlies_agent(team_name, warning):
+    return {
+        "team": team_name,
+        "elo_delta": 0.0,
+        "summary": {
+            "matches": 0,
+            "wins": 0,
+            "draws": 0,
+            "losses": 0,
+            "goals_for": 0,
+            "goals_against": 0,
+            "form_score": 0.0,
+            "elo_delta": 0.0,
+            "confidence": "none",
+        },
+        "confidence": "none",
+        "warning": warning,
+        "source": None,
+    }
+
+
+def _empty_qualification_agent(team_name, warning):
+    return {
+        "team": team_name,
+        "elo_delta": 0.0,
+        "summary": {"matches": 0, "wins": 0, "draws": 0, "losses": 0, "goals_for": 0, "goals_against": 0, "confidence": "none"},
+        "confidence": "none",
+        "warning": warning,
+        "source": None,
+    }
+
+
+def calculate_qualification_adjustment(team_name, match_date=None):
+    cache = load_qualification_matches()
+    meta = cache.get("meta", {}) if isinstance(cache, dict) else {}
+    matches = cache.get("matches", []) if isinstance(cache, dict) else []
+    if not matches:
+        return _empty_qualification_agent(team_name, meta.get("warning") or "No qualification cache available.")
+
+    team_en = _normalize_name(team_name)
+    anchor_date = _parse_date(match_date) or datetime.now().date()
+    summary = {"matches": 0, "wins": 0, "draws": 0, "losses": 0, "goals_for": 0, "goals_against": 0, "confidence": "none"}
+    total_score = 0.0
+    used = []
+    for match in matches:
+        home = _normalize_name(match.get("home_team", ""))
+        away = _normalize_name(match.get("away_team", ""))
+        if team_en not in {home, away}:
+            continue
+        hg = _safe_float(match.get("home_goals"))
+        ag = _safe_float(match.get("away_goals"))
+        if hg is None or ag is None:
+            continue
+        is_home = home == team_en
+        gf = hg if is_home else ag
+        ga = ag if is_home else hg
+        result = "W" if gf > ga else "D" if gf == ga else "L"
+        result_score = 1 if result == "W" else 0 if result == "D" else -1
+        goal_bonus = _clamp((gf - ga) * 0.20, -0.8, 0.8)
+        played_at = _parse_date(match.get("date"))
+        if played_at and anchor_date:
+            days_ago = max(0, (anchor_date - played_at).days)
+            time_decay = _clamp(1.0 - days_ago / 900.0, 0.45, 1.0)
+        else:
+            time_decay = 0.45
+        score = (result_score + goal_bonus) * time_decay
+        total_score += score
+        summary["matches"] += 1
+        summary["goals_for"] += int(gf)
+        summary["goals_against"] += int(ga)
+        if result == "W":
+            summary["wins"] += 1
+        elif result == "D":
+            summary["draws"] += 1
+        else:
+            summary["losses"] += 1
+        used.append({**match, "team_result": result, "match_score": round(score, 3), "time_decay": round(time_decay, 2)})
+
+    if not used:
+        return _empty_qualification_agent(team_name, meta.get("warning") or "No qualification matches for this team.")
+    summary["confidence"] = "low" if len(used) < 3 else "medium" if len(used) < 8 else "high"
+    elo_delta = round(_clamp(total_score * 10, -45, 45), 1)
+    summary["elo_delta"] = elo_delta
+    return {
+        "team": team_name,
+        "elo_delta": elo_delta,
+        "summary": summary,
+        "matches": used[-10:],
+        "confidence": summary["confidence"],
+        "warning": meta.get("warning", ""),
+        "source": {
+            "source_provider": meta.get("source_provider"),
+            "source_endpoint": meta.get("source_endpoint"),
+        },
+    }
+
+
+def calculate_recent_friendlies_adjustment(team_name, match_date=None):
+    cache = load_recent_friendlies()
+    warning = "No recent friendlies cache available."
+    if not cache:
+        return _empty_friendlies_agent(team_name, warning)
+
+    meta = cache.get("meta", {}) if isinstance(cache, dict) else {}
+    teams = cache.get("teams", {}) if isinstance(cache, dict) else {}
+    team_key = team_name if team_name in teams else _normalize_name(team_name)
+    team_data = teams.get(team_key)
+    if not team_data:
+        return _empty_friendlies_agent(team_name, meta.get("warning") or "No recent friendlies data for this team.")
+
+    anchor_date = _parse_date(match_date) or datetime.now().date()
+    total_score = 0.0
+    used_matches = []
+    for match in team_data.get("matches", []) or []:
+        match_status = (match.get("status") or "").upper()
+        if match_status and match_status not in {"FT", "AET", "PEN", "MATCH FINISHED"}:
+            continue
+        result = (match.get("result") or "").upper()
+        result_score = 1 if result == "W" else 0 if result == "D" else -1 if result == "L" else 0
+        goal_diff = _safe_float(match.get("goal_diff"))
+        if goal_diff is None:
+            goal_diff = (_safe_float(match.get("goals_for")) or 0) - (_safe_float(match.get("goals_against")) or 0)
+        goal_bonus = _clamp(goal_diff * 0.25, -0.75, 0.75)
+        opponent_elo = _safe_float(match.get("opponent_elo")) or 1500
+        opponent_factor = _clamp(opponent_elo / 1500, 0.75, 1.25)
+        played_at = _parse_date(match.get("date"))
+        if played_at and anchor_date:
+            days_ago = max(0, (anchor_date - played_at).days)
+            time_decay = _clamp(1.0 - days_ago / 540.0, 0.4, 1.0)
+        else:
+            time_decay = 0.4
+        match_score = (result_score + goal_bonus) * opponent_factor * time_decay
+        total_score += match_score
+        used_matches.append({**match, "match_score": round(match_score, 3), "time_decay": round(time_decay, 2)})
+
+    elo_delta = round(_clamp(total_score * 8, -25, 25), 1)
+    summary = dict(team_data.get("summary") or {})
+    summary.update({
+        "matches": len(used_matches),
+        "elo_delta": elo_delta,
+        "confidence": summary.get("confidence") or ("low" if len(used_matches) < 3 else "medium"),
+    })
+    if not used_matches:
+        summary["confidence"] = "none"
+        return _empty_friendlies_agent(team_name, meta.get("warning") or "No finished recent friendlies for this team.")
+
+    return {
+        "team": team_name,
+        "elo_delta": elo_delta,
+        "summary": summary,
+        "matches": used_matches[:10],
+        "confidence": summary.get("confidence"),
+        "warning": meta.get("warning", ""),
+        "source": {
+            "source_provider": meta.get("source_provider", "API-Football"),
+            "source_endpoint": meta.get("source_endpoint", "fixtures"),
+            "date_from": meta.get("date_from"),
+            "date_to": meta.get("date_to"),
+        },
+    }
+
+
+def load_market_odds():
+    """source provider: API-Football/TheStatsAPI/The Odds API; source endpoint: odds."""
+    global _market_odds_cache
+    if _market_odds_cache is None:
+        _market_odds_cache = load_cache("market_odds.json") or {}
+    return _market_odds_cache
+
+
+def _empty_market_odds_signal(warning):
+    return {
+        "available": False,
+        "source": None,
+        "bookmaker_count": 0,
+        "raw_odds": None,
+        "normalized_implied_probabilities": None,
+        "market_weight": 0.0,
+        "warning": warning,
+        "disclaimer": "盘口数据仅用于概率校准和市场预期参考，不构成投注建议。",
+    }
+
+
+def _match_market_key(home_team, away_team, match_date=None):
+    date_text = str(match_date or "")[:10]
+    return f"{_normalize_name(home_team)}|{_normalize_name(away_team)}|{date_text}"
+
+
+def _find_market_odds_entry(cache, home_team, away_team, match_date=None):
+    matches = cache.get("matches", {}) if isinstance(cache, dict) else {}
+    if not isinstance(matches, dict) or not matches:
+        return None
+    keys = [
+        _match_market_key(home_team, away_team, match_date),
+        _match_market_key(away_team, home_team, match_date),
+        f"{home_team}|{away_team}|{str(match_date or '')[:10]}",
+        f"{away_team}|{home_team}|{str(match_date or '')[:10]}",
+    ]
+    for key in keys:
+        if key in matches:
+            entry = dict(matches[key])
+            if key.startswith(f"{_normalize_name(away_team)}|") or key.startswith(f"{away_team}|"):
+                entry["swapped"] = True
+            return entry
+    for entry in matches.values():
+        if not isinstance(entry, dict):
+            continue
+        eh = _normalize_name(entry.get("home_team", ""))
+        ea = _normalize_name(entry.get("away_team", ""))
+        entry_day = _parse_date(entry.get("date"))
+        requested_day = _parse_date(match_date)
+        same_date = not match_date or str(entry.get("date", ""))[:10] == str(match_date)[:10]
+        if not same_date and entry_day and requested_day:
+            # The Odds API commence_time may be UTC/venue-local while the local
+            # schedule page displays Beijing date, so adjacent dates can refer
+            # to the same kickoff.
+            same_date = abs((entry_day - requested_day).days) <= 1
+        if same_date and eh == _normalize_name(home_team) and ea == _normalize_name(away_team):
+            return entry
+        if same_date and eh == _normalize_name(away_team) and ea == _normalize_name(home_team):
+            swapped = dict(entry)
+            swapped["swapped"] = True
+            return swapped
+    return None
+
+
+def calculate_market_odds_signal(home_team, away_team, match_date=None):
+    cache = load_market_odds()
+    if not cache:
+        return _empty_market_odds_signal("No market odds cache available.")
+
+    meta = cache.get("meta", {}) if isinstance(cache, dict) else {}
+    entry = _find_market_odds_entry(cache, home_team, away_team, match_date)
+    if not entry:
+        return _empty_market_odds_signal(meta.get("warning") or "No market odds for this match.")
+
+    one_x_two = ((entry.get("markets") or {}).get("1x2") or {})
+    average = dict(one_x_two.get("average") or {})
+    if entry.get("swapped"):
+        average["home"], average["away"] = average.get("away"), average.get("home")
+
+    home_odds = _safe_float(average.get("home"))
+    draw_odds = _safe_float(average.get("draw"))
+    away_odds = _safe_float(average.get("away"))
+    if not home_odds or not draw_odds or not away_odds:
+        return _empty_market_odds_signal(meta.get("warning") or "Market odds cache has no valid 1X2 average odds.")
+
+    raw_home = 1 / home_odds
+    raw_draw = 1 / draw_odds
+    raw_away = 1 / away_odds
+    total = raw_home + raw_draw + raw_away
+    implied = {
+        "home": round(raw_home / total, 4),
+        "draw": round(raw_draw / total, 4),
+        "away": round(raw_away / total, 4),
+    }
+    bookmaker_count = int(_safe_float(entry.get("bookmaker_count")) or len(one_x_two.get("bookmakers") or []))
+    days_to_match = None
+    fetched_at = _parse_date(entry.get("fetched_at"))
+    match_day = _parse_date(entry.get("date") or match_date)
+    if fetched_at and match_day:
+        days_to_match = abs((match_day - fetched_at).days)
+
+    if bookmaker_count >= 5 and days_to_match is not None and days_to_match < 7:
+        market_weight = 0.20
+    elif bookmaker_count >= 2:
+        market_weight = 0.10
+    elif bookmaker_count == 1:
+        market_weight = 0.05
+    else:
+        market_weight = 0.0
+
+    return {
+        "available": True,
+        "source": {
+            "source_provider": meta.get("source_provider"),
+            "source_endpoint": meta.get("source_endpoint", "odds"),
+            "odds_format": meta.get("odds_format", "decimal"),
+            "markets": meta.get("markets", ["1X2"]),
+        },
+        "bookmaker_count": bookmaker_count,
+        "raw_odds": {"home": home_odds, "draw": draw_odds, "away": away_odds},
+        "normalized_implied_probabilities": implied,
+        "market_weight": market_weight,
+        "warning": meta.get("warning", ""),
+        "disclaimer": "盘口数据仅用于概率校准和市场预期参考，不构成投注建议。",
+    }
+
+
 def calculate_advanced_elo_adjustment(team):
     """将 TheStatsAPI 高级特征折算为小幅 Elo 修正，避免覆盖历史 Elo 主模型。"""
     adv = team.get("advanced_inputs", {}) or {}
@@ -1097,7 +1665,7 @@ def _find_scheduled_match(home_name, away_name):
 
 
 def search_match_context(home_team, away_team):
-    """赛前情境 Agent：用当前可稳定获得的赛程/场地数据补充预测。天气和伤停保留为待接入项。"""
+    """赛前情境 Agent：使用本地赛程、场地气候表和本地伤停备注补充预测。"""
     home_name = home_team.get("name", "")
     away_name = away_team.get("name", "")
     match = _find_scheduled_match(home_name, away_name)
@@ -1136,6 +1704,13 @@ def search_match_context(home_team, away_team):
     if venue.get("city") in {"迈阿密", "休斯顿"}:
         factors.append({"factor": "湿热风险", "value": venue.get("climate_note"), "home_elo_delta": 0, "away_elo_delta": 0})
 
+    home_injuries = home_team.get("injuries") or []
+    away_injuries = away_team.get("injuries") or []
+    if home_injuries:
+        factors.append({"factor": f"{home_name}本地伤停备注", "value": "；".join(home_injuries), "home_elo_delta": 0, "away_elo_delta": 0})
+    if away_injuries:
+        factors.append({"factor": f"{away_name}本地伤停备注", "value": "；".join(away_injuries), "home_elo_delta": 0, "away_elo_delta": 0})
+
     home_delta = max(-35, min(35, home_delta))
     away_delta = max(-35, min(35, away_delta))
     confidence = 0.65 if match else 0.25
@@ -1148,30 +1723,65 @@ def search_match_context(home_team, away_team):
         "match_found": bool(match),
         "match": match,
         "venue": venue,
-        "weather": {"status": "pending", "note": "未接入稳定天气 API，暂不参与概率修正。"},
-        "team_news": {"status": "pending", "note": "未接入稳定伤停来源，暂不参与概率修正。"},
+        "weather": {
+            "status": "local_climate_reference",
+            "note": venue.get("climate_note") or "暂无本地场地气候备注。",
+            "source_provider": "local_static_venue_context",
+            "source_endpoint": "ai_engine.VENUE_CONTEXTS",
+            "affects_probability": False,
+        },
+        "team_news": {
+            "status": "local_static_notes",
+            "note": f"{home_name}: {'；'.join(home_injuries) if home_injuries else '本地表暂无伤停备注'}；{away_name}: {'；'.join(away_injuries) if away_injuries else '本地表暂无伤停备注'}",
+            "source_provider": "local_static_team_profiles",
+            "source_endpoint": "data/teams.json injuries",
+            "affects_probability": False,
+        },
         "adjustment": {
             "home_elo_delta": round(home_delta, 1),
             "away_elo_delta": round(away_delta, 1),
             "confidence": confidence,
         },
         "factors": factors,
-        "sources": ["data/cache/wc2026_schedule.json", "内置2026世界杯场地城市/海拔表"],
-        "note": "第一版仅使用本地赛程和场地资料；天气、伤停等无稳定来源时不会修正概率。",
+        "sources": ["data/cache/wc2026_schedule.json", "内置2026世界杯场地城市/海拔表", "data/teams.json injuries"],
+        "note": "当前使用本地赛程、场地气候和本地伤停备注；天气和伤停备注只作为解释信息，未自动修正概率。",
     }
 
 
+def get_effective_home_advantage(home_team, away_team, match_context):
+    """Return fixed home advantage for the Elo probability layer.
+
+    World Cup 2026 matches are treated as neutral for the fixed home slot.
+    Real host-country venue effects are handled separately by
+    search_match_context().adjustment so they do not get double counted.
+    """
+    match_context = match_context or {}
+    match = match_context.get("match") or {}
+    if match:
+        return 0.0
+    return 0.0
+
+
 def calculate_match_result_prob(home_team, away_team, h2h_data=None):
-    """v4.5 胜平负概率: Elo基准 + TheStatsAPI质量降权 + H2H + Dixon-Coles比分模型融合 + 赛前情境Agent"""
+    """v4.5 胜平负概率: base profile + qualification + friendlies + H2H + venue + optional TheStats + score blend + market blend"""
     home_base_elo = home_team.get("elo_rating", 1450)
     away_base_elo = away_team.get("elo_rating", 1450)
     home_adv = calculate_advanced_elo_adjustment(home_team)
     away_adv = calculate_advanced_elo_adjustment(away_team)
     context_agent = search_match_context(home_team, away_team)
+    match = context_agent.get("match") or {}
+    match_date = match.get("date")
+    home_qualification = calculate_qualification_adjustment(home_team["name"], match_date)
+    away_qualification = calculate_qualification_adjustment(away_team["name"], match_date)
+    home_friendlies = calculate_recent_friendlies_adjustment(home_team["name"], match_date)
+    away_friendlies = calculate_recent_friendlies_adjustment(away_team["name"], match_date)
     context_adj = context_agent.get("adjustment", {})
-    home_elo = home_base_elo + home_adv["elo_delta"] + context_adj.get("home_elo_delta", 0)
-    away_elo = away_base_elo + away_adv["elo_delta"] + context_adj.get("away_elo_delta", 0)
-    params = get_model_calibration()["params"]
+    home_elo = home_base_elo + home_qualification["elo_delta"] + home_friendlies["elo_delta"] + context_adj.get("home_elo_delta", 0) + home_adv["elo_delta"]
+    away_elo = away_base_elo + away_qualification["elo_delta"] + away_friendlies["elo_delta"] + context_adj.get("away_elo_delta", 0) + away_adv["elo_delta"]
+    params = dict(get_model_calibration()["params"])
+    original_home_advantage = params.get("home_advantage", 0)
+    params["home_advantage"] = get_effective_home_advantage(home_team, away_team, context_agent)
+    params["h2h_min_matches"] = 1
 
     normalized_h2h = None
     if h2h_data and h2h_data.get("total", 0) >= params["h2h_min_matches"]:
@@ -1185,6 +1795,17 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
 
     probs = _predict_probs_from_elo(home_elo, away_elo, normalized_h2h, params)
     probs = _blend_score_model_probs(home_team, away_team, probs, params)
+    market_signal = calculate_market_odds_signal(home_team["name"], away_team["name"], match_date)
+    if market_signal.get("market_weight", 0) > 0 and market_signal.get("normalized_implied_probabilities"):
+        weight = market_signal["market_weight"]
+        implied = market_signal["normalized_implied_probabilities"]
+        probs = {
+            "home": probs["home"] * (1 - weight) + implied["home"] * weight,
+            "draw": probs["draw"] * (1 - weight) + implied["draw"] * weight,
+            "away": probs["away"] * (1 - weight) + implied["away"] * weight,
+        }
+        total_prob = sum(probs.values())
+        probs = {key: probs[key] / total_prob for key in probs}
     home_prob = round(probs["home"] * 100, 1)
     draw_prob = round(probs["draw"] * 100, 1)
     away_prob = round(100 - home_prob - draw_prob, 1)
@@ -1199,6 +1820,36 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
         "home_win": home_prob,
         "draw": draw_prob,
         "away_win": away_prob,
+        "probability_sum": round(home_prob + draw_prob + away_prob, 1),
+        "qualification_agent": {
+            "home_team_delta": home_qualification["elo_delta"],
+            "away_team_delta": away_qualification["elo_delta"],
+            "home_summary": home_qualification.get("summary"),
+            "away_summary": away_qualification.get("summary"),
+            "home_warning": home_qualification.get("warning"),
+            "away_warning": away_qualification.get("warning"),
+            "confidence": {
+                "home": home_qualification.get("confidence"),
+                "away": away_qualification.get("confidence"),
+            },
+            "warning": home_qualification.get("warning") or away_qualification.get("warning") or "",
+            "source": home_qualification.get("source") or away_qualification.get("source"),
+        },
+        "recent_friendlies_agent": {
+            "home_team_delta": home_friendlies["elo_delta"],
+            "away_team_delta": away_friendlies["elo_delta"],
+            "home_summary": home_friendlies.get("summary"),
+            "away_summary": away_friendlies.get("summary"),
+            "home_warning": home_friendlies.get("warning"),
+            "away_warning": away_friendlies.get("warning"),
+            "confidence": {
+                "home": home_friendlies.get("confidence"),
+                "away": away_friendlies.get("confidence"),
+            },
+            "warning": home_friendlies.get("warning") or away_friendlies.get("warning") or "",
+            "source": home_friendlies.get("source") or away_friendlies.get("source"),
+        },
+        "market_odds_agent": market_signal,
         "advanced_adjustment": {
             "home": home_adv,
             "away": away_adv,
@@ -1207,6 +1858,8 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
             "away_adjusted_elo": round(away_elo, 1),
             "home_base_elo": round(home_base_elo, 1),
             "away_base_elo": round(away_base_elo, 1),
+            "original_home_advantage": original_home_advantage,
+            "effective_home_advantage": params["home_advantage"],
         }
     }
 
@@ -1609,7 +2262,7 @@ def _call_openai_compatible_llm(payload):
     messages = [
         {
             "role": "system",
-            "content": "你是专业足球数据分析师。只基于用户提供的v4.5模型结果解读，不得编造新数据。优先输出JSON，字段为summary、score_view、key_factors、risk_note；如果无法输出JSON，也可以直接输出一段中文解读。不要涉及投注、赔率、下注建议。"
+            "content": "你是专业足球数据分析师。只基于用户提供的v4.5模型结果解读，不得编造新数据。优先输出JSON，字段为summary、score_view、key_factors、risk_note；如果无法输出JSON，也可以直接输出一段中文解读。不要涉及市场交易相关建议。"
         },
         {
             "role": "user",
@@ -1795,6 +2448,7 @@ def run_full_analysis(home_team_name, away_team_name):
 
     match_count = len(_load_all_matches())
     calibration = get_model_calibration()
+    data_health = check_prediction_data_health()
     calibration_summary = {
         "version": calibration["version"],
         "method": calibration["method"],
@@ -1820,8 +2474,10 @@ def run_full_analysis(home_team_name, away_team_name):
         "h2h_history": h2h_summary,
         "model_calibration": calibration_summary,
         "context_agent": context_agent,
-        "data_source": f"API-Football v3 | TheStatsAPI 高级统计/球员评分/首发强度 | 赛前情境Agent | 2022-2024 国际赛事 {match_count}场 | Elo评分 + 2024回测校准 | 2026 预测",
-        "disclaimer": f"本分析基于 Elo 评分系统（{match_count}场国家队比赛、赛事加权、时间衰减）、TheStatsAPI近况高级统计、球员评分、首发强度和2024回测校准参数。高级特征以小幅 Elo 修正方式进入胜平负概率。回测指标: Log Loss {calibration['metrics']['log_loss']}、Brier {calibration['metrics']['brier_score']}、样本 {calibration['metrics']['matches']} 场。结果为概率性分析，仅供参考。",
+        "data_health": data_health,
+        "data_warning": data_health.get("warning", ""),
+        "data_source": f"API-Football预选赛/热身赛缓存 | 本地球队画像 | H2H缓存 | 最近热身赛缓存 | 市场预期信号缓存 | 赛前情境Agent | 当前优先比赛缓存 {match_count}场 | Elo评分 + 回测校准 | 2026 预测",
+        "disclaimer": f"本分析优先基于世界杯预选赛、最近热身赛、本地球队画像、H2H、赛前情境和市场预期信号；TheStats 仅作为可选高级增强，缺失时不影响基础模型运行。缺少真实缓存时会明确降级到本地画像或默认占位。回测指标: Log Loss {calibration['metrics']['log_loss']}、Brier {calibration['metrics']['brier_score']}、样本 {calibration['metrics']['matches']} 场。结果为概率性分析，仅供参考。",
     }
 
 

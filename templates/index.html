@@ -33,6 +33,11 @@
                     <i class="fas fa-info-circle text-wc-green-light mr-1"></i>
                     榜单基于 v4.5 模型全赛程蒙特卡洛模拟，显示各队夺冠概率；单场概率由本地综合模型计算。
                 </p>
+                {% if dashboard.data_warning %}
+                <div class="mt-4 rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100 leading-relaxed">
+                    <i class="fas fa-triangle-exclamation text-wc-gold mr-1"></i>{{ dashboard.data_warning }}
+                </div>
+                {% endif %}
             </div>
 
             <div class="glass-card rounded-3xl p-6 border border-white/10 shadow-2xl">
@@ -68,6 +73,40 @@
                     {% endfor %}
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-14 bg-wc-navy-light border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-3">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">Live news · {{ dashboard.news_provider }}</p>
+                <h2 class="text-2xl md:text-4xl font-black">世界杯最新资讯</h2>
+                <p class="text-gray-400 mt-2">优先读取公开新闻 RSS；不可用时自动回落到本地资讯缓存。</p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {% for item in dashboard.news %}
+            <a href="{{ item.url or '#' }}" {% if item.url %}target="_blank" rel="noopener noreferrer"{% endif %} class="news-card premium-card rounded-2xl p-5 border border-white/10 block hover:border-wc-gold/50 transition-all">
+                <div class="flex items-center justify-between gap-3 mb-4">
+                    <span class="px-3 py-1 rounded-full bg-wc-green/25 text-green-300 text-xs font-bold">{{ item.category }}</span>
+                    <span class="text-xs text-gray-400">{{ item.date }}</span>
+                </div>
+                <h3 class="font-bold text-lg leading-snug mb-3 line-clamp-2">{{ item.title }}</h3>
+                <p class="text-sm text-gray-400 leading-relaxed line-clamp-3">{{ item.summary }}</p>
+                <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+                    <span class="truncate">{{ item.source }}</span>
+                    {% if item.url %}
+                    <span class="text-wc-gold"><i class="fas fa-arrow-up-right-from-square"></i></span>
+                    {% endif %}
+                </div>
+            </a>
+            {% else %}
+            <div class="premium-card rounded-2xl p-6 border border-white/10 text-gray-400">
+                暂无可展示资讯。
+            </div>
+            {% endfor %}
         </div>
     </div>
 </section>

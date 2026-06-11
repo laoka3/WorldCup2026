@@ -220,6 +220,21 @@ http://127.0.0.1:5000
 # 启动 Web 应用
 python app.py
 
+# 自动下载并导入公开国际赛果 CSV（预选赛 + 最近热身赛）
+python scripts/import_international_results_csv.py
+
+# 优先：从 The Odds API 同步市场预期信号；无返回时会写 warning 并禁用市场信号
+python scripts/sync_market_odds.py
+
+# 备用：导入手动/外部导出的市场预期信号 CSV；没有 CSV 时会禁用市场信号
+python scripts/import_market_odds_csv.py
+
+# 可选：尝试 API-Football 同步预选赛/热身赛；free plan 可能不开放 2025/2026 fixtures
+python scripts/sync_qualification_friendlies.py
+
+# 可选：同步指定对阵 H2H
+python scripts/sync_h2h_api_football.py --home 墨西哥 --away 南非
+
 # 运行 TheStatsAPI 回测
 python scripts/backtest_thestats_2025_2026.py
 
@@ -228,6 +243,30 @@ python scripts/search_v44_params.py
 
 # 运行蒙特卡洛模拟
 python scripts/simulate_wc2026_monte_carlo.py
+```
+
+## 数据源优先级
+
+当前主模型优先使用世界杯预选赛、最近热身赛/友谊赛、H2H、市场预期信号、本地球队画像和赛程/场地情境。TheStatsAPI 只作为可选高级增强，缺失时不影响基础模型运行。
+
+预选赛和热身赛结果优先从 `data/imports/international_results.csv` 导入。如果文件不存在，`scripts/import_international_results_csv.py` 会尝试自动下载公开数据源 `martj42/international_results` 的 `results.csv`：`https://raw.githubusercontent.com/martj42/international_results/master/results.csv`。支持字段：`date`、`home_team`、`away_team`、`home_score`、`away_score`、`tournament`、`city`、`country`、`neutral`。
+
+市场预期信号优先通过 `scripts/sync_market_odds.py` 从 The Odds API v4 同步 `soccer_fifa_world_cup` 的 `h2h`、`spreads`、`totals` 市场，并写入 `data/cache/market_odds.json`。如果 The Odds API 当前没有 upcoming odds、plan 不支持或没有匹配本地赛程，会生成空缓存和 warning，`market_weight = 0`，不会改变概率。`data/imports/market_odds.csv` 仍作为手动/外部导出的备用导入方式。后续可接 API-Football odds（如果 plan 支持）或 TheStatsAPI odds。盘口数据仅用于概率校准和市场预期参考，不构成投注建议。
+
+### 数据准备顺序
+
+```bash
+# 1. 自动下载并导入国际比赛结果
+python scripts/import_international_results_csv.py
+
+# 2. 优先：同步 The Odds API 市场预期信号
+python scripts/sync_market_odds.py
+
+# 2b. 备用：导入市场预期信号 CSV
+python scripts/import_market_odds_csv.py
+
+# 3. 启动项目
+python app.py
 ```
 
 ## 主要页面

@@ -22,7 +22,7 @@ from ai_engine import (
     get_schedule_data, get_all_team_names,
     build_team_data, calculate_strength_score,
     _load_all_matches, _load_h2h, get_elo_ratings, get_model_calibration,
-    get_llm_config, update_llm_config
+    get_llm_config, update_llm_config, get_news_data, check_prediction_data_health
 )
 
 app = Flask(__name__)
@@ -83,6 +83,7 @@ def build_home_dashboard():
     h2h_data = _load_h2h()
     elo = get_elo_ratings()
     calibration = get_model_calibration()
+    data_health = check_prediction_data_health()
 
     group_matches = [m for m in matches if "小组赛" in m.get("stage", "")]
     knockout_matches = [m for m in matches if "小组赛" not in m.get("stage", "")]
@@ -117,6 +118,8 @@ def build_home_dashboard():
             "runs": 0,
         }
 
+    news_data = get_news_data()
+
     return {
         "stats": {
             "teams": len(team_names),
@@ -133,8 +136,12 @@ def build_home_dashboard():
             "brier_score": calibration["metrics"]["brier_score"],
             "accuracy": calibration["metrics"]["accuracy"],
         },
+        "data_health": data_health,
+        "data_warning": data_health.get("warning", ""),
         "top_teams": champion_board["teams"],
         "champion_board": champion_board,
+        "news": news_data.get("news", [])[:6],
+        "news_provider": news_data.get("provider", "local"),
         "first_matches": first_matches,
         "groups": schedule.get("groups", {}),
         "hosts": schedule.get("hosts", ["美国", "加拿大", "墨西哥"]),
@@ -182,7 +189,7 @@ def schedule_page():
 def analysis_page():
     team_names = get_all_team_names()
     dashboard = build_home_dashboard()
-    return render_template("analysis.html", team_names=team_names, top_teams=dashboard["top_teams"], stats=dashboard["stats"])
+    return render_template("analysis.html", team_names=team_names, top_teams=dashboard["top_teams"], stats=dashboard["stats"], dashboard=dashboard)
 
 
 @app.route("/about")
@@ -199,6 +206,16 @@ def api_teams():
 @app.route("/api/schedule")
 def api_schedule():
     return jsonify(get_schedule_data())
+
+
+@app.route("/api/data-health")
+def api_data_health():
+    return jsonify(check_prediction_data_health())
+
+
+@app.route("/api/news")
+def api_news():
+    return jsonify(get_news_data())
 
 
 @app.route("/api/llm-config", methods=["GET", "POST"])

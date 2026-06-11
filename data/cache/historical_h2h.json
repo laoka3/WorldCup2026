@@ -1,0 +1,36 @@
+{
+  "Mexico vs South Africa": {
+    "team_a": "Mexico",
+    "team_b": "South Africa",
+    "total": 1,
+    "a_wins": 0,
+    "draws": 1,
+    "b_wins": 0,
+    "avg_goals": 2.0,
+    "last_5": [
+      {
+        "date": "2010-06-11T14:00:00+00:00",
+        "competition": "World Cup",
+        "team_a": "Mexico",
+        "team_b": "South Africa",
+        "score_a_b": "1-1",
+        "source_provider": "API-Football",
+        "source_endpoint": "fixtures/headtohead"
+      }
+    ],
+    "all_matches": [
+      {
+        "date": "2010-06-11T14:00:00+00:00",
+        "competition": "World Cup",
+        "team_a": "Mexico",
+        "team_b": "South Africa",
+        "score_a_b": "1-1",
+        "source_provider": "API-Football",
+        "source_endpoint": "fixtures/headtohead"
+      }
+    ],
+    "source_provider": "API-Football",
+    "source_endpoint": "fixtures/headtohead",
+    "generated_at": "2026-06-11T15:04:12.522123+00:00"
+  }
+}
