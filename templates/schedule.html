@@ -6,9 +6,9 @@
     <div class="absolute inset-0 pitch-grid opacity-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-8">
-            <p class="text-wc-gold font-semibold mb-2">FIFA official fixtures · Beijing Time</p>
+            <p class="text-wc-gold font-semibold mb-2">FIFA official fixtures · Germany Time</p>
             <h1 class="text-3xl md:text-5xl font-black mb-3">2026 世界杯赛程与模拟路径</h1>
-            <p class="text-gray-300">{{ tournament }} | {{ stats.hosts }} | 48队 · 12组 · 104场 · 北京时间 UTC+8</p>
+            <p class="text-gray-300">{{ tournament }} | {{ stats.hosts }} | 48队 · 12组 · 104场 · 德国时间 Europe/Berlin</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="stat-card"><span>{{ stats.total_matches }}</span><p>总比赛</p></div>
@@ -90,7 +90,7 @@
                         <div class="flex flex-wrap lg:flex-nowrap items-center gap-2 text-xs text-gray-400 lg:justify-end">
                             <span class="px-2.5 py-1 rounded-lg bg-wc-green/20 text-green-300">{{ match.stage }}</span>
                             <span><i class="far fa-calendar text-wc-gold mr-1"></i>{{ match.date }}</span>
-                            <span><i class="far fa-clock text-wc-gold mr-1"></i>{{ match.time }} 北京时间</span>
+                            <span><i class="far fa-clock text-wc-gold mr-1"></i>{{ match.time }} 德国时间</span>
                             <span class="truncate max-w-[260px]" title="{{ match.venue }}"><i class="fas fa-location-dot text-wc-gold mr-1"></i>{{ match.venue }}</span>
                             <span class="px-2.5 py-1 rounded-lg bg-wc-green/20 text-wc-green-light">未开始</span>
                         </div>

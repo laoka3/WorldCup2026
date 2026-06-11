@@ -102,13 +102,28 @@ CN_TO_EN = {
     "厄瓜多尔": "Ecuador", "委内瑞拉": "Venezuela", "伊拉克": "Iraq",
     "约旦": "Jordan", "乌兹别克斯坦": "Uzbekistan", "马里": "Mali",
     "布基纳法索": "Burkina Faso", "几内亚": "Guinea", "刚果民主共和国": "DR Congo",
-    "南非": "South Africa", "捷克": "Czech Republic", "匈牙利": "Hungary",
+    "南非": "South Africa", "捷克": "Czechia", "匈牙利": "Hungary",
     "挪威": "Norway", "芬兰": "Finland", "斯洛伐克": "Slovakia",
     "罗马尼亚": "Romania", "土耳其": "Turkey", "俄罗斯": "Russia",
     "爱尔兰": "Republic of Ireland", "冰岛": "Iceland", "巴拉圭": "Paraguay",
     "玻利维亚": "Bolivia", "巴拿马": "Panama", "牙买加": "Jamaica",
     "洪都拉斯": "Honduras", "萨尔瓦多": "El Salvador",
     "新西兰": "New Zealand",
+}
+
+NAME_ALIASES = {
+    "Czechia": ["Czech Republic"],
+    "Czech Republic": ["Czechia"],
+    "USA": ["United States"],
+    "United States": ["USA"],
+    "South Korea": ["Korea Republic"],
+    "Korea Republic": ["South Korea"],
+    "DR Congo": ["Congo DR", "Democratic Republic of the Congo"],
+    "Congo DR": ["DR Congo", "Democratic Republic of the Congo"],
+    "Ivory Coast": ["Côte d'Ivoire", "Cote d'Ivoire"],
+    "Côte d'Ivoire": ["Ivory Coast", "Cote d'Ivoire"],
+    "Cabo Verde": ["Cape Verde"],
+    "Cape Verde": ["Cabo Verde"],
 }
 
 COMPETITION_WEIGHTS = {
@@ -149,7 +164,7 @@ DEFAULT_MODEL_PARAMS = {
     "draw_base": 0.27,
     "draw_width": 700,
     "h2h_max_weight": 0.15,
-    "h2h_min_matches": 1,
+    "h2h_min_matches": 3,
     "dixon_coles_rho": -0.05,
     "score_model_weight": 0.0,
 }
@@ -157,6 +172,19 @@ DEFAULT_MODEL_PARAMS = {
 
 def _normalize_name(name):
     return CN_TO_EN.get(name, name)
+
+
+def _name_variants(name):
+    normalized = _normalize_name(name)
+    variants = []
+    for value in (name, normalized, *NAME_ALIASES.get(normalized, []), *NAME_ALIASES.get(name, [])):
+        if value and value not in variants:
+            variants.append(value)
+    return variants
+
+
+def _same_team_name(left, right):
+    return bool(set(_name_variants(left)) & set(_name_variants(right)))
 
 
 def load_cache(name):
@@ -355,13 +383,10 @@ def elo_to_score(elo_rating):
 
 
 def get_team_profile(team_name):
-    en_name = _normalize_name(team_name)
+    variants = set(_name_variants(team_name))
     profiles = _load_team_profiles()
     for p in profiles:
-        if p["name"] == en_name:
-            return p
-    for p in profiles:
-        if p["name"] == team_name:
+        if p.get("name") in variants:
             return p
     return None
 
@@ -376,9 +401,60 @@ def get_wc2022_team(team_name):
 
 def get_static_team(team_name):
     for team in _load_static_teams():
-        if team.get("name") == team_name or _normalize_name(team.get("name", "")) == _normalize_name(team_name):
+        if _same_team_name(team.get("name", ""), team_name):
             return team
     return None
+
+
+def calculate_static_elo_anchor(static_team):
+    """Static prior from FIFA rank plus a small squad market-value correction."""
+    if not static_team:
+        return None
+
+    rank = _safe_float(static_team.get("fifa_rank"))
+    if rank is None:
+        static_avg = (
+            _safe_float(static_team.get("attack_rating")) or 70
+        ) * 0.4 + (
+            _safe_float(static_team.get("defense_rating")) or 70
+        ) * 0.3 + (
+            _safe_float(static_team.get("midfield_rating")) or 70
+        ) * 0.3
+        rank_anchor = 1200 + static_avg * 5
+    else:
+        rank_points = [
+            (1, 1720),
+            (5, 1680),
+            (10, 1640),
+            (20, 1580),
+            (40, 1500),
+            (80, 1420),
+            (120, 1360),
+            (180, 1300),
+        ]
+        if rank <= rank_points[0][0]:
+            rank_anchor = rank_points[0][1]
+        else:
+            rank_anchor = rank_points[-1][1]
+            for (r1, e1), (r2, e2) in zip(rank_points, rank_points[1:]):
+                if r1 <= rank <= r2:
+                    ratio = (rank - r1) / (r2 - r1)
+                    rank_anchor = e1 + (e2 - e1) * ratio
+                    break
+
+    market_value = _safe_float(static_team.get("market_value"))
+    if market_value is None:
+        market_delta = 0
+    elif market_value >= 10:
+        market_delta = 40
+    elif market_value >= 5:
+        market_delta = 25
+    elif market_value >= 2:
+        market_delta = 10
+    else:
+        market_delta = -10
+
+    return round(rank_anchor + market_delta, 1)
 
 
 def get_h2h(home_team, away_team):
@@ -389,7 +465,7 @@ def get_h2h(home_team, away_team):
     def _try_key(key):
         if key in h2h:
             d = h2h[key]
-            return dict(d) if _normalize_name(d.get("team_a", "")) == home_en else _swap_h2h(d, home_team, away_team)
+            return dict(d) if _same_team_name(d.get("team_a", ""), home_team) else _swap_h2h(d, home_team, away_team)
         return None
 
     def _swap_h2h(data, ht, at):
@@ -402,18 +478,23 @@ def get_h2h(home_team, away_team):
         d["team_b"] = at
         return d
 
-    result = _try_key(f"{home_en} vs {away_en}")
-    if result:
-        return result
-    result = _try_key(f"{away_en} vs {home_en}")
-    if result:
-        return result
-    result = _try_key(f"{home_team} vs {away_team}")
-    if result:
-        return result
-    result = _try_key(f"{away_team} vs {home_team}")
-    if result:
-        return result
+    for home_variant in _name_variants(home_team):
+        for away_variant in _name_variants(away_team):
+            result = _try_key(f"{home_variant} vs {away_variant}")
+            if result:
+                return result
+            result = _try_key(f"{away_variant} vs {home_variant}")
+            if result:
+                return result
+    for d in h2h.values():
+        if not isinstance(d, dict):
+            continue
+        team_a = d.get("team_a", "")
+        team_b = d.get("team_b", "")
+        if _same_team_name(team_a, home_team) and _same_team_name(team_b, away_team):
+            return dict(d)
+        if _same_team_name(team_a, away_team) and _same_team_name(team_b, home_team):
+            return _swap_h2h(d, home_team, away_team)
     return None
 
 
@@ -501,23 +582,21 @@ def _clean_xg_metric(value, sample_count, proxy_value=None):
 
 
 def build_team_data(team_name):
-    """合并所有数据源构建球队画像 (v4 - Elo + 统计混合)"""
+    """合并所有数据源构建球队画像：静态画像为 base，CSV 画像仅作状态/统计修正。"""
     profile = get_team_profile(team_name)
     thestats = get_thestats_enrichment(team_name)
     wc2022 = get_wc2022_team(team_name)
     static_team = get_static_team(team_name)
     elo_ratings = get_elo_ratings()
     en_name = _normalize_name(team_name)
-    elo = elo_ratings.get(en_name, elo_ratings.get(team_name, 1450))
-    elo_is_estimated = False
-    if elo == 1450 and static_team:
-        static_avg = (
-            static_team.get("attack_rating", 70) * 0.4 +
-            static_team.get("defense_rating", 70) * 0.3 +
-            static_team.get("midfield_rating", 70) * 0.3
-        )
-        elo = 1200 + static_avg * 5
-        elo_is_estimated = True
+    historical_elo = elo_ratings.get(en_name, elo_ratings.get(team_name, 1450))
+    static_anchor_elo = calculate_static_elo_anchor(static_team)
+    if static_team and static_anchor_elo is not None:
+        elo = historical_elo * 0.50 + static_anchor_elo * 0.50
+        elo_source = "historical_static_anchor_blend"
+    else:
+        elo = historical_elo
+        elo_source = "historical_cache" if historical_elo != 1450 else "default_placeholder"
     elo_score = elo_to_score(elo)
 
     result = {
@@ -541,9 +620,12 @@ def build_team_data(team_name):
         "games_analyzed": 0,
         "elo_rating": round(elo, 1),
         "elo_score": elo_score,
-        "elo_source": "local_static_profile_estimate" if elo_is_estimated else ("historical_cache" if elo != 1450 else "default_placeholder"),
+        "historical_elo": round(historical_elo, 1),
+        "static_anchor_elo": static_anchor_elo,
+        "elo_source": elo_source,
         "wc2022_data": None,
         "data_source": "无历史数据",
+        "profile_warning": "",
         "advanced_inputs": {
             "xg": None,
             "xga": None,
@@ -557,7 +639,7 @@ def build_team_data(team_name):
         },
     }
 
-    if static_team and not profile:
+    if static_team:
         result.update({
             "flag": static_team.get("flag", result["flag"]),
             "fifa_rank": static_team.get("fifa_rank"),
@@ -581,38 +663,61 @@ def build_team_data(team_name):
         })
 
     if profile:
-        result["attack_rating"] = profile.get("attack_rating", 70)
-        result["defense_rating"] = profile.get("defense_rating", 70)
-        result["midfield_rating"] = profile.get("midfield_rating", 70)
-        result["avg_goals_scored"] = profile.get("avg_goals_for", 1.2)
-        result["avg_goals_conceded"] = profile.get("avg_goals_against", 1.1)
-        result["xG_per_match"] = round(profile.get("avg_goals_for", 1.2) * 0.88, 1)
-        result["xGA_per_match"] = round(profile.get("avg_goals_against", 1.1) * 1.1, 1)
-        result["avg_possession"] = round(45 + profile.get("win_rate", 50) * 0.15, 1)
+        csv_attack = profile.get("attack_rating", 70)
+        csv_defense = profile.get("defense_rating", 70)
+        csv_midfield = profile.get("midfield_rating", 70)
+        csv_avg_for = profile.get("avg_goals_for", 1.2)
+        csv_avg_against = profile.get("avg_goals_against", 1.1)
+        csv_xg = round(csv_avg_for * 0.88, 2)
+        csv_xga = round(csv_avg_against * 1.1, 2)
+
+        if static_team:
+            result["attack_rating"] = round(result["attack_rating"] * 0.70 + csv_attack * 0.30)
+            result["defense_rating"] = round(result["defense_rating"] * 0.70 + csv_defense * 0.30)
+            result["midfield_rating"] = round(result["midfield_rating"] * 0.70 + csv_midfield * 0.30)
+            result["avg_goals_scored"] = round(result["avg_goals_scored"] * 0.60 + csv_avg_for * 0.40, 2)
+            result["avg_goals_conceded"] = round(result["avg_goals_conceded"] * 0.60 + csv_avg_against * 0.40, 2)
+            result["xG_per_match"] = round(result["xG_per_match"] * 0.60 + csv_xg * 0.40, 2)
+            result["xGA_per_match"] = round(result["xGA_per_match"] * 0.60 + csv_xga * 0.40, 2)
+            result["avg_possession"] = round(result["avg_possession"] * 0.70 + (45 + profile.get("win_rate", 50) * 0.15) * 0.30, 1)
+            result["data_source"] = f"{result['data_source']} + CSV近期状态30%融合"
+        else:
+            result["attack_rating"] = csv_attack
+            result["defense_rating"] = csv_defense
+            result["midfield_rating"] = csv_midfield
+            result["avg_goals_scored"] = csv_avg_for
+            result["avg_goals_conceded"] = csv_avg_against
+            result["xG_per_match"] = csv_xg
+            result["xGA_per_match"] = csv_xga
+            result["avg_possession"] = round(45 + profile.get("win_rate", 50) * 0.15, 1)
+            result["data_source"] = "generated_csv_profile_only"
+            result["profile_warning"] = "No static team anchor."
+
         result["recent_form"] = list(profile.get("recent_form", "")[-6:])
         result["games_analyzed"] = profile.get("games", 0)
-        result["data_source"] = f"2022-2024 {profile.get('games', 0)}场比赛"
 
         gf = profile.get("avg_goals_for", 1.2)
         ga = profile.get("avg_goals_against", 1.1)
         wr = profile.get("win_rate", 50)
-        if gf > 2.2 and wr > 60:
-            result["style"] = "控球进攻"
-        elif gf > 1.8 and ga < 1.0:
-            result["style"] = "高位压迫"
-        elif ga < 0.8:
-            result["style"] = "防守反击"
-        elif wr > 70:
-            result["style"] = "传控渗透"
-        else:
-            result["style"] = "均衡"
+        if not static_team:
+            if gf > 2.2 and wr > 60:
+                result["style"] = "控球进攻"
+            elif gf > 1.8 and ga < 1.0:
+                result["style"] = "高位压迫"
+            elif ga < 0.8:
+                result["style"] = "防守反击"
+            elif wr > 70:
+                result["style"] = "传控渗透"
+            else:
+                result["style"] = "均衡"
 
     if wc2022:
-        result["fifa_rank"] = wc2022.get("fifa_rank")
-        result["confederation"] = wc2022.get("confederation", "")
+        if not static_team:
+            result["fifa_rank"] = wc2022.get("fifa_rank")
+            result["confederation"] = wc2022.get("confederation", "")
         result["logo"] = wc2022.get("logo", "")
         result["wc2022_data"] = wc2022.get("wc2022_data")
-        if not profile:
+        if not profile and not static_team:
             result["attack_rating"] = wc2022.get("attack_rating", 70)
             result["defense_rating"] = wc2022.get("defense_rating", 70)
             result["midfield_rating"] = wc2022.get("midfield_rating", 70)
@@ -1024,6 +1129,17 @@ def _predict_probs_from_elo(home_elo, away_elo, h2h_data=None, params=None):
     if h2h_data and h2h_data.get("total", 0) >= params["h2h_min_matches"]:
         total = h2h_data["total"]
         h2h_weight = min(params["h2h_max_weight"], total / 30.0)
+        h2h_dates = []
+        for match in h2h_data.get("all_matches") or h2h_data.get("last_5") or []:
+            parsed = _parse_date(match.get("date"))
+            if parsed:
+                h2h_dates.append(parsed)
+        if h2h_dates:
+            age_years = max(0, (datetime.now().date() - max(h2h_dates)).days / 365.25)
+            if age_years > 10:
+                h2h_weight = min(h2h_weight, 0.02)
+            elif age_years > 5:
+                h2h_weight *= max(0.25, 1 - (age_years - 5) / 5 * 0.75)
         h2h_home = h2h_data.get("home_wins", 0) / total
         h2h_draw = h2h_data.get("draws", 0) / total
         h2h_away = h2h_data.get("away_wins", 0) / total
@@ -1276,6 +1392,9 @@ def _empty_friendlies_agent(team_name, warning):
         },
         "confidence": "none",
         "warning": warning,
+        "adjustment_cap": 12,
+        "opponent_strength_adjusted": False,
+        "warning_if_many_matches_vs_low_strength_opponents": "",
         "source": None,
     }
 
@@ -1287,8 +1406,28 @@ def _empty_qualification_agent(team_name, warning):
         "summary": {"matches": 0, "wins": 0, "draws": 0, "losses": 0, "goals_for": 0, "goals_against": 0, "confidence": "none"},
         "confidence": "none",
         "warning": warning,
+        "adjustment_cap": 25,
+        "opponent_strength_adjusted": False,
+        "warning_if_many_matches_vs_low_strength_opponents": "",
         "source": None,
     }
+
+
+def _opponent_strength_for_adjustment(match, team_name):
+    home = match.get("home_team", "")
+    away = match.get("away_team", "")
+    opponent = away if _same_team_name(home, team_name) else home
+    opponent_elo = _safe_float(match.get("opponent_elo"))
+    if opponent_elo is None:
+        static_opponent = get_static_team(opponent)
+        opponent_elo = calculate_static_elo_anchor(static_opponent) if static_opponent else None
+    if opponent_elo is None:
+        opponent_elo = 1450
+    return opponent, opponent_elo
+
+
+def _strength_factor_from_elo(opponent_elo):
+    return _clamp((opponent_elo - 1320) / 360, 0.45, 1.20)
 
 
 def calculate_qualification_adjustment(team_name, match_date=None):
@@ -1298,33 +1437,39 @@ def calculate_qualification_adjustment(team_name, match_date=None):
     if not matches:
         return _empty_qualification_agent(team_name, meta.get("warning") or "No qualification cache available.")
 
-    team_en = _normalize_name(team_name)
     anchor_date = _parse_date(match_date) or datetime.now().date()
     summary = {"matches": 0, "wins": 0, "draws": 0, "losses": 0, "goals_for": 0, "goals_against": 0, "confidence": "none"}
     total_score = 0.0
     used = []
+    low_strength_matches = 0
     for match in matches:
-        home = _normalize_name(match.get("home_team", ""))
-        away = _normalize_name(match.get("away_team", ""))
-        if team_en not in {home, away}:
+        home = match.get("home_team", "")
+        away = match.get("away_team", "")
+        if not (_same_team_name(home, team_name) or _same_team_name(away, team_name)):
             continue
         hg = _safe_float(match.get("home_goals"))
         ag = _safe_float(match.get("away_goals"))
         if hg is None or ag is None:
             continue
-        is_home = home == team_en
+        is_home = _same_team_name(home, team_name)
         gf = hg if is_home else ag
         ga = ag if is_home else hg
         result = "W" if gf > ga else "D" if gf == ga else "L"
         result_score = 1 if result == "W" else 0 if result == "D" else -1
-        goal_bonus = _clamp((gf - ga) * 0.20, -0.8, 0.8)
+        opponent, opponent_elo = _opponent_strength_for_adjustment(match, team_name)
+        opponent_factor = _strength_factor_from_elo(opponent_elo)
+        if opponent_elo < 1450:
+            low_strength_matches += 1
+        raw_goal_bonus = (gf - ga) * 0.16
+        goal_bonus_limit = 0.3 if opponent_elo < 1450 and raw_goal_bonus > 0 else 0.65
+        goal_bonus = _clamp(raw_goal_bonus, -0.65, goal_bonus_limit)
         played_at = _parse_date(match.get("date"))
         if played_at and anchor_date:
             days_ago = max(0, (anchor_date - played_at).days)
             time_decay = _clamp(1.0 - days_ago / 900.0, 0.45, 1.0)
         else:
             time_decay = 0.45
-        score = (result_score + goal_bonus) * time_decay
+        score = (result_score + goal_bonus) * opponent_factor * time_decay
         total_score += score
         summary["matches"] += 1
         summary["goals_for"] += int(gf)
@@ -1335,13 +1480,25 @@ def calculate_qualification_adjustment(team_name, match_date=None):
             summary["draws"] += 1
         else:
             summary["losses"] += 1
-        used.append({**match, "team_result": result, "match_score": round(score, 3), "time_decay": round(time_decay, 2)})
+        used.append({
+            **match,
+            "team_result": result,
+            "match_score": round(score, 3),
+            "time_decay": round(time_decay, 2),
+            "opponent": opponent,
+            "opponent_elo_used": round(opponent_elo, 1),
+            "opponent_strength_factor": round(opponent_factor, 2),
+            "goal_bonus": round(goal_bonus, 2),
+        })
 
     if not used:
         return _empty_qualification_agent(team_name, meta.get("warning") or "No qualification matches for this team.")
     summary["confidence"] = "low" if len(used) < 3 else "medium" if len(used) < 8 else "high"
-    elo_delta = round(_clamp(total_score * 10, -45, 45), 1)
+    elo_delta = round(_clamp(total_score * 7, -25, 25), 1)
     summary["elo_delta"] = elo_delta
+    low_strength_warning = ""
+    if used and low_strength_matches / len(used) >= 0.5:
+        low_strength_warning = "Many qualification matches were against low-strength opponents; positive adjustments were strength-discounted."
     return {
         "team": team_name,
         "elo_delta": elo_delta,
@@ -1349,6 +1506,9 @@ def calculate_qualification_adjustment(team_name, match_date=None):
         "matches": used[-10:],
         "confidence": summary["confidence"],
         "warning": meta.get("warning", ""),
+        "adjustment_cap": 25,
+        "opponent_strength_adjusted": True,
+        "warning_if_many_matches_vs_low_strength_opponents": low_strength_warning,
         "source": {
             "source_provider": meta.get("source_provider"),
             "source_endpoint": meta.get("source_endpoint"),
@@ -1364,14 +1524,15 @@ def calculate_recent_friendlies_adjustment(team_name, match_date=None):
 
     meta = cache.get("meta", {}) if isinstance(cache, dict) else {}
     teams = cache.get("teams", {}) if isinstance(cache, dict) else {}
-    team_key = team_name if team_name in teams else _normalize_name(team_name)
-    team_data = teams.get(team_key)
+    team_key = next((variant for variant in _name_variants(team_name) if variant in teams), None)
+    team_data = teams.get(team_key) if team_key else None
     if not team_data:
         return _empty_friendlies_agent(team_name, meta.get("warning") or "No recent friendlies data for this team.")
 
     anchor_date = _parse_date(match_date) or datetime.now().date()
     total_score = 0.0
     used_matches = []
+    low_strength_matches = 0
     for match in team_data.get("matches", []) or []:
         match_status = (match.get("status") or "").upper()
         if match_status and match_status not in {"FT", "AET", "PEN", "MATCH FINISHED"}:
@@ -1381,9 +1542,19 @@ def calculate_recent_friendlies_adjustment(team_name, match_date=None):
         goal_diff = _safe_float(match.get("goal_diff"))
         if goal_diff is None:
             goal_diff = (_safe_float(match.get("goals_for")) or 0) - (_safe_float(match.get("goals_against")) or 0)
-        goal_bonus = _clamp(goal_diff * 0.25, -0.75, 0.75)
-        opponent_elo = _safe_float(match.get("opponent_elo")) or 1500
-        opponent_factor = _clamp(opponent_elo / 1500, 0.75, 1.25)
+        opponent_name = _normalize_name(match.get("opponent", "") or match.get("opponent_team", ""))
+        opponent_elo = _safe_float(match.get("opponent_elo"))
+        if opponent_elo is None:
+            static_opponent = get_static_team(opponent_name)
+            opponent_elo = calculate_static_elo_anchor(static_opponent) if static_opponent else None
+        if opponent_elo is None:
+            opponent_elo = 1450
+        opponent_factor = _strength_factor_from_elo(opponent_elo)
+        if opponent_elo < 1450:
+            low_strength_matches += 1
+        raw_goal_bonus = goal_diff * 0.12
+        goal_bonus_limit = 0.3 if opponent_elo < 1450 and raw_goal_bonus > 0 else 0.45
+        goal_bonus = _clamp(raw_goal_bonus, -0.45, goal_bonus_limit)
         played_at = _parse_date(match.get("date"))
         if played_at and anchor_date:
             days_ago = max(0, (anchor_date - played_at).days)
@@ -1392,9 +1563,16 @@ def calculate_recent_friendlies_adjustment(team_name, match_date=None):
             time_decay = 0.4
         match_score = (result_score + goal_bonus) * opponent_factor * time_decay
         total_score += match_score
-        used_matches.append({**match, "match_score": round(match_score, 3), "time_decay": round(time_decay, 2)})
+        used_matches.append({
+            **match,
+            "match_score": round(match_score, 3),
+            "time_decay": round(time_decay, 2),
+            "opponent_elo_used": round(opponent_elo, 1),
+            "opponent_strength_factor": round(opponent_factor, 2),
+            "goal_bonus": round(goal_bonus, 2),
+        })
 
-    elo_delta = round(_clamp(total_score * 8, -25, 25), 1)
+    elo_delta = round(_clamp(total_score * 4, -12, 12), 1)
     summary = dict(team_data.get("summary") or {})
     summary.update({
         "matches": len(used_matches),
@@ -1412,6 +1590,9 @@ def calculate_recent_friendlies_adjustment(team_name, match_date=None):
         "matches": used_matches[:10],
         "confidence": summary.get("confidence"),
         "warning": meta.get("warning", ""),
+        "adjustment_cap": 12,
+        "opponent_strength_adjusted": True,
+        "warning_if_many_matches_vs_low_strength_opponents": "Many recent friendlies were against low-strength opponents; positive adjustments were strength-discounted." if used_matches and low_strength_matches / len(used_matches) >= 0.5 else "",
         "source": {
             "source_provider": meta.get("source_provider", "API-Football"),
             "source_endpoint": meta.get("source_endpoint", "fixtures"),
@@ -1447,27 +1628,33 @@ def _match_market_key(home_team, away_team, match_date=None):
     return f"{_normalize_name(home_team)}|{_normalize_name(away_team)}|{date_text}"
 
 
+def _market_key_variants(home_team, away_team, match_date=None):
+    date_text = str(match_date or "")[:10]
+    keys = []
+    for home in _name_variants(home_team):
+        for away in _name_variants(away_team):
+            key = f"{home}|{away}|{date_text}"
+            if key not in keys:
+                keys.append(key)
+    return keys
+
+
 def _find_market_odds_entry(cache, home_team, away_team, match_date=None):
     matches = cache.get("matches", {}) if isinstance(cache, dict) else {}
     if not isinstance(matches, dict) or not matches:
         return None
-    keys = [
-        _match_market_key(home_team, away_team, match_date),
-        _match_market_key(away_team, home_team, match_date),
-        f"{home_team}|{away_team}|{str(match_date or '')[:10]}",
-        f"{away_team}|{home_team}|{str(match_date or '')[:10]}",
-    ]
+    keys = _market_key_variants(home_team, away_team, match_date) + _market_key_variants(away_team, home_team, match_date)
     for key in keys:
         if key in matches:
             entry = dict(matches[key])
-            if key.startswith(f"{_normalize_name(away_team)}|") or key.startswith(f"{away_team}|"):
+            if any(key.startswith(f"{away_variant}|") for away_variant in _name_variants(away_team)):
                 entry["swapped"] = True
             return entry
     for entry in matches.values():
         if not isinstance(entry, dict):
             continue
-        eh = _normalize_name(entry.get("home_team", ""))
-        ea = _normalize_name(entry.get("away_team", ""))
+        eh = entry.get("home_team", "")
+        ea = entry.get("away_team", "")
         entry_day = _parse_date(entry.get("date"))
         requested_day = _parse_date(match_date)
         same_date = not match_date or str(entry.get("date", ""))[:10] == str(match_date)[:10]
@@ -1476,9 +1663,9 @@ def _find_market_odds_entry(cache, home_team, away_team, match_date=None):
             # schedule page displays Beijing date, so adjacent dates can refer
             # to the same kickoff.
             same_date = abs((entry_day - requested_day).days) <= 1
-        if same_date and eh == _normalize_name(home_team) and ea == _normalize_name(away_team):
+        if same_date and _same_team_name(eh, home_team) and _same_team_name(ea, away_team):
             return entry
-        if same_date and eh == _normalize_name(away_team) and ea == _normalize_name(home_team):
+        if same_date and _same_team_name(eh, away_team) and _same_team_name(ea, home_team):
             swapped = dict(entry)
             swapped["swapped"] = True
             return swapped
@@ -1522,12 +1709,14 @@ def calculate_market_odds_signal(home_team, away_team, match_date=None):
     if fetched_at and match_day:
         days_to_match = abs((match_day - fetched_at).days)
 
-    if bookmaker_count >= 5 and days_to_match is not None and days_to_match < 7:
+    if bookmaker_count >= 20:
+        market_weight = 0.30
+    elif bookmaker_count >= 10:
+        market_weight = 0.25
+    elif bookmaker_count >= 5:
         market_weight = 0.20
     elif bookmaker_count >= 2:
         market_weight = 0.10
-    elif bookmaker_count == 1:
-        market_weight = 0.05
     else:
         market_weight = 0.0
 
@@ -1543,6 +1732,7 @@ def calculate_market_odds_signal(home_team, away_team, match_date=None):
         "raw_odds": {"home": home_odds, "draw": draw_odds, "away": away_odds},
         "normalized_implied_probabilities": implied,
         "market_weight": market_weight,
+        "base_market_weight": market_weight,
         "warning": meta.get("warning", ""),
         "disclaimer": "盘口数据仅用于概率校准和市场预期参考，不构成投注建议。",
     }
@@ -1648,14 +1838,12 @@ def _venue_context(venue):
 
 
 def _find_scheduled_match(home_name, away_name):
-    home_n = _normalize_name(home_name)
-    away_n = _normalize_name(away_name)
     for match in _load_schedule_matches():
-        mh = _normalize_name(match.get("home_team", ""))
-        ma = _normalize_name(match.get("away_team", ""))
-        if mh == home_n and ma == away_n:
+        mh = match.get("home_team", "")
+        ma = match.get("away_team", "")
+        if _same_team_name(mh, home_name) and _same_team_name(ma, away_name):
             return match
-        if mh == away_n and ma == home_n:
+        if _same_team_name(mh, away_name) and _same_team_name(ma, home_name):
             swapped = dict(match)
             swapped["home_team"], swapped["away_team"] = match.get("away_team"), match.get("home_team")
             swapped["home_flag"], swapped["away_flag"] = match.get("away_flag"), match.get("home_flag")
@@ -1781,17 +1969,20 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
     params = dict(get_model_calibration()["params"])
     original_home_advantage = params.get("home_advantage", 0)
     params["home_advantage"] = get_effective_home_advantage(home_team, away_team, context_agent)
-    params["h2h_min_matches"] = 1
+    params["h2h_min_matches"] = 3
 
     normalized_h2h = None
+    h2h_applied = False
     if h2h_data and h2h_data.get("total", 0) >= params["h2h_min_matches"]:
-        is_home_is_a = _normalize_name(h2h_data.get("team_a", "")) == _normalize_name(home_team["name"])
+        is_home_is_a = _same_team_name(h2h_data.get("team_a", ""), home_team["name"])
         normalized_h2h = {
             "total": h2h_data["total"],
             "home_wins": h2h_data["a_wins"] if is_home_is_a else h2h_data["b_wins"],
             "draws": h2h_data["draws"],
             "away_wins": h2h_data["b_wins"] if is_home_is_a else h2h_data["a_wins"],
+            "all_matches": h2h_data.get("all_matches") or h2h_data.get("last_5") or [],
         }
+        h2h_applied = True
 
     probs = _predict_probs_from_elo(home_elo, away_elo, normalized_h2h, params)
     probs = _blend_score_model_probs(home_team, away_team, probs, params)
@@ -1799,6 +1990,18 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
     if market_signal.get("market_weight", 0) > 0 and market_signal.get("normalized_implied_probabilities"):
         weight = market_signal["market_weight"]
         implied = market_signal["normalized_implied_probabilities"]
+        model_top = max(probs, key=probs.get)
+        market_top = max(implied, key=implied.get)
+        conflict_delta = max(abs(probs[key] - implied[key]) for key in ("home", "draw", "away"))
+        if model_top != market_top and conflict_delta > 0.20:
+            weight = min(0.45, weight + 0.10)
+            market_signal["market_conflict_adjustment"] = 0.10
+        else:
+            market_signal["market_conflict_adjustment"] = 0.0
+        market_signal["effective_market_weight"] = weight
+        market_signal["model_top_before_market"] = model_top
+        market_signal["market_top"] = market_top
+        market_signal["model_market_max_delta"] = round(conflict_delta, 4)
         probs = {
             "home": probs["home"] * (1 - weight) + implied["home"] * weight,
             "draw": probs["draw"] * (1 - weight) + implied["draw"] * weight,
@@ -1860,6 +2063,8 @@ def calculate_match_result_prob(home_team, away_team, h2h_data=None):
             "away_base_elo": round(away_base_elo, 1),
             "original_home_advantage": original_home_advantage,
             "effective_home_advantage": params["home_advantage"],
+            "h2h_applied_to_probability": h2h_applied,
+            "h2h_min_matches": params["h2h_min_matches"],
         }
     }
 

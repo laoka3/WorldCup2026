@@ -10,10 +10,14 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from ai_engine import (
+    _dixon_coles_adjustment,
+    _poisson_probability,
     build_team_data,
     calculate_match_result_prob,
     calculate_strength_score,
+    estimate_expected_goals,
     get_h2h,
+    get_model_calibration,
     get_schedule_data,
 )
 
@@ -60,16 +64,53 @@ def pick_result(rng, home, away, allow_draw=True):
     return "away", p
 
 
-def score_for_result(result, home, away):
-    h = team(home)
-    a = team(away)
-    h_attack = h.get("attack_rating", 70)
-    a_attack = a.get("attack_rating", 70)
-    if result == "home":
-        return 2 + int(h_attack >= 88), 1 if a_attack >= 75 else 0
-    if result == "away":
-        return 1 if h_attack >= 75 else 0, 2 + int(a_attack >= 88)
-    return 1, 1
+score_cache = {}
+
+
+def poisson_score_distribution(home, away, outcome):
+    key = (home, away, outcome)
+    if key in score_cache:
+        return score_cache[key]
+    prob = match_probs(home, away)
+    expected = estimate_expected_goals(team(home), team(away), prob)
+    rho = get_model_calibration()["params"].get("dixon_coles_rho", -0.05)
+    rows = []
+    total = 0.0
+    for hg in range(8):
+        for ag in range(8):
+            if outcome == "home" and hg <= ag:
+                continue
+            if outcome == "away" and hg >= ag:
+                continue
+            if outcome == "draw" and hg != ag:
+                continue
+            p = _poisson_probability(expected["home_xg"], hg) * _poisson_probability(expected["away_xg"], ag)
+            p *= max(0.2, _dixon_coles_adjustment(hg, ag, expected["home_xg"], expected["away_xg"], rho))
+            if p <= 0:
+                continue
+            total += p
+            rows.append((hg, ag, total))
+    if not rows:
+        rows = [(1, 1, 1.0)] if outcome == "draw" else ([(2, 1, 1.0)] if outcome == "home" else [(1, 2, 1.0)])
+        total = 1.0
+    dist = [(hg, ag, cumulative / total) for hg, ag, cumulative in rows]
+    score_cache[key] = dist
+    return dist
+
+
+def score_for_result(rng, result, home, away):
+    dist = poisson_score_distribution(home, away, result)
+    roll = rng.random()
+    for hg, ag, cumulative in dist:
+        if roll <= cumulative:
+            return hg, ag
+    return dist[-1][0], dist[-1][1]
+
+
+def penalty_winner(rng, home, away):
+    strength_diff = calculate_strength_score(team(home)) - calculate_strength_score(team(away))
+    home_prob = max(0.42, min(0.58, 0.5 + strength_diff * 0.004))
+    return home if rng.random() <= home_prob else away
 
 
 def sort_rows(rows):
@@ -84,8 +125,20 @@ champions = Counter()
 runner_ups = Counter()
 semi_losers = Counter()
 finals = Counter()
+stage_reach_stats = {
+    "round_of_32": Counter(),
+    "round_of_16": Counter(),
+    "quarter_final": Counter(),
+    "semi_final": Counter(),
+    "final": Counter(),
+    "champion": Counter(),
+}
 
 group_top_stats = {g: Counter() for g in group_order}
+group_rank_stats = {g: defaultdict(Counter) for g in group_order}
+group_points_totals = {g: defaultdict(float) for g in group_order}
+group_gd_totals = {g: defaultdict(float) for g in group_order}
+last_simulation = None
 
 for run_index in range(RUNS):
     rng = random.Random(BASE_SEED + run_index)
@@ -98,7 +151,7 @@ for run_index in range(RUNS):
         standings[group][home]["team"] = home
         standings[group][away]["team"] = away
         result, _ = pick_result(rng, home, away, allow_draw=True)
-        hg, ag = score_for_result(result, home, away)
+        hg, ag = score_for_result(rng, result, home, away)
 
         hrow = standings[group][home]
         arow = standings[group][away]
@@ -129,10 +182,21 @@ for run_index in range(RUNS):
         reverse=True,
     )[:8]
     top_third_teams = {r["team"] for r in top_thirds}
+    round_of_32_teams = set()
+    for g in group_order:
+        round_of_32_teams.add(group_tables[g][0]["team"])
+        round_of_32_teams.add(group_tables[g][1]["team"])
+    round_of_32_teams.update(top_third_teams)
+    for team_name in round_of_32_teams:
+        stage_reach_stats["round_of_32"][team_name] += 1
     used_third_groups = set()
 
     for g in group_order:
         group_top_stats[g][group_tables[g][0]["team"]] += 1
+        for rank_index, row in enumerate(group_tables[g], start=1):
+            group_rank_stats[g][row["team"]][rank_index] += 1
+            group_points_totals[g][row["team"]] += row["pts"]
+            group_gd_totals[g][row["team"]] += row["gd"]
 
     winners = {}
 
@@ -151,10 +215,7 @@ for run_index in range(RUNS):
                 candidates = [g for g in candidate_groups if g not in used_third_groups]
             if not candidates:
                 candidates = [g for g in group_order if g not in used_third_groups and group_tables[g][2]["team"] in top_third_teams]
-            chosen_group = max(
-                candidates,
-                key=lambda g: (group_tables[g][2]["pts"], group_tables[g][2]["gd"], group_tables[g][2]["gf"], calculate_strength_score(team(group_tables[g][2]["team"]))),
-            )
+            chosen_group = candidates[0]
             used_third_groups.add(chosen_group)
             return group_tables[chosen_group][2]["team"]
 
@@ -168,15 +229,32 @@ for run_index in range(RUNS):
     for match in knockout_matches:
         home = resolve_slot(match["home_team"])
         away = resolve_slot(match["away_team"])
-        result, _ = pick_result(rng, home, away, allow_draw=False)
-        winner = home if result == "home" else away
+        result, _ = pick_result(rng, home, away, allow_draw=True)
+        if result == "draw":
+            winner = penalty_winner(rng, home, away)
+            resolution = "extra_time_or_penalties"
+        else:
+            winner = home if result == "home" else away
+            resolution = "90_minutes"
         winners[match["match_no"]] = winner
+        if match["stage"] == "1/16决赛":
+            stage_reach_stats["round_of_16"][winner] += 1
+        elif match["stage"] == "1/8决赛":
+            stage_reach_stats["quarter_final"][winner] += 1
+        elif match["stage"] == "1/4决赛":
+            stage_reach_stats["semi_final"][winner] += 1
+        elif match["stage"] == "半决赛":
+            stage_reach_stats["final"][winner] += 1
+        elif match["stage"] == "决赛":
+            stage_reach_stats["champion"][winner] += 1
         knockout_results.append({
             "match": match["match_no"],
             "stage": match["stage"],
             "home": home,
             "away": away,
             "winner": winner,
+            "ninety_minute_result": result,
+            "resolution": resolution,
         })
 
     final = knockout_results[-1]
@@ -193,16 +271,59 @@ for run_index in range(RUNS):
     for loser in champs_in_semi:
         semi_losers[loser] += 1
     finals[(final["home"], final["away"])] += 1
+    if run_index == RUNS - 1:
+        last_simulation = {
+            "seed": BASE_SEED + run_index,
+            "champion": champion,
+            "runner_up": runner_up,
+            "semi_losers": champs_in_semi,
+            "group_tables": group_tables,
+            "third_qualified": top_thirds,
+            "knockout_results": knockout_results,
+        }
+
+
+average_group_rankings = {}
+for group in group_order:
+    rows = []
+    for team_name, counter in group_rank_stats[group].items():
+        average_rank = sum(rank * count for rank, count in counter.items()) / RUNS
+        rank_probabilities = {
+            str(rank): round(counter.get(rank, 0) / RUNS * 100, 1)
+            for rank in range(1, 5)
+        }
+        rows.append({
+            "team": team_name,
+            "average_rank": round(average_rank, 2),
+            "average_points": round(group_points_totals[group][team_name] / RUNS, 2),
+            "average_goal_difference": round(group_gd_totals[group][team_name] / RUNS, 2),
+            "rank_probabilities": rank_probabilities,
+            "qualification_probability": round(sum(counter.get(rank, 0) for rank in (1, 2)) / RUNS * 100, 1),
+            "top_three_probability": round(sum(counter.get(rank, 0) for rank in (1, 2, 3)) / RUNS * 100, 1),
+        })
+    rows.sort(key=lambda row: (row["average_rank"], -row["average_points"], -row["average_goal_difference"]))
+    average_group_rankings[group] = rows
 
 results = {
     "runs": RUNS,
+    "model_notes": {
+        "score_model": "xG-based Poisson constrained to sampled W/D/L result",
+        "knockout_draw_handling": "90-minute draw resolved by extra-time/penalty proxy with small strength tilt",
+        "third_place_mapping": "approximate deterministic candidate order; official complete mapping not encoded",
+    },
     "champion_probabilities": {team: round(count / RUNS * 100, 1) for team, count in champions.most_common()},
     "runner_up_probabilities": {team: round(count / RUNS * 100, 1) for team, count in runner_ups.most_common()},
     "semi_final_loss_probabilities": {team: round(count / RUNS * 100, 1) for team, count in semi_losers.most_common()},
+    "stage_reach_probabilities": {
+        stage: {team: round(count / RUNS * 100, 1) for team, count in counter.most_common()}
+        for stage, counter in stage_reach_stats.items()
+    },
     "group_winner_probabilities": {
         group: {team: round(count / RUNS * 100, 1) for team, count in counter.most_common()}
         for group, counter in group_top_stats.items()
     },
+    "average_group_rankings": average_group_rankings,
+    "last_simulation": last_simulation,
 }
 
 output_dir = os.path.join(PROJECT_ROOT, "outputs")

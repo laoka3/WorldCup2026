@@ -39,6 +39,30 @@ CN_TO_EN = {
     "哥伦比亚": "Colombia", "英格兰": "England", "克罗地亚": "Croatia", "加纳": "Ghana", "巴拿马": "Panama",
 }
 
+NAME_ALIASES = {
+    "Czechia": ["Czech Republic"],
+    "Czech Republic": ["Czechia"],
+    "USA": ["United States"],
+    "United States": ["USA"],
+    "South Korea": ["Korea Republic"],
+    "Korea Republic": ["South Korea"],
+    "DR Congo": ["Congo DR", "Democratic Republic of the Congo"],
+    "Congo DR": ["DR Congo", "Democratic Republic of the Congo"],
+    "Ivory Coast": ["Côte d'Ivoire", "Cote d'Ivoire"],
+    "Côte d'Ivoire": ["Ivory Coast", "Cote d'Ivoire"],
+    "Cabo Verde": ["Cape Verde"],
+    "Cape Verde": ["Cabo Verde"],
+}
+
+
+def name_variants(name):
+    normalized = CN_TO_EN.get(name, name)
+    variants = []
+    for value in (name, normalized, *NAME_ALIASES.get(normalized, []), *NAME_ALIASES.get(name, [])):
+        if value and value not in variants:
+            variants.append(value)
+    return variants
+
 
 def load_json(path, default=None):
     if not os.path.exists(path):
@@ -84,14 +108,12 @@ def wc_team_names():
     teams_data = load_json(os.path.join(BASE_DIR, "data", "teams.json"), {}) or {}
     for team in teams_data.get("teams", []):
         if team.get("name"):
-            names.add(team["name"])
-            names.add(CN_TO_EN.get(team["name"], team["name"]))
+            names.update(name_variants(team["name"]))
     schedule = load_json(os.path.join(CACHE_DIR, "wc2026_schedule.json"), {}) or {}
     for group_teams in (schedule.get("groups") or {}).values():
         for name in group_teams:
             canonical.add(name)
-            names.add(name)
-            names.add(CN_TO_EN.get(name, name))
+            names.update(name_variants(name))
     return names, len(canonical) or len(names)
 
 

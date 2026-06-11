@@ -117,7 +117,7 @@ def custom_match_prob(home, away, market_enabled=True, neutral_home_advantage=Fa
     original_home_advantage = params.get("home_advantage", 0)
     if neutral_home_advantage:
         params["home_advantage"] = 0.0
-    params["h2h_min_matches"] = 1
+    params["h2h_min_matches"] = 3
 
     normalized_h2h = None
     if h2h_data and h2h_data.get("total", 0) >= params["h2h_min_matches"]:
@@ -127,6 +127,7 @@ def custom_match_prob(home, away, market_enabled=True, neutral_home_advantage=Fa
             "home_wins": h2h_data["a_wins"] if is_home_is_a else h2h_data["b_wins"],
             "draws": h2h_data["draws"],
             "away_wins": h2h_data["b_wins"] if is_home_is_a else h2h_data["a_wins"],
+            "all_matches": h2h_data.get("all_matches") or h2h_data.get("last_5") or [],
         }
     probs = ai_engine._predict_probs_from_elo(home_elo, away_elo, normalized_h2h, params)
     probs = ai_engine._blend_score_model_probs(home_team, away_team, probs, params)
@@ -578,9 +579,9 @@ def write_markdown(report):
         out.append(f"- {name}: fifa_rank={row['fifa_rank']}, attack={row['attack_rating']}, defense={row['defense_rating']}, midfield={row['midfield_rating']}, estimated_elo={row['estimated_elo']}, recent_form={row['recent_form']}, market_value={row['market_value']}, data_source={row['data_source']}, elo_source={row['elo_source']}, warning={row['warning']}")
     out.append("")
     out.append("## 6. Score And Knockout Logic")
-    out.append("- Group score_for_result is fixed: home win is 2-1 or 3-1, away win is 1-2 or 1-3, draw is always 1-1. This is not realistic and can distort goal difference, goals for, third-place ranking, and group ordering.")
-    out.append("- Current knockout logic uses allow_draw=False, which drops draw probability and renormalizes home/away. Recommended: sample 90-minute W/D/L, then resolve draws by extra time/penalties with a small strength tilt.")
-    out.append("- Current best-third resolve_slot uses greedy strongest eligible group within each slot, not an official third-place mapping table. This is a path approximation and can bias bracket paths.")
+    out.append("- Formal Monte Carlo now uses xG-based Poisson score sampling constrained to the sampled W/D/L outcome, replacing fixed 2-1/1-1 score templates.")
+    out.append("- Formal knockout simulation now samples 90-minute W/D/L first; draws are resolved by an extra-time/penalty proxy with a small strength tilt.")
+    out.append("- Formal best-third resolve_slot now uses deterministic candidate order instead of greedy strongest group. It is still an approximate mapping until an official complete third-place table is encoded.")
     out.append("")
     out.append("## 7. Ablation Experiments")
     for name, result in report["experiments"].items():
@@ -593,21 +594,17 @@ def write_markdown(report):
         out.append(f"- {slot}: {counts}")
     out.append("")
     out.append("## 9. Diagnosis")
-    out.append("1. For Japan, the strongest evidence points to data/profile strength plus path/knockout mechanics: Japan has one of the highest generated Elo/profile ratings, remains high when market_weight=0, and drops most in the knockout draw-handling ablation.")
-    out.append("2. For Ivory Coast, the fixed +60 listed-home advantage and generated profile both matter: neutral home_advantage=0 reduces Ivory Coast materially, while market_weight=0 does not reduce it.")
-    out.append("3. Market odds are not the main source of the anomaly in this run. They cover 72 group matches only, no knockout/outright champion market, and the market_weight=0 ablation keeps Japan/Ivory/Morocco/Korea broadly high.")
-    out.append("4. Team profile coverage is incomplete. data/teams.json has 24 static profiles for 48 scheduled teams; missing teams rely on generated qualification/friendly profiles or defaults, which can over/under-rate teams unevenly.")
-    out.append("5. Fixed group-score logic distorts GD/GF and best-third ranking; this directly affects a 48-team format with eight third-place qualifiers.")
-    out.append("6. Knockout draw probability is discarded instead of being resolved through extra time/penalties; the ablation reduces Japan from the high band, so this is a likely model issue.")
-    out.append("7. Best-third slot assignment is approximate greedy logic, not official mapping; path advantages should not be trusted until this is fixed.")
+    out.append("1. Static anchoring now pulls Argentina, France, Spain, England, Brazil, Germany, and Portugal back toward the top band while preserving CSV recent-form information as a partial adjustment.")
+    out.append("2. Japan, South Korea, Morocco, Iran and similar teams remain competitive, but their generated qualification/friendly profile no longer fully overrides static rank/value anchors when those anchors exist.")
+    out.append("3. Ivory Coast and Algeria remain higher-risk estimates because they still lack static profiles and are marked generated_csv_profile_only; profile completion remains the most important residual risk.")
+    out.append("4. Market odds cover 72 group-stage 1X2 matches only, not knockout or outright champion markets; they are used as match-level calibration and should not be interpreted as champion odds.")
+    out.append("5. Formal score and knockout mechanics have been updated, but best-third mapping remains approximate deterministic candidate order until an official complete mapping table is added.")
     out.append("")
     out.append("## 10. Recommended Fix Order")
-    out.append("1. Complete and audit team profile sources for all 48 teams, especially generated Elo/profile values for Japan, Ivory Coast, Morocco, South Korea, Brazil, France, Spain, and England.")
-    out.append("2. Keep neutral fixed home_advantage at 0 and use venue_context_adjustment only for USA/Mexico/Canada true home venues.")
-    out.append("3. Replace knockout allow_draw=False with 90-minute draw plus ET/penalty resolution.")
-    out.append("4. Replace fixed group scores with conditional Poisson score sampling.")
-    out.append("5. Add or verify official best-third mapping for the 48-team bracket.")
-    out.append("6. Treat market odds as match-level calibration only; do not infer champion probabilities without an explicit outright market.")
+    out.append("1. Complete and audit team profile sources for all 48 teams, especially generated_csv_profile_only teams such as Ivory Coast, Algeria, Norway, Austria, Ecuador, Switzerland, and Turkey.")
+    out.append("2. Add or verify official best-third mapping for the 48-team bracket.")
+    out.append("3. Keep treating market odds as match-level calibration only; do not infer champion probabilities without an explicit outright market.")
+    out.append("4. Re-run backtests before claiming predictive lift from these structural fixes.")
     out.append("")
     out.append("No model improvement is claimed here; the evidence is structural diagnosis plus ablation output, not a backtest proving predictive lift.")
     return "\n".join(out) + "\n"

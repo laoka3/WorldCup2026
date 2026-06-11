@@ -1,13 +1,14 @@
 """
 2026 世界杯官方赛程构建器
 数据字段来源: FIFA 官方赛程页面 / 赛程表公开信息
-时间展示: 北京时间 UTC+8
-说明: 原始开球时间按 ET(北美东部夏令时)录入，统一 +12 小时换算为北京时间。
+时间展示: 德国时间 Europe/Berlin
+说明: 原始开球时间按 ET/纽约时间录入，统一换算为德国 Berlin 时间；夏令时由 zoneinfo 自动处理。
 """
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE_DIR = os.path.join(PROJECT_ROOT, "data", "cache")
@@ -168,10 +169,14 @@ def flag(name):
     return FLAGS.get(name, "⚽")
 
 
-def et_to_bjt(date_str, time_str):
-    dt = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %I:%M %p")
-    bj = dt + timedelta(hours=12)
-    return bj.strftime("%Y-%m-%d"), bj.strftime("%H:%M"), bj.isoformat()
+SOURCE_TZ = ZoneInfo("America/New_York")
+DISPLAY_TZ = ZoneInfo("Europe/Berlin")
+
+
+def et_to_germany(date_str, time_str):
+    source_dt = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %I:%M %p").replace(tzinfo=SOURCE_TZ)
+    german_dt = source_dt.astimezone(DISPLAY_TZ)
+    return german_dt.strftime("%Y-%m-%d"), german_dt.strftime("%H:%M"), german_dt.isoformat()
 
 
 def match_stage(match_no, group):
@@ -183,7 +188,7 @@ def match_stage(match_no, group):
 
 
 def make_match(match_no, et_date, group, home, away, et_time, venue, stage=None):
-    bj_date, bj_time, bj_iso = et_to_bjt(et_date, et_time)
+    de_date, de_time, de_iso = et_to_germany(et_date, et_time)
     h = cn(home)
     a = cn(away)
     return {
@@ -195,10 +200,11 @@ def make_match(match_no, et_date, group, home, away, et_time, venue, stage=None)
         "away_team": a,
         "home_flag": flag(h),
         "away_flag": flag(a),
-        "date": bj_date,
-        "time": bj_time,
-        "timezone": "北京时间 UTC+8",
-        "kickoff_bj": bj_iso,
+        "date": de_date,
+        "time": de_time,
+        "timezone": "德国时间 Europe/Berlin",
+        "kickoff_de": de_iso,
+        "kickoff_local": de_iso,
         "source_date_et": et_date,
         "source_time_et": et_time,
         "source_timezone": "ET/北美东部时间",
@@ -220,7 +226,7 @@ def build():
         match_no, et_date, stage, home, away, et_time, venue = row
         matches.append(make_match(match_no, et_date, "淘汰赛", home, away, et_time, venue, stage=stage))
 
-    matches.sort(key=lambda m: (m["kickoff_bj"], int(m["match_no"][1:])))
+    matches.sort(key=lambda m: (m["kickoff_de"], int(m["match_no"][1:])))
 
     groups = {}
     for m in matches:
@@ -238,9 +244,9 @@ def build():
         "tournament": "2026 FIFA World Cup",
         "hosts": ["美国", "加拿大", "墨西哥"],
         "format": "48支球队 · 12个小组 · 104场比赛",
-        "time_display": "北京时间 UTC+8",
+        "time_display": "德国时间 Europe/Berlin",
         "source_timezone": "ET/北美东部时间",
-        "conversion_rule": "北京时间 = ET + 12小时（2026年6-7月北美东部夏令时）",
+        "conversion_rule": "德国时间 = ET/纽约时间转换为 Europe/Berlin（2026年6-7月为 CEST，通常 +6小时）",
         "data_source": "FIFA World Cup 2026 official schedule / public fixture table",
         "total_matches": len(matches),
         "venues": venues,

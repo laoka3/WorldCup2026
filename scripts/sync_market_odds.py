@@ -169,7 +169,7 @@ def base_cache(generated_at, warning=None):
 
 def schedule_candidates(match):
     dates = []
-    for key in ("source_date_et", "date", "kickoff_bj"):
+    for key in ("source_date_et", "date", "kickoff_de", "kickoff_local", "kickoff_bj"):
         parsed = parse_date(match.get(key))
         if parsed:
             dates.append(parsed)

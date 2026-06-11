@@ -2,16 +2,16 @@
   "meta": {
     "source": "martj42/international_results",
     "source_provider": "martj42/international_results",
-    "source_endpoint": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
+    "source_endpoint": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
     "source_url": "https://raw.githubusercontent.com/martj42/international_results/master/results.csv",
-    "generated_at": "2026-06-11T15:26:39.636046+00:00",
-    "downloaded_at": "2026-06-11T15:26:40.551124+00:00",
+    "generated_at": "2026-06-11T17:10:18.571649+00:00",
+    "downloaded_at": "2026-06-11T17:10:20.358998+00:00",
     "csv_min_date": "1872-11-30",
     "csv_max_date": "2026-06-27",
     "total_rows": 49477,
-    "matched_worldcup_teams": 45,
-    "qualification_matches_count": 434,
-    "friendlies_matches_count": 208,
+    "matched_worldcup_teams": 48,
+    "qualification_matches_count": 452,
+    "friendlies_matches_count": 218,
     "coverage_warning": "",
     "date_from": "2025-01-01",
     "date_to": "match_day",
@@ -19,6 +19,287 @@
     "warning": ""
   },
   "teams": {
+    "United States": {
+      "matches": [
+        {
+          "fixture_id": "local_csv:2025-01-18:United States:Venezuela",
+          "date": "2025-01-18",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Venezuela",
+          "team_side": "home",
+          "opponent": "Venezuela",
+          "goals_for": 3,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 2,
+          "opponent_elo": null,
+          "venue": "Fort Lauderdale",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-01-22:United States:Costa Rica",
+          "date": "2025-01-22",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Costa Rica",
+          "team_side": "home",
+          "opponent": "Costa Rica",
+          "goals_for": 3,
+          "goals_against": 0,
+          "result": "W",
+          "goal_diff": 3,
+          "opponent_elo": null,
+          "venue": "Orlando",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-06-07:United States:Turkey",
+          "date": "2025-06-07",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Turkey",
+          "team_side": "home",
+          "opponent": "Turkey",
+          "goals_for": 1,
+          "goals_against": 2,
+          "result": "L",
+          "goal_diff": -1,
+          "opponent_elo": null,
+          "venue": "East Hartford",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-06-10:United States:Switzerland",
+          "date": "2025-06-10",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Switzerland",
+          "team_side": "home",
+          "opponent": "Switzerland",
+          "goals_for": 0,
+          "goals_against": 4,
+          "result": "L",
+          "goal_diff": -4,
+          "opponent_elo": null,
+          "venue": "Nashville",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-09-06:United States:South Korea",
+          "date": "2025-09-06",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "South Korea",
+          "team_side": "home",
+          "opponent": "South Korea",
+          "goals_for": 0,
+          "goals_against": 2,
+          "result": "L",
+          "goal_diff": -2,
+          "opponent_elo": null,
+          "venue": "Harrison",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-09-09:United States:Japan",
+          "date": "2025-09-09",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Japan",
+          "team_side": "home",
+          "opponent": "Japan",
+          "goals_for": 2,
+          "goals_against": 0,
+          "result": "W",
+          "goal_diff": 2,
+          "opponent_elo": null,
+          "venue": "Columbus",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-10-10:United States:Ecuador",
+          "date": "2025-10-10",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Ecuador",
+          "team_side": "home",
+          "opponent": "Ecuador",
+          "goals_for": 1,
+          "goals_against": 1,
+          "result": "D",
+          "goal_diff": 0,
+          "opponent_elo": null,
+          "venue": "Austin",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-10-14:United States:Australia",
+          "date": "2025-10-14",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Australia",
+          "team_side": "home",
+          "opponent": "Australia",
+          "goals_for": 2,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": null,
+          "venue": "Denver",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-11-15:United States:Paraguay",
+          "date": "2025-11-15",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Paraguay",
+          "team_side": "home",
+          "opponent": "Paraguay",
+          "goals_for": 2,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": null,
+          "venue": "Chester",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-11-18:United States:Uruguay",
+          "date": "2025-11-18",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Uruguay",
+          "team_side": "home",
+          "opponent": "Uruguay",
+          "goals_for": 5,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 4,
+          "opponent_elo": null,
+          "venue": "Tampa",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-03-28:United States:Belgium",
+          "date": "2026-03-28",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Belgium",
+          "team_side": "home",
+          "opponent": "Belgium",
+          "goals_for": 2,
+          "goals_against": 5,
+          "result": "L",
+          "goal_diff": -3,
+          "opponent_elo": null,
+          "venue": "Atlanta",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-03-31:United States:Portugal",
+          "date": "2026-03-31",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Portugal",
+          "team_side": "home",
+          "opponent": "Portugal",
+          "goals_for": 0,
+          "goals_against": 2,
+          "result": "L",
+          "goal_diff": -2,
+          "opponent_elo": null,
+          "venue": "Atlanta",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-05-31:United States:Senegal",
+          "date": "2026-05-31",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Senegal",
+          "team_side": "home",
+          "opponent": "Senegal",
+          "goals_for": 3,
+          "goals_against": 2,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": null,
+          "venue": "Charlotte",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-06-06:United States:Germany",
+          "date": "2026-06-06",
+          "competition": "Friendly",
+          "home_team": "United States",
+          "away_team": "Germany",
+          "team_side": "home",
+          "opponent": "Germany",
+          "goals_for": 1,
+          "goals_against": 2,
+          "result": "L",
+          "goal_diff": -1,
+          "opponent_elo": null,
+          "venue": "Chicago",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        }
+      ],
+      "summary": {
+        "matches": 14,
+        "wins": 7,
+        "draws": 1,
+        "losses": 6,
+        "goals_for": 25,
+        "goals_against": 24,
+        "form_score": 0.0,
+        "elo_delta": 0.0,
+        "confidence": "csv"
+      }
+    },
     "Uzbekistan": {
       "matches": [
         {
@@ -37,8 +318,8 @@
           "venue": "Doha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-10:Uzbekistan:Kuwait",
@@ -56,8 +337,8 @@
           "venue": "Tashkent",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-13:Uzbekistan:Uruguay",
@@ -75,8 +356,8 @@
           "venue": "Malacca City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-01-26:Uzbekistan:China",
@@ -94,8 +375,8 @@
           "venue": "Dubai",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Canada:Uzbekistan",
@@ -113,8 +394,8 @@
           "venue": "Edmonton",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-08:Netherlands:Uzbekistan",
@@ -132,8 +413,8 @@
           "venue": "New York",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -166,8 +447,8 @@
           "venue": "Doha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-03-14:Jordan:North Korea",
@@ -185,8 +466,8 @@
           "venue": "Amman",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-05-30:Saudi Arabia:Jordan",
@@ -204,8 +485,8 @@
           "venue": "Dammam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-04:Russia:Jordan",
@@ -223,8 +504,8 @@
           "venue": "Moscow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-09:Jordan:Dominican Republic",
@@ -242,8 +523,8 @@
           "venue": "Amman",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-10:Jordan:Bolivia",
@@ -261,8 +542,8 @@
           "venue": "Istanbul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Albania:Jordan",
@@ -280,8 +561,8 @@
           "venue": "Tirana",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Tunisia:Jordan",
@@ -299,8 +580,8 @@
           "venue": "Radès",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Mali:Jordan",
@@ -318,8 +599,8 @@
           "venue": "Radès",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Costa Rica:Jordan",
@@ -337,8 +618,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Jordan:Nigeria",
@@ -356,8 +637,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Switzerland:Jordan",
@@ -375,8 +656,8 @@
           "venue": "St. Gallen",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Jordan:Colombia",
@@ -394,8 +675,8 @@
           "venue": "San Diego",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -428,8 +709,8 @@
           "venue": "Santiago",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-01-18:Bolivia:Panama",
@@ -447,8 +728,8 @@
           "venue": "Tarija",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-01-22:Panama:Mexico",
@@ -466,8 +747,8 @@
           "venue": "Panama City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:South Africa:Panama",
@@ -485,8 +766,8 @@
           "venue": "Durban",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:South Africa:Panama",
@@ -504,8 +785,8 @@
           "venue": "Cape Town",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Brazil:Panama",
@@ -523,8 +804,8 @@
           "venue": "Rio de Janeiro",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-03:Panama:Dominican Republic",
@@ -542,8 +823,8 @@
           "venue": "Panama City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Panama:Bosnia and Herzegovina",
@@ -561,8 +842,8 @@
           "venue": "St. Louis",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -595,8 +876,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Scotland:Curaçao",
@@ -614,8 +895,8 @@
           "venue": "Glasgow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Curaçao:Aruba",
@@ -633,8 +914,8 @@
           "venue": "Willemstad",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -667,8 +948,8 @@
           "venue": "Belfast",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-03-25:Switzerland:Luxembourg",
@@ -686,8 +967,8 @@
           "venue": "St. Gallen",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-07:Mexico:Switzerland",
@@ -705,8 +986,8 @@
           "venue": "Salt Lake City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:United States:Switzerland",
@@ -724,8 +1005,8 @@
           "venue": "Nashville",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Switzerland:Germany",
@@ -743,8 +1024,8 @@
           "venue": "Basel",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Norway:Switzerland",
@@ -762,8 +1043,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Switzerland:Jordan",
@@ -781,8 +1062,8 @@
           "venue": "St. Gallen",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Australia:Switzerland",
@@ -800,8 +1081,8 @@
           "venue": "San Diego",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -834,8 +1115,8 @@
           "venue": "Sumgait",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Haiti:Tunisia",
@@ -853,8 +1134,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Haiti:Iceland",
@@ -872,8 +1153,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Haiti:New Zealand",
@@ -891,8 +1172,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-05:Haiti:Peru",
@@ -910,8 +1191,8 @@
           "venue": "Miami",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -944,8 +1225,8 @@
           "venue": "Luxembourg",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-03-25:Sweden:Northern Ireland",
@@ -963,8 +1244,8 @@
           "venue": "Solna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-06:Hungary:Sweden",
@@ -982,8 +1263,8 @@
           "venue": "Budapest",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:Sweden:Algeria",
@@ -1001,8 +1282,8 @@
           "venue": "Solna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Norway:Sweden",
@@ -1020,8 +1301,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:Sweden:Greece",
@@ -1039,8 +1320,8 @@
           "venue": "Solna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1050,6 +1331,116 @@
         "losses": 2,
         "goals_for": 14,
         "goals_against": 10,
+        "form_score": 0.0,
+        "elo_delta": 0.0,
+        "confidence": "csv"
+      }
+    },
+    "Cape Verde": {
+      "matches": [
+        {
+          "fixture_id": "local_csv:2025-05-29:Malaysia:Cape Verde",
+          "date": "2025-05-29",
+          "competition": "Friendly",
+          "home_team": "Malaysia",
+          "away_team": "Cape Verde",
+          "team_side": "away",
+          "opponent": "Malaysia",
+          "goals_for": 1,
+          "goals_against": 1,
+          "result": "D",
+          "goal_diff": 0,
+          "opponent_elo": null,
+          "venue": "Kuala Lumpur",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-06-03:Malaysia:Cape Verde",
+          "date": "2025-06-03",
+          "competition": "Friendly",
+          "home_team": "Malaysia",
+          "away_team": "Cape Verde",
+          "team_side": "away",
+          "opponent": "Malaysia",
+          "goals_for": 3,
+          "goals_against": 0,
+          "result": "W",
+          "goal_diff": 3,
+          "opponent_elo": null,
+          "venue": "Kuala Lumpur",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-06-08:Georgia:Cape Verde",
+          "date": "2025-06-08",
+          "competition": "Friendly",
+          "home_team": "Georgia",
+          "away_team": "Cape Verde",
+          "team_side": "away",
+          "opponent": "Georgia",
+          "goals_for": 1,
+          "goals_against": 1,
+          "result": "D",
+          "goal_diff": 0,
+          "opponent_elo": null,
+          "venue": "Kutaisi",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-05-31:Cape Verde:Serbia",
+          "date": "2026-05-31",
+          "competition": "Friendly",
+          "home_team": "Cape Verde",
+          "away_team": "Serbia",
+          "team_side": "home",
+          "opponent": "Serbia",
+          "goals_for": 3,
+          "goals_against": 0,
+          "result": "W",
+          "goal_diff": 3,
+          "opponent_elo": null,
+          "venue": "Lisbon",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-06-06:Bermuda:Cape Verde",
+          "date": "2026-06-06",
+          "competition": "Friendly",
+          "home_team": "Bermuda",
+          "away_team": "Cape Verde",
+          "team_side": "away",
+          "opponent": "Bermuda",
+          "goals_for": 0,
+          "goals_against": 3,
+          "result": "L",
+          "goal_diff": -3,
+          "opponent_elo": null,
+          "venue": "East Hartford",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        }
+      ],
+      "summary": {
+        "matches": 5,
+        "wins": 2,
+        "draws": 2,
+        "losses": 1,
+        "goals_for": 8,
+        "goals_against": 5,
         "form_score": 0.0,
         "elo_delta": 0.0,
         "confidence": "csv"
@@ -1073,8 +1464,8 @@
           "venue": "Dammam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-04:Saudi Arabia:North Macedonia",
@@ -1092,8 +1483,8 @@
           "venue": "Prague",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-08:Czech Republic:Saudi Arabia",
@@ -1111,8 +1502,8 @@
           "venue": "Hradec Králové",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Saudi Arabia:Ivory Coast",
@@ -1130,8 +1521,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Saudi Arabia:Algeria",
@@ -1149,8 +1540,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Saudi Arabia:Egypt",
@@ -1168,8 +1559,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Serbia:Saudi Arabia",
@@ -1187,8 +1578,8 @@
           "venue": "Bačka Topola",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Ecuador:Saudi Arabia",
@@ -1206,8 +1597,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-05:Puerto Rico:Saudi Arabia",
@@ -1225,8 +1616,8 @@
           "venue": "Austin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-09:Saudi Arabia:Senegal",
@@ -1244,8 +1635,8 @@
           "venue": "San Antonio",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1278,8 +1669,8 @@
           "venue": "Radès",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-06:Morocco:Tunisia",
@@ -1297,8 +1688,8 @@
           "venue": "Fez",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-12:Tunisia:Mauritania",
@@ -1316,8 +1707,8 @@
           "venue": "Radès",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Tunisia:Jordan",
@@ -1335,8 +1726,8 @@
           "venue": "Radès",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Brazil:Tunisia",
@@ -1354,8 +1745,8 @@
           "venue": "Lille",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Haiti:Tunisia",
@@ -1373,8 +1764,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Canada:Tunisia",
@@ -1392,8 +1783,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Austria:Tunisia",
@@ -1411,8 +1802,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Belgium:Tunisia",
@@ -1430,8 +1821,8 @@
           "venue": "Brussels",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1464,8 +1855,8 @@
           "venue": "Constantine",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-09:Algeria:Rwanda",
@@ -1483,8 +1874,8 @@
           "venue": "Blida",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:Sweden:Algeria",
@@ -1502,8 +1893,8 @@
           "venue": "Solna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-13:Algeria:Zimbabwe",
@@ -1521,8 +1912,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Saudi Arabia:Algeria",
@@ -1540,8 +1931,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Algeria:Guatemala",
@@ -1559,8 +1950,8 @@
           "venue": "Genoa",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Algeria:Uruguay",
@@ -1578,8 +1969,8 @@
           "venue": "Turin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-03:Netherlands:Algeria",
@@ -1597,8 +1988,8 @@
           "venue": "Rotterdam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-10:Bolivia:Algeria",
@@ -1616,8 +2007,8 @@
           "venue": "Kansas City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1650,8 +2041,8 @@
           "venue": "Orléans",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-08:DR Congo:Madagascar",
@@ -1669,8 +2060,8 @@
           "venue": "Orléans",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-25:Bermuda:DR Congo",
@@ -1688,8 +2079,8 @@
           "venue": "Zapopan",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-03:DR Congo:Denmark",
@@ -1707,8 +2098,8 @@
           "venue": "Liège",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-09:DR Congo:Chile",
@@ -1726,8 +2117,8 @@
           "venue": "Orléans",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1760,8 +2151,8 @@
           "venue": "Fez",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-09:Morocco:Benin",
@@ -1779,8 +2170,8 @@
           "venue": "Fez",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-09:Morocco:Bahrain",
@@ -1798,8 +2189,8 @@
           "venue": "Rabat",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Morocco:Mozambique",
@@ -1817,8 +2208,8 @@
           "venue": "Tangier",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Morocco:Uganda",
@@ -1836,8 +2227,8 @@
           "venue": "Tangier",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Morocco:Ecuador",
@@ -1855,8 +2246,8 @@
           "venue": "Madrid",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Morocco:Paraguay",
@@ -1874,8 +2265,8 @@
           "venue": "Lens",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-26:Morocco:Burundi",
@@ -1893,8 +2284,8 @@
           "venue": "Salé",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Morocco:Madagascar",
@@ -1912,8 +2303,8 @@
           "venue": "Rabat",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Morocco:Norway",
@@ -1931,8 +2322,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -1965,8 +2356,8 @@
           "venue": "Dublin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:England:Senegal",
@@ -1984,8 +2375,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Brazil:Senegal",
@@ -2003,8 +2394,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Kenya:Senegal",
@@ -2022,8 +2413,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Senegal:Peru",
@@ -2041,8 +2432,8 @@
           "venue": "Paris",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Senegal:Gambia",
@@ -2060,8 +2451,8 @@
           "venue": "Diamniadio",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:United States:Senegal",
@@ -2079,8 +2470,8 @@
           "venue": "Charlotte",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-09:Saudi Arabia:Senegal",
@@ -2098,8 +2489,8 @@
           "venue": "San Antonio",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2132,8 +2523,8 @@
           "venue": "Glasgow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-09:Liechtenstein:Scotland",
@@ -2151,8 +2542,8 @@
           "venue": "Vaduz",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Scotland:Japan",
@@ -2170,8 +2561,8 @@
           "venue": "Glasgow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Ivory Coast:Scotland",
@@ -2189,8 +2580,8 @@
           "venue": "Liverpool",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Scotland:Curaçao",
@@ -2208,8 +2599,8 @@
           "venue": "Glasgow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Bolivia:Scotland",
@@ -2227,8 +2618,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2261,8 +2652,8 @@
           "venue": "Polokwane",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:South Africa:Mozambique",
@@ -2280,8 +2671,8 @@
           "venue": "Polokwane",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:South Africa:Zambia",
@@ -2299,8 +2690,8 @@
           "venue": "Gqeberha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:South Africa:Panama",
@@ -2318,8 +2709,8 @@
           "venue": "Durban",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:South Africa:Panama",
@@ -2337,8 +2728,8 @@
           "venue": "Cape Town",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-29:South Africa:Nicaragua",
@@ -2356,8 +2747,8 @@
           "venue": "Johannesburg",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Jamaica:South Africa",
@@ -2375,8 +2766,8 @@
           "venue": "Pachuca",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2409,8 +2800,8 @@
           "venue": "Salt Lake City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:Mexico:Turkey",
@@ -2428,8 +2819,8 @@
           "venue": "Chapel Hill",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-06:Mexico:Japan",
@@ -2447,8 +2838,8 @@
           "venue": "Oakland",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-09:Mexico:South Korea",
@@ -2466,8 +2857,8 @@
           "venue": "Nashville",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-11:Mexico:Colombia",
@@ -2485,8 +2876,8 @@
           "venue": "Arlington",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Mexico:Ecuador",
@@ -2504,8 +2895,8 @@
           "venue": "Zapopan",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Mexico:Uruguay",
@@ -2523,8 +2914,8 @@
           "venue": "Torreón",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Mexico:Paraguay",
@@ -2542,8 +2933,8 @@
           "venue": "San Antonio",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-01-22:Panama:Mexico",
@@ -2561,8 +2952,8 @@
           "venue": "Panama City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-01-25:Bolivia:Mexico",
@@ -2580,8 +2971,8 @@
           "venue": "Santa Cruz",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-02-25:Mexico:Iceland",
@@ -2599,8 +2990,8 @@
           "venue": "Querétaro",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Mexico:Portugal",
@@ -2618,8 +3009,8 @@
           "venue": "Mexico City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Mexico:Belgium",
@@ -2637,8 +3028,8 @@
           "venue": "Chicago",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-22:Mexico:Ghana",
@@ -2656,8 +3047,8 @@
           "venue": "Puebla",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Mexico:Australia",
@@ -2675,8 +3066,8 @@
           "venue": "Pasadena",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:Mexico:Serbia",
@@ -2694,8 +3085,8 @@
           "venue": "Toluca",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2728,8 +3119,8 @@
           "venue": "East Hartford",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-06-10:Mexico:Turkey",
@@ -2747,8 +3138,8 @@
           "venue": "Chapel Hill",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Turkey:North Macedonia",
@@ -2766,8 +3157,8 @@
           "venue": "Istanbul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Venezuela:Turkey",
@@ -2785,8 +3176,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2819,8 +3210,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-09:England:Wales",
@@ -2838,8 +3229,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:England:Uruguay",
@@ -2857,8 +3248,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:England:Japan",
@@ -2876,8 +3267,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:England:New Zealand",
@@ -2895,8 +3286,8 @@
           "venue": "Tampa",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-10:England:Costa Rica",
@@ -2914,8 +3305,8 @@
           "venue": "Orlando",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -2948,8 +3339,8 @@
           "venue": "Celje",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-12:Malta:Bosnia and Herzegovina",
@@ -2967,8 +3358,8 @@
           "venue": "Ta' Qali",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-29:Bosnia and Herzegovina:North Macedonia",
@@ -2986,8 +3377,8 @@
           "venue": "Sarajevo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Panama:Bosnia and Herzegovina",
@@ -3005,8 +3396,8 @@
           "venue": "St. Louis",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3039,8 +3430,8 @@
           "venue": "Doha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-03:Qatar:Bahrain",
@@ -3058,8 +3449,8 @@
           "venue": "Doha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-07:Qatar:Russia",
@@ -3077,8 +3468,8 @@
           "venue": "Doha",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-17:Qatar:Zimbabwe",
@@ -3096,8 +3487,8 @@
           "venue": "Al Rayyan",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-28:Republic of Ireland:Qatar",
@@ -3115,8 +3506,8 @@
           "venue": "Dublin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Qatar:El Salvador",
@@ -3134,8 +3525,8 @@
           "venue": "Los Angeles",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3168,8 +3559,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Norway:New Zealand",
@@ -3187,8 +3578,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Netherlands:Norway",
@@ -3206,8 +3597,8 @@
           "venue": "Amsterdam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Norway:Switzerland",
@@ -3225,8 +3616,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Norway:Sweden",
@@ -3244,8 +3635,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Morocco:Norway",
@@ -3263,8 +3654,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3297,8 +3688,8 @@
           "venue": "Bucharest",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-09:Wales:Canada",
@@ -3316,8 +3707,8 @@
           "venue": "Cardiff",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-10:Canada:Australia",
@@ -3335,8 +3726,8 @@
           "venue": "Montreal",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Canada:Colombia",
@@ -3354,8 +3745,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-13:Canada:Ecuador",
@@ -3373,8 +3764,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Canada:Venezuela",
@@ -3392,8 +3783,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Canada:Iceland",
@@ -3411,8 +3802,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Canada:Tunisia",
@@ -3430,8 +3821,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Canada:Uzbekistan",
@@ -3449,8 +3840,8 @@
           "venue": "Edmonton",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-05:Canada:Republic of Ireland",
@@ -3468,8 +3859,8 @@
           "venue": "Montreal",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3502,8 +3893,8 @@
           "venue": "Oakland",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-09:United States:Japan",
@@ -3521,8 +3912,8 @@
           "venue": "Columbus",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Scotland:Japan",
@@ -3540,8 +3931,8 @@
           "venue": "Glasgow",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:England:Japan",
@@ -3559,8 +3950,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Japan:Iceland",
@@ -3578,8 +3969,8 @@
           "venue": "Tokyo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3612,8 +4003,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-09-09:Mexico:South Korea",
@@ -3631,8 +4022,8 @@
           "venue": "Nashville",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-10:South Korea:Brazil",
@@ -3650,8 +4041,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:South Korea:Paraguay",
@@ -3669,8 +4060,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:South Korea:Bolivia",
@@ -3688,8 +4079,8 @@
           "venue": "Daejeon",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:South Korea:Ghana",
@@ -3707,8 +4098,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Ivory Coast:South Korea",
@@ -3726,8 +4117,8 @@
           "venue": "Milton Keynes",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Austria:South Korea",
@@ -3745,8 +4136,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:South Korea:Trinidad and Tobago",
@@ -3764,8 +4155,8 @@
           "venue": "Provo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-03:South Korea:El Salvador",
@@ -3783,8 +4174,8 @@
           "venue": "Provo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3794,6 +4185,97 @@
         "losses": 3,
         "goals_for": 15,
         "goals_against": 12,
+        "form_score": 0.0,
+        "elo_delta": 0.0,
+        "confidence": "csv"
+      }
+    },
+    "Czech Republic": {
+      "matches": [
+        {
+          "fixture_id": "local_csv:2025-09-08:Czech Republic:Saudi Arabia",
+          "date": "2025-09-08",
+          "competition": "Friendly",
+          "home_team": "Czech Republic",
+          "away_team": "Saudi Arabia",
+          "team_side": "home",
+          "opponent": "Saudi Arabia",
+          "goals_for": 1,
+          "goals_against": 1,
+          "result": "D",
+          "goal_diff": 0,
+          "opponent_elo": null,
+          "venue": "Hradec Králové",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2025-11-13:Czech Republic:San Marino",
+          "date": "2025-11-13",
+          "competition": "Friendly",
+          "home_team": "Czech Republic",
+          "away_team": "San Marino",
+          "team_side": "home",
+          "opponent": "San Marino",
+          "goals_for": 1,
+          "goals_against": 0,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": null,
+          "venue": "Karviná",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-05-31:Czech Republic:Kosovo",
+          "date": "2026-05-31",
+          "competition": "Friendly",
+          "home_team": "Czech Republic",
+          "away_team": "Kosovo",
+          "team_side": "home",
+          "opponent": "Kosovo",
+          "goals_for": 2,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 1,
+          "opponent_elo": null,
+          "venue": "Prague",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        },
+        {
+          "fixture_id": "local_csv:2026-06-04:Guatemala:Czech Republic",
+          "date": "2026-06-04",
+          "competition": "Friendly",
+          "home_team": "Guatemala",
+          "away_team": "Czech Republic",
+          "team_side": "away",
+          "opponent": "Guatemala",
+          "goals_for": 5,
+          "goals_against": 1,
+          "result": "W",
+          "goal_diff": 4,
+          "opponent_elo": null,
+          "venue": "Harrison",
+          "status": "FT",
+          "source": "local_csv",
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
+        }
+      ],
+      "summary": {
+        "matches": 4,
+        "wins": 3,
+        "draws": 1,
+        "losses": 0,
+        "goals_for": 9,
+        "goals_against": 3,
         "form_score": 0.0,
         "elo_delta": 0.0,
         "confidence": "csv"
@@ -3817,8 +4299,8 @@
           "venue": "Chorzów",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Norway:New Zealand",
@@ -3836,8 +4318,8 @@
           "venue": "Oslo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Colombia:New Zealand",
@@ -3855,8 +4337,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Ecuador:New Zealand",
@@ -3874,8 +4356,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Haiti:New Zealand",
@@ -3893,8 +4375,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:England:New Zealand",
@@ -3912,8 +4394,8 @@
           "venue": "Tampa",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -3946,8 +4428,8 @@
           "venue": "Miami Gardens",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Puerto Rico:Argentina",
@@ -3965,8 +4447,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Angola:Argentina",
@@ -3984,8 +4466,8 @@
           "venue": "Luanda",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Argentina:Mauritania",
@@ -4003,8 +4485,8 @@
           "venue": "Buenos Aires",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Argentina:Zambia",
@@ -4022,8 +4504,8 @@
           "venue": "Buenos Aires",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Argentina:Honduras",
@@ -4041,8 +4523,8 @@
           "venue": "College Station",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-09:Argentina:Iceland",
@@ -4060,8 +4542,8 @@
           "venue": "Auburn",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4094,8 +4576,8 @@
           "venue": "Montreal",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:United States:Australia",
@@ -4113,8 +4595,8 @@
           "venue": "Denver",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-14:Australia:Venezuela",
@@ -4132,8 +4614,8 @@
           "venue": "Houston",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Colombia:Australia",
@@ -4151,8 +4633,8 @@
           "venue": "New York",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Mexico:Australia",
@@ -4170,8 +4652,8 @@
           "venue": "Pasadena",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Australia:Switzerland",
@@ -4189,8 +4671,8 @@
           "venue": "San Diego",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4223,8 +4705,8 @@
           "venue": "Volgograd",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Iran:Tanzania",
@@ -4242,8 +4724,8 @@
           "venue": "Dubai",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Iran:Nigeria",
@@ -4261,8 +4743,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Costa Rica:Iran",
@@ -4280,8 +4762,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-29:Iran:Gambia",
@@ -4299,8 +4781,8 @@
           "venue": "Aksu",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:Iran:Mali",
@@ -4318,8 +4800,8 @@
           "venue": "Antalya",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4352,8 +4834,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Brazil:Senegal",
@@ -4371,8 +4853,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Brazil:Tunisia",
@@ -4390,8 +4872,8 @@
           "venue": "Lille",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-26:Brazil:France",
@@ -4409,8 +4891,8 @@
           "venue": "Foxborough",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Brazil:Croatia",
@@ -4428,8 +4910,8 @@
           "venue": "Orlando",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Brazil:Panama",
@@ -4447,8 +4929,8 @@
           "venue": "Rio de Janeiro",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Brazil:Egypt",
@@ -4466,8 +4948,8 @@
           "venue": "Cleveland",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4500,8 +4982,8 @@
           "venue": "Kuala Lumpur",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-13:Uzbekistan:Uruguay",
@@ -4519,8 +5001,8 @@
           "venue": "Malacca City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Mexico:Uruguay",
@@ -4538,8 +5020,8 @@
           "venue": "Torreón",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:United States:Uruguay",
@@ -4557,8 +5039,8 @@
           "venue": "Tampa",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:England:Uruguay",
@@ -4576,8 +5058,8 @@
           "venue": "London",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Algeria:Uruguay",
@@ -4595,8 +5077,8 @@
           "venue": "Turin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4629,8 +5111,8 @@
           "venue": "Austin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Mexico:Ecuador",
@@ -4648,8 +5130,8 @@
           "venue": "Zapopan",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-13:Canada:Ecuador",
@@ -4667,8 +5149,8 @@
           "venue": "Toronto",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Ecuador:New Zealand",
@@ -4686,8 +5168,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Morocco:Ecuador",
@@ -4705,8 +5187,8 @@
           "venue": "Madrid",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Netherlands:Ecuador",
@@ -4724,8 +5206,8 @@
           "venue": "Eindhoven",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-30:Ecuador:Saudi Arabia",
@@ -4743,8 +5225,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Ecuador:Guatemala",
@@ -4762,8 +5244,8 @@
           "venue": "Columbus",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4796,8 +5278,8 @@
           "venue": "Arlington",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-10-14:Canada:Colombia",
@@ -4815,8 +5297,8 @@
           "venue": "Harrison",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:Colombia:New Zealand",
@@ -4834,8 +5316,8 @@
           "venue": "Fort Lauderdale",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Colombia:Australia",
@@ -4853,8 +5335,8 @@
           "venue": "New York",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-26:Colombia:Croatia",
@@ -4872,8 +5354,8 @@
           "venue": "Orlando",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-29:Colombia:France",
@@ -4891,8 +5373,8 @@
           "venue": "Landover",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Colombia:Costa Rica",
@@ -4910,8 +5392,8 @@
           "venue": "Bogotá",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Jordan:Colombia",
@@ -4929,8 +5411,8 @@
           "venue": "San Diego",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -4963,8 +5445,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-15:United States:Paraguay",
@@ -4982,8 +5464,8 @@
           "venue": "Chester",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Mexico:Paraguay",
@@ -5001,8 +5483,8 @@
           "venue": "San Antonio",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Greece:Paraguay",
@@ -5020,8 +5502,8 @@
           "venue": "Athens",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Morocco:Paraguay",
@@ -5039,8 +5521,8 @@
           "venue": "Lens",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-05:Paraguay:Nicaragua",
@@ -5058,8 +5540,8 @@
           "venue": "Asunción",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5092,8 +5574,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2025-11-18:Oman:Ivory Coast",
@@ -5111,8 +5593,8 @@
           "venue": "Seeb",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-28:Ivory Coast:South Korea",
@@ -5130,8 +5612,8 @@
           "venue": "Milton Keynes",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Ivory Coast:Scotland",
@@ -5149,8 +5631,8 @@
           "venue": "Liverpool",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:France:Ivory Coast",
@@ -5168,8 +5650,8 @@
           "venue": "Nantes",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5202,8 +5684,8 @@
           "venue": "Seoul",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-27:Austria:Ghana",
@@ -5221,8 +5703,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-30:Germany:Ghana",
@@ -5240,8 +5722,8 @@
           "venue": "Stuttgart",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-22:Mexico:Ghana",
@@ -5259,8 +5741,8 @@
           "venue": "Puebla",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Wales:Ghana",
@@ -5278,8 +5760,8 @@
           "venue": "Cardiff",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5312,8 +5794,8 @@
           "venue": "Foxborough",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-29:Colombia:France",
@@ -5331,8 +5813,8 @@
           "venue": "Landover",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:France:Ivory Coast",
@@ -5350,8 +5832,8 @@
           "venue": "Nantes",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-08:France:Northern Ireland",
@@ -5369,8 +5851,8 @@
           "venue": "Lille",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5403,8 +5885,8 @@
           "venue": "Orlando",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Brazil:Croatia",
@@ -5422,8 +5904,8 @@
           "venue": "Orlando",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Croatia:Belgium",
@@ -5441,8 +5923,8 @@
           "venue": "Rijeka",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-07:Croatia:Slovenia",
@@ -5460,8 +5942,8 @@
           "venue": "Varaždin",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5494,8 +5976,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Austria:South Korea",
@@ -5513,8 +5995,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-01:Austria:Tunisia",
@@ -5532,8 +6014,8 @@
           "venue": "Vienna",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5566,8 +6048,8 @@
           "venue": "Amsterdam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Netherlands:Ecuador",
@@ -5585,8 +6067,8 @@
           "venue": "Eindhoven",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-03:Netherlands:Algeria",
@@ -5604,8 +6086,8 @@
           "venue": "Rotterdam",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-08:Netherlands:Uzbekistan",
@@ -5623,8 +6105,8 @@
           "venue": "New York",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5657,8 +6139,8 @@
           "venue": "Jeddah",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Spain:Egypt",
@@ -5676,8 +6158,8 @@
           "venue": "Barcelona",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-28:Egypt:Russia",
@@ -5695,8 +6177,8 @@
           "venue": "Cairo",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Brazil:Egypt",
@@ -5714,8 +6196,8 @@
           "venue": "Cleveland",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5748,8 +6230,8 @@
           "venue": "Villarreal",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Spain:Egypt",
@@ -5767,8 +6249,8 @@
           "venue": "Barcelona",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:Spain:Iraq",
@@ -5786,8 +6268,8 @@
           "venue": "A Coruña",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-08:Peru:Spain",
@@ -5805,8 +6287,8 @@
           "venue": "Puebla",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5839,8 +6321,8 @@
           "venue": "Basel",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-30:Germany:Ghana",
@@ -5858,8 +6340,8 @@
           "venue": "Stuttgart",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-05-31:Germany:Finland",
@@ -5877,8 +6359,8 @@
           "venue": "Mainz",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:United States:Germany",
@@ -5896,8 +6378,8 @@
           "venue": "Chicago",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -5930,8 +6412,8 @@
           "venue": "Mexico City",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:United States:Portugal",
@@ -5949,8 +6431,8 @@
           "venue": "Atlanta",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Portugal:Chile",
@@ -5968,8 +6450,8 @@
           "venue": "Oeiras",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-10:Portugal:Nigeria",
@@ -5987,8 +6469,8 @@
           "venue": "Leiria",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -6021,8 +6503,8 @@
           "venue": "Atlanta",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-03-31:Mexico:Belgium",
@@ -6040,8 +6522,8 @@
           "venue": "Chicago",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-02:Croatia:Belgium",
@@ -6059,8 +6541,8 @@
           "venue": "Rijeka",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-06:Belgium:Tunisia",
@@ -6078,8 +6560,8 @@
           "venue": "Brussels",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {
@@ -6112,8 +6594,8 @@
           "venue": "Girona",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-04:Spain:Iraq",
@@ -6131,8 +6613,8 @@
           "venue": "A Coruña",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         },
         {
           "fixture_id": "local_csv:2026-06-09:Iraq:Venezuela",
@@ -6150,8 +6632,8 @@
           "venue": "Bridgeview",
           "status": "FT",
           "source": "local_csv",
-          "source_file": "/Users/Luka/Documents/github/WorldCup2026/data/imports/international_results.csv",
-          "imported_at": "2026-06-11T15:26:39.636046+00:00"
+          "source_file": "/Users/pillow/Documents/github/WorldCup2026/data/imports/international_results.csv",
+          "imported_at": "2026-06-11T17:10:18.571649+00:00"
         }
       ],
       "summary": {

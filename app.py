@@ -89,15 +89,16 @@ def build_advancement_dashboard():
         if match.get("away_team"):
             team_flags[match["away_team"]] = match.get("away_flag", "⚽")
 
-    once_path = os.path.join(BASE_DIR, "outputs", "simulate_wc2026_once_out.json")
     monte_path = os.path.join(BASE_DIR, "outputs", "simulate_wc2026_monte_carlo_out.json")
-    once = load_json_with_fallback(once_path) or {}
     monte = load_json_with_fallback(monte_path) or {}
-    group_tables_raw = once.get("group_tables", {})
+    last_simulation = monte.get("last_simulation") or {}
+    group_tables_raw = last_simulation.get("group_tables", {})
+    average_group_rankings = monte.get("average_group_rankings", {})
     group_winner_probs = monte.get("group_winner_probabilities", {})
 
-    third_teams = {row.get("team") for row in once.get("third_qualified", [])}
+    third_teams = {row.get("team") for row in last_simulation.get("third_qualified", [])}
     group_cards = []
+    average_group_cards = []
     for group in sorted(groups.keys()):
         rows = group_tables_raw.get(group, [])
         if not rows:
@@ -129,9 +130,43 @@ def build_advancement_dashboard():
             "table": table,
             "qualified": [row for row in table if row["status"] != "出局"],
         })
+        average_rows = []
+        for index, row in enumerate(average_group_rankings.get(group, []), start=1):
+            team_name = row.get("team", "")
+            rank_probs = row.get("rank_probabilities", {})
+            average_rows.append({
+                "rank": index,
+                "team": team_name,
+                "flag": team_flags.get(team_name, "⚽"),
+                "average_rank": row.get("average_rank"),
+                "average_points": row.get("average_points"),
+                "average_goal_difference": row.get("average_goal_difference"),
+                "qualification_probability": row.get("qualification_probability"),
+                "top_three_probability": row.get("top_three_probability"),
+                "first_probability": rank_probs.get("1", group_winner_probs.get(group, {}).get(team_name, 0)),
+                "second_probability": rank_probs.get("2", 0),
+                "third_probability": rank_probs.get("3", 0),
+                "fourth_probability": rank_probs.get("4", 0),
+            })
+        if not average_rows:
+            average_rows = [{
+                "rank": index,
+                "team": name,
+                "flag": team_flags.get(name, "⚽"),
+                "average_rank": None,
+                "average_points": None,
+                "average_goal_difference": None,
+                "qualification_probability": None,
+                "top_three_probability": None,
+                "first_probability": group_winner_probs.get(group, {}).get(name, 0),
+                "second_probability": 0,
+                "third_probability": 0,
+                "fourth_probability": 0,
+            } for index, name in enumerate(groups[group], start=1)]
+        average_group_cards.append({"group": group, "table": average_rows})
 
     third_rankings = []
-    for row in once.get("third_qualified", []):
+    for row in last_simulation.get("third_qualified", []):
         team_name = row.get("team", "")
         team_group = next((g for g, card in ((c["group"], c) for c in group_cards) if any(t["team"] == team_name for t in card["table"])), "")
         third_rankings.append({
@@ -145,7 +180,7 @@ def build_advancement_dashboard():
 
     round_of_32 = []
     bracket_matches = []
-    for match in once.get("knockout_results", []):
+    for match in last_simulation.get("knockout_results", []):
         home = match.get("home", "")
         away = match.get("away", "")
         winner = match.get("winner", "")
@@ -183,16 +218,67 @@ def build_advancement_dashboard():
                 "label": label,
                 "matches": stage_matches,
             })
+    bracket_sides = {"upper": [], "lower": []}
+    for round_data in bracket_rounds:
+        if round_data["stage"] == "决赛":
+            continue
+        matches = round_data["matches"]
+        split_at = max(1, len(matches) // 2)
+        bracket_sides["upper"].append({
+            "stage": round_data["stage"],
+            "label": round_data["label"],
+            "matches": matches[:split_at],
+        })
+        if len(matches) > 1:
+            bracket_sides["lower"].append({
+                "stage": round_data["stage"],
+                "label": round_data["label"],
+                "matches": matches[split_at:],
+            })
+    if bracket_sides["lower"]:
+        bracket_sides["lower"] = list(reversed(bracket_sides["lower"]))
+
+    stage_reach = monte.get("stage_reach_probabilities", {}) or {}
+    knockout_probability_rows = []
+    for group in sorted(groups.keys()):
+        for team_name in groups[group]:
+            row = {
+                "group": group,
+                "team": team_name,
+                "flag": team_flags.get(team_name, "⚽"),
+                "round_of_32": float((stage_reach.get("round_of_32") or {}).get(team_name, 0)),
+                "round_of_16": float((stage_reach.get("round_of_16") or {}).get(team_name, 0)),
+                "quarter_final": float((stage_reach.get("quarter_final") or {}).get(team_name, 0)),
+                "semi_final": float((stage_reach.get("semi_final") or {}).get(team_name, 0)),
+                "final": float((stage_reach.get("final") or {}).get(team_name, 0)),
+                "champion": float((stage_reach.get("champion") or monte.get("champion_probabilities", {}) or {}).get(team_name, 0)),
+            }
+            row["bar_width"] = max(2, row["champion"] * 4) if row["champion"] else max(2, row["round_of_16"])
+            knockout_probability_rows.append(row)
+    knockout_probability_rows.sort(
+        key=lambda row: (
+            row["champion"],
+            row["final"],
+            row["semi_final"],
+            row["quarter_final"],
+            row["round_of_16"],
+            row["round_of_32"],
+        ),
+        reverse=True,
+    )
 
     return {
         "runs": monte.get("runs", 0),
-        "seed": once.get("seed"),
+        "seed": last_simulation.get("seed"),
         "group_cards": group_cards,
+        "average_group_cards": average_group_cards,
         "third_rankings": third_rankings,
         "round_of_32": round_of_32,
         "bracket_rounds": bracket_rounds,
-        "champion": once.get("champion"),
-        "champion_flag": team_flags.get(once.get("champion"), "⚽"),
+        "bracket_sides": bracket_sides,
+        "knockout_probability_rows": knockout_probability_rows,
+        "champion": last_simulation.get("champion"),
+        "champion_flag": team_flags.get(last_simulation.get("champion"), "⚽"),
         "qualified_count": sum(len(card["qualified"]) for card in group_cards),
         "data_available": bool(group_cards and round_of_32),
     }
@@ -268,7 +354,7 @@ def build_home_dashboard():
         "first_matches": first_matches,
         "groups": schedule.get("groups", {}),
         "hosts": schedule.get("hosts", ["美国", "加拿大", "墨西哥"]),
-        "data_note": f"FIFA 2026官方赛程(北京时间) · API-Football 2022-2024国家队比赛 {len(historical_matches)} 场 · H2H {len(h2h_data)} 条 · 蒙特卡洛模拟冠军概率"
+        "data_note": f"FIFA 2026官方赛程(德国时间) · API-Football 2022-2024国家队比赛 {len(historical_matches)} 场 · H2H {len(h2h_data)} 条 · 蒙特卡洛模拟冠军概率"
     }
 
 
