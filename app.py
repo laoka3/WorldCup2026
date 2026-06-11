@@ -34,14 +34,8 @@ def load_monte_carlo_champion_board(team_names, limit=6):
     if not os.path.exists(path):
         return None
 
-    for encoding in ("utf-8", "utf-16"):
-        try:
-            with open(path, "r", encoding=encoding) as f:
-                data = json.load(f)
-            break
-        except UnicodeDecodeError:
-            continue
-    else:
+    data = load_json_with_fallback(path)
+    if not data:
         return None
 
     champion_probs = data.get("champion_probabilities", {})
@@ -72,6 +66,135 @@ def load_monte_carlo_champion_board(team_names, limit=6):
         "teams": board[:limit],
         "source": "monte_carlo",
         "runs": data.get("runs", 0),
+    }
+
+
+def load_json_with_fallback(path):
+    for encoding in ("utf-8", "utf-16"):
+        try:
+            with open(path, "r", encoding=encoding) as f:
+                return json.load(f)
+        except (UnicodeDecodeError, json.JSONDecodeError, OSError):
+            continue
+    return None
+
+
+def build_advancement_dashboard():
+    schedule = get_schedule_data()
+    groups = schedule.get("groups", {})
+    team_flags = {}
+    for match in schedule.get("matches", []):
+        if match.get("home_team"):
+            team_flags[match["home_team"]] = match.get("home_flag", "⚽")
+        if match.get("away_team"):
+            team_flags[match["away_team"]] = match.get("away_flag", "⚽")
+
+    once_path = os.path.join(BASE_DIR, "outputs", "simulate_wc2026_once_out.json")
+    monte_path = os.path.join(BASE_DIR, "outputs", "simulate_wc2026_monte_carlo_out.json")
+    once = load_json_with_fallback(once_path) or {}
+    monte = load_json_with_fallback(monte_path) or {}
+    group_tables_raw = once.get("group_tables", {})
+    group_winner_probs = monte.get("group_winner_probabilities", {})
+
+    third_teams = {row.get("team") for row in once.get("third_qualified", [])}
+    group_cards = []
+    for group in sorted(groups.keys()):
+        rows = group_tables_raw.get(group, [])
+        if not rows:
+            rows = [{"team": name, "pts": 0, "gf": 0, "ga": 0, "gd": 0, "w": 0, "d": 0, "l": 0} for name in groups[group]]
+        table = []
+        for index, row in enumerate(rows, start=1):
+            team_name = row.get("team", "")
+            status = "出局"
+            if index <= 2:
+                status = "直接晋级"
+            elif team_name in third_teams:
+                status = "最佳第三晋级"
+            table.append({
+                "rank": index,
+                "team": team_name,
+                "flag": team_flags.get(team_name, "⚽"),
+                "pts": row.get("pts", 0),
+                "w": row.get("w", 0),
+                "d": row.get("d", 0),
+                "l": row.get("l", 0),
+                "gf": row.get("gf", 0),
+                "ga": row.get("ga", 0),
+                "gd": row.get("gd", 0),
+                "status": status,
+                "winner_probability": group_winner_probs.get(group, {}).get(team_name),
+            })
+        group_cards.append({
+            "group": group,
+            "table": table,
+            "qualified": [row for row in table if row["status"] != "出局"],
+        })
+
+    third_rankings = []
+    for row in once.get("third_qualified", []):
+        team_name = row.get("team", "")
+        team_group = next((g for g, card in ((c["group"], c) for c in group_cards) if any(t["team"] == team_name for t in card["table"])), "")
+        third_rankings.append({
+            "group": team_group,
+            "team": team_name,
+            "flag": team_flags.get(team_name, "⚽"),
+            "pts": row.get("pts", 0),
+            "gd": row.get("gd", 0),
+            "gf": row.get("gf", 0),
+        })
+
+    round_of_32 = []
+    bracket_matches = []
+    for match in once.get("knockout_results", []):
+        home = match.get("home", "")
+        away = match.get("away", "")
+        winner = match.get("winner", "")
+        match_data = {
+            "match": match.get("match"),
+            "stage": match.get("stage"),
+            "home": home,
+            "away": away,
+            "winner": winner,
+            "home_flag": team_flags.get(home, "⚽"),
+            "away_flag": team_flags.get(away, "⚽"),
+            "winner_flag": team_flags.get(winner, "⚽"),
+            "home_advances": winner == home,
+            "away_advances": winner == away,
+            "home_win": match.get("home_win"),
+            "away_win": match.get("away_win"),
+        }
+        bracket_matches.append(match_data)
+        if match.get("stage") == "1/16决赛":
+            round_of_32.append(match_data)
+
+    bracket_order = [
+        ("1/16决赛", "32 强"),
+        ("1/8决赛", "16 强"),
+        ("1/4决赛", "8 强"),
+        ("半决赛", "半决赛"),
+        ("决赛", "决赛"),
+    ]
+    bracket_rounds = []
+    for stage, label in bracket_order:
+        stage_matches = [match for match in bracket_matches if match["stage"] == stage]
+        if stage_matches:
+            bracket_rounds.append({
+                "stage": stage,
+                "label": label,
+                "matches": stage_matches,
+            })
+
+    return {
+        "runs": monte.get("runs", 0),
+        "seed": once.get("seed"),
+        "group_cards": group_cards,
+        "third_rankings": third_rankings,
+        "round_of_32": round_of_32,
+        "bracket_rounds": bracket_rounds,
+        "champion": once.get("champion"),
+        "champion_flag": team_flags.get(once.get("champion"), "⚽"),
+        "qualified_count": sum(len(card["qualified"]) for card in group_cards),
+        "data_available": bool(group_cards and round_of_32),
     }
 
 
@@ -190,6 +313,13 @@ def analysis_page():
     team_names = get_all_team_names()
     dashboard = build_home_dashboard()
     return render_template("analysis.html", team_names=team_names, top_teams=dashboard["top_teams"], stats=dashboard["stats"], dashboard=dashboard)
+
+
+@app.route("/advancement")
+def advancement_page():
+    dashboard = build_home_dashboard()
+    advancement = build_advancement_dashboard()
+    return render_template("advancement.html", dashboard=dashboard, advancement=advancement)
 
 
 @app.route("/about")

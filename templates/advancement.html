@@ -1,0 +1,296 @@
+{% extends "layout.html" %}
+{% block title %}晋级图 - 2026 世界杯蒙特卡洛预测系统{% endblock %}
+{% block head %}
+<style>
+    .bracket-board {
+        min-width: 1180px;
+    }
+    .bracket-round {
+        display: grid;
+        align-content: stretch;
+        gap: .85rem;
+    }
+    .bracket-round[data-round="1"] { grid-template-rows: repeat(16, minmax(84px, 1fr)); }
+    .bracket-round[data-round="2"] { grid-template-rows: repeat(8, minmax(112px, 1fr)); padding-block: 44px; }
+    .bracket-round[data-round="3"] { grid-template-rows: repeat(4, minmax(160px, 1fr)); padding-block: 112px; }
+    .bracket-round[data-round="4"] { grid-template-rows: repeat(2, minmax(240px, 1fr)); padding-block: 220px; }
+    .bracket-round[data-round="5"] { grid-template-rows: minmax(300px, 1fr); padding-block: 410px; }
+    .bracket-match {
+        position: relative;
+        min-height: 82px;
+    }
+    .bracket-match::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -1.15rem;
+        width: 1.15rem;
+        border-top: 1px solid rgba(200, 169, 81, .34);
+    }
+    .bracket-round:last-child .bracket-match::after {
+        display: none;
+    }
+    .bracket-team {
+        min-height: 34px;
+    }
+    @media (max-width: 768px) {
+        .bracket-board {
+            min-width: 980px;
+        }
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_right,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
+    <div class="absolute inset-0 pitch-grid opacity-20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_.9fr] gap-8 items-end">
+            <div>
+                <p class="text-wc-gold font-semibold mb-2">Group Stage Projection</p>
+                <h1 class="text-3xl md:text-5xl font-black mb-3">小组赛结束后的晋级图</h1>
+                <p class="text-gray-300 max-w-3xl leading-relaxed">
+                    基于本地 v4.5 单次赛程模拟，先停在小组赛结束节点：12 个小组前二直接晋级，8 个成绩最好的小组第三进入 1/16 决赛。
+                </p>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="stat-card"><span>{{ advancement.qualified_count }}</span><p>晋级球队</p></div>
+                <div class="stat-card"><span>8</span><p>最佳第三</p></div>
+                <div class="stat-card"><span>{{ advancement.runs }}</span><p>MC样本</p></div>
+            </div>
+        </div>
+        {% if dashboard.data_warning %}
+        <div class="mt-6 rounded-xl border border-yellow-700/60 bg-yellow-900/20 px-4 py-3 text-xs text-yellow-100 leading-relaxed">
+            <i class="fas fa-triangle-exclamation text-wc-gold mr-1"></i>{{ dashboard.data_warning }}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">Knockout Bracket</p>
+                <h2 class="text-2xl md:text-4xl font-black">淘汰赛晋级树</h2>
+            </div>
+            {% if advancement.champion %}
+            <div class="rounded-2xl bg-wc-gold/10 border border-wc-gold/30 px-4 py-3">
+                <div class="text-xs text-gray-400 mb-1">本次模拟冠军</div>
+                <div class="flex items-center gap-2 text-wc-gold font-black">
+                    <span class="text-2xl">{{ advancement.champion_flag }}</span>
+                    <span>{{ advancement.champion }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-white/10 bg-wc-navy-light/70 p-4 shadow-2xl">
+            <div class="bracket-board grid grid-cols-5 gap-5">
+                {% for round in advancement.bracket_rounds %}
+                <div>
+                    <div class="mb-3 text-center">
+                        <div class="inline-flex px-3 py-1 rounded-full bg-wc-green/20 text-green-300 text-xs font-black">{{ round.label }}</div>
+                    </div>
+                    <div class="bracket-round" data-round="{{ loop.index }}">
+                    {% for match in round.matches %}
+                    <div class="bracket-match premium-card rounded-xl border border-white/10 p-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[11px] text-gray-500">{{ match.match }}</span>
+                            <span class="text-[11px] text-gray-500">{{ match.stage }}</span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="bracket-team flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 {% if match.home_advances %}bg-wc-green/25 text-white{% else %}bg-wc-navy/70 text-gray-400{% endif %}">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <span>{{ match.home_flag }}</span>
+                                    <span class="truncate text-sm font-semibold">{{ match.home }}</span>
+                                </div>
+                                {% if match.home_advances %}
+                                <i class="fas fa-arrow-right text-wc-gold text-xs"></i>
+                                {% endif %}
+                            </div>
+                            <div class="bracket-team flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 {% if match.away_advances %}bg-wc-green/25 text-white{% else %}bg-wc-navy/70 text-gray-400{% endif %}">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <span>{{ match.away_flag }}</span>
+                                    <span class="truncate text-sm font-semibold">{{ match.away }}</span>
+                                </div>
+                                {% if match.away_advances %}
+                                <i class="fas fa-arrow-right text-wc-gold text-xs"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if match.winner %}
+                        <div class="mt-2 pt-2 border-t border-white/10 text-xs text-gray-400 flex items-center justify-between">
+                            <span>晋级</span>
+                            <span class="text-wc-gold font-bold truncate">{{ match.winner_flag }} {{ match.winner }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="premium-card rounded-2xl p-6 border border-white/10 text-gray-400">
+                    暂无淘汰赛树状图数据。
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy-light border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">Round of 32</p>
+                <h2 class="text-2xl md:text-4xl font-black">1/16 决赛对阵</h2>
+            </div>
+            <span class="text-xs text-gray-500">单次模拟 seed{% if advancement.seed %}: {{ advancement.seed }}{% endif %}</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            {% for match in advancement.round_of_32 %}
+            <div class="premium-card rounded-2xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="px-3 py-1 rounded-full bg-wc-green/20 text-green-300 text-xs font-bold">{{ match.match }}</span>
+                    <span class="text-xs text-gray-500">{{ match.stage }}</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between gap-3 rounded-xl bg-wc-navy/70 border border-white/5 px-3 py-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="text-2xl">{{ match.home_flag }}</span>
+                            <span class="font-bold truncate">{{ match.home }}</span>
+                        </div>
+                        {% if match.home_win is not none %}
+                        <span class="text-wc-gold font-black text-sm">{{ "%.1f"|format(match.home_win) }}%</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex items-center justify-between gap-3 rounded-xl bg-wc-navy/70 border border-white/5 px-3 py-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="text-2xl">{{ match.away_flag }}</span>
+                            <span class="font-bold truncate">{{ match.away }}</span>
+                        </div>
+                        {% if match.away_win is not none %}
+                        <span class="text-wc-gold font-black text-sm">{{ "%.1f"|format(match.away_win) }}%</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="premium-card rounded-2xl p-6 border border-white/10 text-gray-400">
+                暂无 1/16 决赛模拟结果。运行 <span class="text-wc-gold">python scripts/simulate_wc2026_once.py</span> 后会显示。
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">Qualified Teams</p>
+                <h2 class="text-2xl md:text-4xl font-black">小组积分与晋级队伍</h2>
+            </div>
+            <span class="text-xs text-gray-500">组头概率来自 {{ advancement.runs }} 次蒙特卡洛模拟</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+            {% for card in advancement.group_cards %}
+            <div class="premium-card rounded-2xl p-5 border border-white/10">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-black text-wc-gold">{{ card.group }} 组</h3>
+                    <div class="flex -space-x-2">
+                        {% for team in card.qualified %}
+                        <span class="w-9 h-9 rounded-full bg-wc-navy border border-wc-green/50 flex items-center justify-center text-lg" title="{{ team.team }}">{{ team.flag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="overflow-hidden rounded-xl border border-white/10">
+                    <table class="w-full text-sm">
+                        <thead class="bg-wc-navy text-gray-400">
+                            <tr>
+                                <th class="py-2 pl-3 text-left font-semibold">#</th>
+                                <th class="py-2 text-left font-semibold">球队</th>
+                                <th class="py-2 text-center font-semibold">分</th>
+                                <th class="py-2 text-center font-semibold">净</th>
+                                <th class="py-2 pr-3 text-right font-semibold">状态</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            {% for row in card.table %}
+                            <tr class="{% if row.status != '出局' %}bg-wc-green/10{% else %}bg-wc-navy-light/30{% endif %}">
+                                <td class="py-2.5 pl-3 text-gray-400">{{ row.rank }}</td>
+                                <td class="py-2.5 min-w-0">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span class="text-lg">{{ row.flag }}</span>
+                                        <span class="font-bold truncate">{{ row.team }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-2.5 text-center text-wc-gold font-black">{{ row.pts }}</td>
+                                <td class="py-2.5 text-center text-gray-300">{{ row.gd }}</td>
+                                <td class="py-2.5 pr-3 text-right">
+                                    <span class="inline-flex px-2 py-1 rounded-lg text-xs font-semibold {% if row.status == '直接晋级' %}bg-wc-green/25 text-green-300{% elif row.status == '最佳第三晋级' %}bg-wc-gold/15 text-wc-gold{% else %}bg-gray-800 text-gray-500{% endif %}">
+                                        {{ row.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 space-y-2">
+                    {% for row in card.table %}
+                    {% if row.winner_probability is not none %}
+                    <div>
+                        <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+                            <span>{{ row.team }} 组头概率</span>
+                            <span>{{ "%.1f"|format(row.winner_probability) }}%</span>
+                        </div>
+                        <div class="h-1.5 rounded-full bg-gray-800 overflow-hidden">
+                            <div class="h-full rounded-full bg-gradient-to-r from-wc-green to-wc-gold" style="width: {{ row.winner_probability }}%"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="py-8 bg-wc-navy-light border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-[.85fr_1.15fr] gap-6">
+            <div>
+                <p class="text-wc-gold font-semibold mb-1">Best Third-Place Teams</p>
+                <h2 class="text-2xl md:text-3xl font-black mb-3">最佳第三名</h2>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    这里展示单次小组赛模拟中进入淘汰赛的 8 支第三名球队，用于解释 1/16 决赛里“最佳第三名”席位的来源。
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                {% for row in advancement.third_rankings %}
+                <div class="rounded-2xl bg-wc-navy border border-white/10 p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs text-gray-500">{{ row.group }} 组第三</span>
+                        <span class="text-2xl">{{ row.flag }}</span>
+                    </div>
+                    <div class="font-black truncate">{{ row.team }}</div>
+                    <div class="mt-3 flex items-center justify-between text-xs text-gray-400">
+                        <span>{{ row.pts }} 分</span>
+                        <span>净胜 {{ row.gd }}</span>
+                        <span>进 {{ row.gf }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
