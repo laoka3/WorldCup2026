@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}AI数据分析 - 世界杯足球数据分析Agent{% endblock %}
+{% block title %}概率分析 - 2026 世界杯蒙特卡洛预测系统{% endblock %}
 {% block content %}
 
 <section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
     <div class="absolute inset-0 pitch-grid opacity-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <p class="text-wc-gold font-semibold mb-2">v4 Elo Analysis Engine</p>
-        <h1 class="text-3xl md:text-5xl font-black mb-3">AI 赛事数据分析</h1>
-        <p class="text-gray-300 max-w-3xl mx-auto">选择两支球队，基于 {{ stats.historical_matches }} 场国家队比赛、{{ stats.h2h_records }} 条 H2H 记录、Elo 对手强度模型和 2024 回测校准，生成概率、战术和实力对比。</p>
+        <p class="text-wc-gold font-semibold mb-2">v4.5 Probability Engine</p>
+        <h1 class="text-3xl md:text-5xl font-black mb-3">单场概率分析</h1>
+        <p class="text-gray-300 max-w-3xl mx-auto">选择两支球队，基于 {{ stats.historical_matches }} 场国家队比赛、{{ stats.h2h_records }} 条 H2H 记录、Elo、TheStatsAPI、Dixon-Coles 和回测校准，生成胜平负概率、战术和实力对比。</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
             <div class="stat-card"><span>{{ stats.historical_matches }}</span><p>历史比赛</p></div>
             <div class="stat-card"><span>{{ stats.validation_matches }}</span><p>回测样本</p></div>
@@ -65,7 +65,7 @@
 
             <div class="flex flex-wrap gap-3">
                 <button id="analyze-btn" class="btn-primary px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <i class="fas fa-robot mr-2"></i>开始AI分析
+                    <i class="fas fa-chart-line mr-2"></i>开始概率分析
                 </button>
                 <button id="reset-btn" class="px-4 py-3 rounded-lg border border-gray-700 text-gray-300 hover:border-wc-green hover:text-white transition-colors">
                     <i class="fas fa-redo mr-2"></i>重置
@@ -74,7 +74,7 @@
 
             <p class="text-xs text-gray-500 mt-3 flex items-center">
                 <i class="fas fa-info-circle mr-1 text-wc-green-light"></i>
-                AI分析基于 2022-2024 真实国家队比赛、H2H 记录、Elo 评分、赛事权重、时间衰减和 2024 回测校准，结果属于概率性分析，仅供参考。
+                概率分析基于 2022-2024 真实国家队比赛、H2H 记录、Elo 评分、赛事权重、时间衰减和回测校准，结果属于概率性分析，仅供参考。
             </p>
         </div>
 
@@ -124,7 +124,7 @@
         <div id="loading" class="hidden text-center py-16">
             <div class="inline-block">
                 <div class="w-16 h-16 border-4 border-wc-green border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p class="text-gray-400">AI正在分析球队数据...</p>
+                <p class="text-gray-400">正在计算球队概率模型...</p>
                 <p class="text-xs text-gray-500 mt-2">正在计算胜平负概率 · 战术风格 · 实力对比</p>
             </div>
         </div>

@@ -1,5 +1,5 @@
 """
-世界杯足球数据分析Agent - Flask 后端 v4.1
+2026 世界杯蒙特卡洛预测系统 - Flask 后端 v4.1
 数据来源: API-Football v3 (2022-2024 历史数据 → 2026预测)
 核心算法: Elo评分(对手强度归一化) + 赛事加权 + 时间衰减
 
@@ -135,7 +135,7 @@ def build_home_dashboard():
         "first_matches": first_matches,
         "groups": schedule.get("groups", {}),
         "hosts": schedule.get("hosts", ["美国", "加拿大", "墨西哥"]),
-        "data_note": f"FIFA 2026官方赛程(北京时间) · API-Football 2022-2024国家队比赛 {len(historical_matches)} 场 · H2H {len(h2h_data)} 条 · Elo球队 {len(elo)} 支"
+        "data_note": f"FIFA 2026官方赛程(北京时间) · API-Football 2022-2024国家队比赛 {len(historical_matches)} 场 · H2H {len(h2h_data)} 条 · 蒙特卡洛模拟冠军概率"
     }
 
 
@@ -245,9 +245,9 @@ def api_analyze():
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("[WorldSoccer AI v4.1] 2026世界杯数据分析Agent 启动中...")
-    print("[WorldSoccer AI] 数据源: API-Football 2022-2024 -> 2026 预测")
-    print("[WorldSoccer AI] 算法: Elo评分 + 赛事加权 + 时间衰减 + 对手强度归一化")
-    print("[WorldSoccer AI] 访问: http://127.0.0.1:5000")
+    print("[WorldCup 2026 Monte Carlo] 2026世界杯蒙特卡洛预测系统启动中...")
+    print("[WorldCup 2026 Monte Carlo] 数据源: API-Football 2022-2024 -> 2026 预测")
+    print("[WorldCup 2026 Monte Carlo] 算法: Elo评分 + Dixon-Coles + 回测校准 + 蒙特卡洛模拟")
+    print("[WorldCup 2026 Monte Carlo] 访问: http://127.0.0.1:5000")
     print("=" * 60)
     app.run(debug=True, host="0.0.0.0", port=5000)

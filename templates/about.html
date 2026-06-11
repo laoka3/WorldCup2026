@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}关于 - 世界杯足球数据分析Agent{% endblock %}
+{% block title %}关于 - 2026 世界杯蒙特卡洛预测系统{% endblock %}
 {% block content %}
 
 <section class="relative overflow-hidden py-12 bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_45%,#07111f_100%)]">
     <div class="absolute inset-0 pitch-grid opacity-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <p class="text-wc-gold font-semibold mb-2">About WorldSoccer AI</p>
+        <p class="text-wc-gold font-semibold mb-2">About WorldCup 2026 Monte Carlo</p>
         <h1 class="text-3xl md:text-5xl font-black mb-3">关于平台</h1>
-        <p class="text-gray-300 max-w-3xl mx-auto">世界杯足球数据分析Agent · 基于真实缓存数据和 v4 Elo 算法的合规赛事分析工具</p>
+        <p class="text-gray-300 max-w-3xl mx-auto">2026 世界杯蒙特卡洛预测系统 · 基于真实缓存数据、Elo、Dixon-Coles 和回测校准的合规概率分析工具</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-4xl mx-auto">
             <div class="stat-card"><span>{{ stats.historical_matches }}</span><p>国家队比赛</p></div>
             <div class="stat-card"><span>{{ stats.h2h_records }}</span><p>H2H记录</p></div>
@@ -25,7 +25,7 @@
                 <i class="fas fa-bullseye text-wc-gold mr-2"></i>平台定位
             </h2>
             <p class="text-gray-300 leading-relaxed">
-                世界杯足球数据分析Agent是一个合规的足球赛事分析工具平台。我们专注于为球迷提供：
+                2026 世界杯蒙特卡洛预测系统是一个合规的足球赛事概率分析平台。我们专注于为球迷提供：
             </p>
             <ul class="space-y-2 mt-4 text-gray-400">
                 <li class="flex items-start">
@@ -38,7 +38,7 @@
                 </li>
                 <li class="flex items-start">
                     <i class="fas fa-check-circle text-wc-green-light mr-2 mt-1"></i>
-                    <span>AI辅助的概率性分析（胜平负概率、进球区间）</span>
+                    <span>基于模型和蒙特卡洛模拟的概率分析（胜平负概率、进球区间、冠军概率）</span>
                 </li>
             </ul>
         </div>
@@ -75,7 +75,7 @@
                 <i class="fas fa-robot text-wc-gold mr-2"></i>AI分析说明
             </h2>
             <p class="text-gray-300 leading-relaxed">
-                本平台的AI分析模块基于以下真实数据维度进行计算：
+                本平台的预测模型基于以下真实数据维度进行计算：
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                 <div class="bg-wc-navy p-3 rounded-lg border border-gray-700 text-sm">
@@ -105,7 +105,7 @@
             </div>
             <p class="text-sm text-gray-500 mt-4 flex items-start">
                 <i class="fas fa-info-circle mr-2 text-wc-green-light mt-0.5"></i>
-                {{ data_note }}。用于 2026 世界杯 AI 战术分析与球队实力对比。
+                {{ data_note }}。用于 2026 世界杯概率分析、战术分析与球队实力对比。
             </p>
         </div>
 

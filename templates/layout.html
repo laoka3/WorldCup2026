@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}世界杯足球数据分析Agent{% endblock %}</title>
+    <title>{% block title %}2026 世界杯蒙特卡洛预测系统{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -34,7 +34,7 @@
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-futbol text-wc-gold text-2xl animate-spin-slow"></i>
                     <a href="/" class="text-xl font-bold text-white hover:text-wc-gold transition-colors">
-                        WorldSoccer <span class="text-wc-green-light">AI</span>
+                        WorldCup 2026 <span class="text-wc-green-light">Monte Carlo</span>
                     </a>
                 </div>
 
@@ -46,7 +46,7 @@
                         <i class="fas fa-calendar-alt mr-1"></i> 赛程
                     </a>
                     <a href="/analysis" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
-                        <i class="fas fa-chart-bar mr-1"></i> 数据分析
+                        <i class="fas fa-chart-bar mr-1"></i> 概率分析
                     </a>
                     <a href="/about" class="nav-link px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-wc-green hover:text-white">
                         <i class="fas fa-info-circle mr-1"></i> 关于
@@ -63,7 +63,7 @@
             <div id="mobile-menu" class="hidden md:hidden pb-3 space-y-1">
                 <a href="/" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">🏠 首页</a>
                 <a href="/schedule" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">📅 赛程</a>
-                <a href="/analysis" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">📊 数据分析</a>
+                <a href="/analysis" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">📊 概率分析</a>
                 <a href="/about" class="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-wc-green">ℹ️ 关于</a>
             </div>
         </div>
@@ -79,15 +79,15 @@
                 <div>
                     <div class="flex items-center space-x-2 mb-3">
                         <i class="fas fa-futbol text-wc-gold text-xl"></i>
-                        <span class="text-lg font-bold">WorldSoccer <span class="text-wc-green-light">AI</span></span>
+                        <span class="text-lg font-bold">WorldCup 2026 <span class="text-wc-green-light">Monte Carlo</span></span>
                     </div>
-                    <p class="text-gray-400 text-sm">专业的足球赛事数据分析与资讯平台，致力于为球迷提供客观、全面的比赛数据分析和战术解读。</p>
+                    <p class="text-gray-400 text-sm">面向 2026 世界杯的蒙特卡洛预测与数据分析平台，基于本地模型输出冠军概率、赛程模拟和单场概率分析。</p>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-3 text-wc-gold">快速导航</h4>
                     <div class="space-y-1 text-sm text-gray-400">
                         <a href="/schedule" class="block hover:text-wc-green-light transition-colors">世界杯赛程</a>
-                        <a href="/analysis" class="block hover:text-wc-green-light transition-colors">AI数据分析</a>
+                        <a href="/analysis" class="block hover:text-wc-green-light transition-colors">概率分析</a>
                         <a href="/about" class="block hover:text-wc-green-light transition-colors">关于平台</a>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="mt-8 pt-6 border-t border-gray-800 text-center text-sm text-gray-500">
-                <p>&copy; 2026 WorldSoccer AI | FIFA官方赛程北京时间 | Elo评分系统 v4.1 | API-Football 本地缓存</p>
+                <p>&copy; 2026 WorldCup Monte Carlo Predictor | FIFA官方赛程北京时间 | Elo + Dixon-Coles + 蒙特卡洛模拟</p>
             </div>
         </div>
     </footer>

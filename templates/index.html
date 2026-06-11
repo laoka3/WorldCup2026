@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}2026世界杯数据分析Agent - 真实数据首页{% endblock %}
+{% block title %}2026 世界杯蒙特卡洛预测系统 - 首页{% endblock %}
 {% block content %}
 
 <section class="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,#1B5E20_0%,#0A1628_42%,#07111f_100%)] py-16 md:py-24">
@@ -16,14 +16,14 @@
                 </div>
                 <h1 class="text-4xl md:text-6xl font-black leading-tight text-white mb-5">
                     2026 世界杯<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-wc-gold to-green-300">真实数据分析中心</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-wc-gold to-green-300">蒙特卡洛预测系统</span>
                 </h1>
                 <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                    基于 API-Football 本地缓存、2022-2024 国家队真实比赛、H2H 历史对战与 v4 Elo 算法，展示 2026 世界杯赛程与球队概率分析。
+                    基于 Elo、TheStatsAPI 高级数据、Dixon-Coles 比分模型与回测校准，将单场概率放入完整赛程进行蒙特卡洛模拟，展示 2026 世界杯赛程、单场分析和冠军概率。
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="/analysis" class="btn-primary px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105 shadow-lg shadow-green-900/30">
-                        <i class="fas fa-robot mr-2"></i>开始 AI 分析
+                        <i class="fas fa-chart-line mr-2"></i>开始概率分析
                     </a>
                     <a href="/schedule" class="btn-secondary px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105">
                         <i class="fas fa-calendar-days mr-2"></i>查看 104 场赛程
@@ -31,7 +31,7 @@
                 </div>
                 <p class="text-xs text-gray-500 mt-4">
                     <i class="fas fa-info-circle text-wc-green-light mr-1"></i>
-                    榜单基于 v4.5 模型全赛程蒙特卡洛模拟，显示各队夺冠概率；非单纯 Elo 排名。
+                    榜单基于 v4.5 模型全赛程蒙特卡洛模拟，显示各队夺冠概率；单场概率由本地综合模型计算。
                 </p>
             </div>
 
@@ -92,7 +92,7 @@
         <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-3">
             <div>
                 <p class="text-wc-gold font-semibold mb-1">FIFA official fixtures · Beijing Time</p>
-                <h2 class="text-2xl md:text-4xl font-black">2026 首轮真实赛程展示</h2>
+                <h2 class="text-2xl md:text-4xl font-black">2026 首轮赛程与模拟入口</h2>
                 <p class="text-gray-400 mt-2">比赛编号、日期、场馆和对阵来自 FIFA 2026 官方赛程；页面统一显示北京时间 UTC+8。</p>
             </div>
             <a href="/schedule" class="text-wc-gold hover:text-green-300 transition-colors text-sm font-semibold">
@@ -142,8 +142,8 @@
             </div>
             <div class="premium-card rounded-2xl p-6 border border-white/10">
                 <i class="fas fa-shield-halved text-3xl text-wc-gold mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">合规概率分析</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">只展示概率、实力、战术与历史数据，不提供投注、竞猜或精准比分内容。</p>
+                <h3 class="text-xl font-bold mb-2">蒙特卡洛赛程模拟</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">把单场概率放入完整赛程反复模拟，形成冠军概率和淘汰赛路径参考。</p>
             </div>
         </div>
     </div>
