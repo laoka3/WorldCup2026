@@ -15,7 +15,8 @@ urllib3.disable_warnings()
 API_KEY = os.getenv("APIFOOTBALL_API_KEY", "")
 BASE_URL = "https://v3.football.api-sports.io"
 HEADERS = {"x-apisports-key": API_KEY}
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "cache")
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CACHE_DIR = os.path.join(PROJECT_ROOT, "data", "cache")
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 

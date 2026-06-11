@@ -29,23 +29,25 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 ├── app.py                                      # Flask Web 应用入口，定义页面路由和 API 路由
 ├── ai_engine.py                                # 核心预测、模型校准、新闻与大模型解读逻辑
 ├── api_client.py                               # API-Football / TheStatsAPI 数据客户端与缓存逻辑
-├── build_wc2026.py                             # 世界杯基础赛程、球队、场馆数据构建脚本
-├── sync_historical.py                          # 历史比赛数据同步脚本，需要 APIFOOTBALL_API_KEY
-├── backtest_thestats_2025_2026.py              # TheStatsAPI 2025-2026 非友谊赛回测脚本
-├── search_v44_params.py                        # v4.4/v4.5 参数搜索脚本
-├── simulate_wc2026_once.py                     # 单次世界杯赛程模拟脚本
-├── simulate_wc2026_monte_carlo.py              # 多轮蒙特卡洛模拟脚本
-├── model_calibration_v4_3_out.json             # v4.3 校准输出
-├── model_calibration_v4_4_thestats_out.json    # v4.4 TheStats 校准输出
-├── thestats_2025_2026_backtest_report.json     # TheStats 回测报告输出
-├── simulate_wc2026_once_out.json               # 单次模拟输出
-├── simulate_wc2026_monte_carlo_out.json        # 蒙特卡洛模拟输出
 ├── data/
 │   ├── teams.json                              # 球队基础数据、中文名、能力值等
 │   ├── schedule.json                           # 早期占位赛程数据
 │   ├── news.json                               # 本地新闻兜底数据
 │   └── cache/
 │       └── wc2026_schedule.json                # 2026 世界杯官方赛程缓存，含 104 场、场地和北京时间
+├── outputs/
+│   ├── model_calibration_v4_3_out.json         # v4.3 校准输出
+│   ├── model_calibration_v4_4_thestats_out.json # v4.4 TheStats 校准输出，应用启动时会读取
+│   ├── thestats_2025_2026_backtest_report.json # TheStats 回测报告输出
+│   ├── simulate_wc2026_once_out.json           # 单次模拟输出
+│   └── simulate_wc2026_monte_carlo_out.json    # 蒙特卡洛模拟输出，首页冠军概率榜会读取
+├── scripts/
+│   ├── build_wc2026.py                         # 世界杯基础赛程、球队、场馆数据构建脚本
+│   ├── sync_historical.py                      # 历史比赛数据同步脚本，需要 APIFOOTBALL_API_KEY
+│   ├── backtest_thestats_2025_2026.py          # TheStatsAPI 2025-2026 非友谊赛回测脚本
+│   ├── search_v44_params.py                    # v4.4/v4.5 参数搜索脚本
+│   ├── simulate_wc2026_once.py                 # 单次世界杯赛程模拟脚本
+│   └── simulate_wc2026_monte_carlo.py          # 多轮蒙特卡洛模拟脚本
 ├── templates/
 │   ├── layout.html                             # 全站基础布局、导航和公共资源
 │   ├── index.html                              # 首页
@@ -63,6 +65,20 @@ WorldCup 是一个面向 2026 世界杯的足球数据分析与预测 Web 应用
 ├── .gitignore                                  # 本地缓存、密钥和临时文件排除规则
 └── README.md
 ```
+
+## 目录与命名规则
+
+为方便维护，项目按“应用核心、数据、脚本、输出、页面资源”分层：
+
+- 根目录只放应用入口、核心模块和项目级配置：例如 `app.py`、`ai_engine.py`、`api_client.py`、`requirements.txt`。
+- `data/` 放应用运行需要读取的数据，文件名使用小写英文和下划线，例如 `teams.json`、`schedule.json`。
+- `data/cache/` 放 API 缓存和官方赛程缓存。除 `wc2026_schedule.json` 外，其他本地缓存默认不提交。
+- `scripts/` 放一次性或离线任务脚本，命名使用动词开头或任务类型开头，例如 `sync_historical.py`、`simulate_wc2026_monte_carlo.py`。
+- `outputs/` 放脚本生成的结果文件，统一使用 `_out.json` 或 `_report.json` 结尾，例如 `model_calibration_v4_4_thestats_out.json`。
+- `templates/` 放 Flask/Jinja 页面模板，按页面命名，例如 `analysis.html`、`schedule.html`。
+- `static/` 放前端静态资源，按类型拆成 `css/`、`js/`、`img/`。
+
+新增文件时优先使用小写英文、数字和下划线，避免空格、中文文件名和大小写混用。脚本如果会生成文件，默认写入 `outputs/`；脚本如果会缓存 API 响应，默认写入 `data/cache/`。
 
 ## 第一次使用
 
@@ -205,13 +221,13 @@ http://127.0.0.1:5000
 python app.py
 
 # 运行 TheStatsAPI 回测
-python backtest_thestats_2025_2026.py
+python scripts/backtest_thestats_2025_2026.py
 
 # 搜索模型参数
-python search_v44_params.py
+python scripts/search_v44_params.py
 
 # 运行蒙特卡洛模拟
-python simulate_wc2026_monte_carlo.py
+python scripts/simulate_wc2026_monte_carlo.py
 ```
 
 ## 主要页面
@@ -263,37 +279,37 @@ Elo 评分
 ### TheStatsAPI 2025-2026 非友谊赛回测
 
 ```bash
-python backtest_thestats_2025_2026.py
+python scripts/backtest_thestats_2025_2026.py
 ```
 
 输出文件：
 
 ```text
-thestats_2025_2026_backtest_report.json
+outputs/thestats_2025_2026_backtest_report.json
 ```
 
 ### 参数搜索
 
 ```bash
-python search_v44_params.py
+python scripts/search_v44_params.py
 ```
 
 输出文件：
 
 ```text
-model_calibration_v4_4_thestats_out.json
+outputs/model_calibration_v4_4_thestats_out.json
 ```
 
 ### 蒙特卡洛模拟
 
 ```bash
-python simulate_wc2026_monte_carlo.py
+python scripts/simulate_wc2026_monte_carlo.py
 ```
 
 输出文件：
 
 ```text
-simulate_wc2026_monte_carlo_out.json
+outputs/simulate_wc2026_monte_carlo_out.json
 ```
 
 当前默认模拟次数为 100000 次。

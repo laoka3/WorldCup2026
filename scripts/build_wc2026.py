@@ -9,7 +9,8 @@ import json
 import os
 from datetime import datetime, timedelta
 
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "cache")
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CACHE_DIR = os.path.join(PROJECT_ROOT, "data", "cache")
 
 TEAM_CN = {
     "Mexico": "墨西哥", "South Africa": "南非", "South Korea": "韩国", "Korea Republic": "韩国", "Czechia": "捷克",

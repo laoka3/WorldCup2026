@@ -1,7 +1,12 @@
 import json
 import math
 import os
+import sys
 from collections import Counter
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from backtest_thestats_2025_2026 import collect_matches, actual_result
 from ai_engine import (
@@ -13,8 +18,9 @@ from ai_engine import (
     _blend_score_model_probs,
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-OUT_PATH = os.path.join(BASE_DIR, "model_calibration_v4_4_thestats_out.json")
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "outputs")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUT_PATH = os.path.join(OUTPUT_DIR, "model_calibration_v4_4_thestats_out.json")
 
 
 def normalize_h2h(h2h_data, home_name, away_name):

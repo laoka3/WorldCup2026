@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def load_monte_carlo_champion_board(team_names, limit=6):
-    path = os.path.join(BASE_DIR, "simulate_wc2026_monte_carlo_out.json")
+    path = os.path.join(BASE_DIR, "outputs", "simulate_wc2026_monte_carlo_out.json")
     if not os.path.exists(path):
         return None
 

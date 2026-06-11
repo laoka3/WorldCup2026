@@ -2,7 +2,12 @@ import json
 import os
 import random
 import re
+import sys
 from collections import defaultdict, Counter
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from ai_engine import (
     build_team_data,
@@ -200,7 +205,9 @@ results = {
     },
 }
 
-out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "simulate_wc2026_monte_carlo_out.json")
+output_dir = os.path.join(PROJECT_ROOT, "outputs")
+os.makedirs(output_dir, exist_ok=True)
+out_path = os.path.join(output_dir, "simulate_wc2026_monte_carlo_out.json")
 with open(out_path, "w", encoding="utf-8") as f:
     json.dump(results, f, ensure_ascii=False, indent=2)
 

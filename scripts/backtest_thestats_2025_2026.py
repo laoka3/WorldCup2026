@@ -2,13 +2,19 @@ import json
 import math
 import os
 import glob
+import sys
 from collections import Counter, defaultdict
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from api_client import load_cache, extract_thestats_data
 from ai_engine import build_team_data, calculate_match_result_prob, get_h2h
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-OUT_PATH = os.path.join(BASE_DIR, "thestats_2025_2026_backtest_report.json")
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "outputs")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUT_PATH = os.path.join(OUTPUT_DIR, "thestats_2025_2026_backtest_report.json")
 EXCLUDED_COMPETITION_IDS = {"comp_29967"}
 EXCLUDED_COMPETITION_NOTE = "排除 International Friendly Games / 友谊赛"
 
@@ -71,7 +77,7 @@ def elo_bucket(home_elo, away_elo):
 
 def collect_matches():
     unique = {}
-    files = glob.glob(os.path.join(BASE_DIR, "data", "cache", "thestats_matches_2024-01-01_2026-06-01_all_*.json"))
+    files = glob.glob(os.path.join(PROJECT_ROOT, "data", "cache", "thestats_matches_2024-01-01_2026-06-01_all_*.json"))
     for path in files:
         rows = extract_thestats_data(load_cache(os.path.basename(path), {}) or {})
         for match in rows:

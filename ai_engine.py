@@ -920,7 +920,7 @@ def get_model_calibration():
     if _model_calibration is not None:
         return _model_calibration
 
-    v44_path = os.path.join(BASE_DIR, "model_calibration_v4_4_thestats_out.json")
+    v44_path = os.path.join(BASE_DIR, "outputs", "model_calibration_v4_4_thestats_out.json")
     if os.path.exists(v44_path):
         try:
             with open(v44_path, "r", encoding="utf-8") as f:
