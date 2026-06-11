@@ -30,6 +30,7 @@ import os
 import urllib.error
 import urllib.parse
 import urllib.request
+import requests
 from datetime import datetime, timezone
 from collections import defaultdict
 
@@ -1587,6 +1588,18 @@ def _llm_list(value):
     return [text] if text else []
 
 
+def _mask_api_key(api_key):
+    if not api_key:
+        return "not set"
+    if len(api_key) <= 10:
+        return f"{api_key[:2]}***{api_key[-2:]}"
+    return f"{api_key[:6]}...{api_key[-4:]}"
+
+
+def _log_llm_debug(message):
+    print(f"[LLM Debug] {message}")
+
+
 def _call_openai_compatible_llm(payload):
     global LLM_LAST_ERROR
     LLM_LAST_ERROR = ""
@@ -1610,20 +1623,30 @@ def _call_openai_compatible_llm(payload):
         "max_tokens": 700,
         "messages": messages,
     }
-    body = json.dumps(body_data, ensure_ascii=False).encode("utf-8")
-    request = urllib.request.Request(
-        f"{LLM_BASE_URL}/chat/completions",
-        data=body,
-        headers={
-            "Authorization": f"Bearer {LLM_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
+    request_url = f"{LLM_BASE_URL}/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {LLM_API_KEY}",
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0",
+    }
+    _log_llm_debug(f"base_url={LLM_BASE_URL}")
+    _log_llm_debug(f"request_url={request_url}")
+    _log_llm_debug(f"model={LLM_MODEL}")
+    _log_llm_debug(f"api_key={_mask_api_key(LLM_API_KEY)}")
 
     try:
-        with urllib.request.urlopen(request, timeout=LLM_TIMEOUT) as response:
-            response_text = response.read().decode("utf-8", errors="ignore").strip()
+        response = requests.post(
+            request_url,
+            headers=headers,
+            json=body_data,
+            timeout=LLM_TIMEOUT,
+        )
+        response_text = response.text.strip()
+        _log_llm_debug(f"status_code={response.status_code}")
+        if response.status_code >= 400:
+            _log_llm_debug(f"error_body={response_text[:500]}")
+            LLM_LAST_ERROR = f"HTTP {response.status_code} {response_text[:300]}".strip()
+            return None
         if not response_text:
             LLM_LAST_ERROR = "大模型接口返回空响应"
             return None
@@ -1663,6 +1686,14 @@ def _call_openai_compatible_llm(payload):
         LLM_LAST_ERROR = f"HTTP {exc.code} {detail}".strip()
     except urllib.error.URLError as exc:
         LLM_LAST_ERROR = f"网络错误：{exc.reason}"
+    except requests.Timeout:
+        LLM_LAST_ERROR = "请求超时"
+    except requests.RequestException as exc:
+        status_code = exc.response.status_code if exc.response is not None else "N/A"
+        error_body = exc.response.text[:500] if exc.response is not None else str(exc)
+        _log_llm_debug(f"status_code={status_code}")
+        _log_llm_debug(f"error_body={error_body}")
+        LLM_LAST_ERROR = f"请求失败：{exc}"
     except TimeoutError:
         LLM_LAST_ERROR = "请求超时"
     except json.JSONDecodeError as exc:
